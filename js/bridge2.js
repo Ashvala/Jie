@@ -10,7 +10,7 @@ app.use(function(req, res, next) {
 
 var fs = require("fs");
 
-var io = require('socket.io').listen(8181);
+var io = require('socket.io').listen(8282);
 console.log("Listening on port: 8181");
 var clients = [];
 var total_clients = 0;
@@ -19,13 +19,33 @@ var split_orcs = [];
 var section_count = 0;
 
 var orc_str;
-fs.readFile("0.orc", "utf-8", function(err, data){
-    if(err){throw err;}
-    orc_str = data;
-    console.log(orc_str);
 
-});
+split_orc = function(orc_str){
+    var prev_index = 0;
+    fs.readFile("0.orc", "utf-8", function(err, data){
+	if(err){throw err;}
+	orc_str = data;
+	console.log(orc_str);
+    });
+    temp_arr = orc_str.split("\n");
+    for (i = 0; i < temp_arr.length; i++){
+	if(temp_arr[i].indexOf(";") == 0){
+	    temp_str = temp_arr[i];
+	    if(temp_str[0] == ";" && temp_str[temp_str.length-1] == ";"){
+		section_count += 1;
+		console.log("Section count: ", section_count);
+		var ret_str = orc_str.substring(prev_index,orc_str.indexOf(temp_str)-1);
+		split_orcs.push(ret_str);
+		prev_index = orc_str.indexOf(temp_str) + temp_str.length + 1;
+		var remaining = orc_str.substring(prev_index, orc_str.length);
+		split_orc(remaining);
+	    }
+	}
+    }
+}
 
+split_orc(orc_str)
+console.log(split_orcs)
 
 //
 io.on('connection', function (socket) {
@@ -67,9 +87,5 @@ io.on('connection', function (socket) {
 	console.log(clients);
 	total_clients = total_clients -1;
 
-    });
-    socket.on("control_disable", function(msg){
-	console.log(msg);
-	io.emit("control_disable", msg)
     });
 });

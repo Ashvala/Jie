@@ -4,8 +4,8 @@
 }
 
 body{
-    background: #efefef;
-    color: white;
+    background: #1f1f1f;
+    color: black;
     -webkit-touch-callout: none;
     -webkit-user-select: none;
     -khtml-user-select: none;
@@ -15,13 +15,14 @@ body{
 }
 
 .floating_keyboard{
+    background: rgba(0,0,0,0.4);
+    display: none;
     position: fixed;
     height: 30%;
     bottom: 32px;
     z-index: 10001;
     width: 100%;
-    left: 10%;
-    display: none;
+    left: 0;
 }
 
 .content{
@@ -33,7 +34,7 @@ body{
     background: none;
     width: 100%;
     height: 30px;
-    color:black;
+    color:white;
     font-family: "AvenirNext-UltraLight";
     /*border-bottom:1px solid #111;*/
 }
@@ -130,7 +131,7 @@ body{
     font-family: "Avenir Next";
     font-weight: 100;
     font-size: 2em;
-    color: #222;
+    color: white;
     margin-left: 40px;
 }
 
@@ -207,7 +208,7 @@ body{
     bottom: 0;
     width: 100%;
     height: 32px;
-    color: black;
+    color: white;
 }
 
 .octaves{
@@ -314,7 +315,7 @@ body{
 }
 
 .editor{
-    background: #333;
+    background: none;
     color:white;
     font-family: Menlo, Monaco, monospace;
     line-height: 1.5em;
@@ -326,16 +327,26 @@ body{
     position: absolute;
     border: none;
     width: 40%;
-    position: fixed;
     left: 20%;
-    height: calc(100% - 256px);
+    height: calc(100% - 80px);
     -webkit-transform: transform3d(0,0,0);
     z-index: 5;
+}
+.content_instr_details{
+    width: 40%;
+    margin-left: 20%;
+    padding-left: 40px;
+    color: white;
+    bottom: 20px;
+    font-family: "Avenir";
+    font-weight: 300;
+    line-height: 1.5em;
+
+
 }
 .editor:focus{
     outline: none;
 }
-
 .parsed_elements_container{
     position: fixed;
     display: none;
@@ -344,7 +355,7 @@ body{
     width: 20%;
     height: Calc(100% - 64px);
     z-index: 10000;
-    background: rgba(0,0,0,0.8);
+    background: #111;
     overflow-y: scroll;
 }
 .parsed_knobs{
@@ -354,10 +365,14 @@ body{
 #csound_module{
     width: 0;
 }
+.console{
+    height: 100%;
+    overflow-y: scroll;
+}
 .slide_in{
     float: right;
     margin-right: 20px;
-    margin-top: -20px;
+    margin-top: 1px;
     font-size: 1.4em;
 }
 
@@ -370,7 +385,7 @@ body{
     transform: rotate(180deg)
 }
 .instrument_num{
-    color: black;
+    color: white;
     font-family: Helvetica;
     margin-left: 40px;
     margin-top:  20px;
@@ -380,6 +395,8 @@ body{
     width: 20%;
     margin-top: 20px;
     margin-left: 40px;
+    color: white;
+    display: none;
 }
 
 
@@ -387,14 +404,15 @@ body{
     float: left;
     background: #222;
     display: inline-block;
-    font-family: "Avenir";
+    font-family: "Avenir Next";
+    font-weight: 100;
+    color: white;
     padding-top: 10px;
     padding-bottom:10px;
-    padding-left: 40px;
-    padding-right: 40px;
-    border-radius: 30px;
+    padding-left: 20px;
+    padding-right: 20px;
     -webkit-filter: brightness(0.8);
-    font-size: 1.4em;
+    font-size: 1.1em;
     margin-right: 10px;
     margin-bottom: 20px;
 }
@@ -417,20 +435,69 @@ body{
 
 .seq_container{
     width: 100%;
-    margin-left: 30%;
-    margin-top: 30%;
+    margin-left: 10%;
+    margin-top: 40px;
 }
 .seq_button{
-    background: #222;
+    background: #2a2a2a;
     float: left;
-    width: 30%;
-    height: 10%;
-    margin-right: 40%;
+    width: 120;
+    height: 120;
+    margin-left: 10px;
+    margin-right: 40px;
     padding-left: 10px;
     padding-top: 10px;
     padding-bottom: 10px;
 }
 
+.keyboard_float{
+    clear: both;
+    padding: 0 7% 0;
+    height: 82%;
+    width: 100%;
+}
+
+.param_container{
+    float: left;
+    margin-bottom: 10px;
+    margin-left: 40px;
+    margin-right: 40px;
+    font-family: Menlo;
+    color: white;
+}
+.param_container input{
+    background: #333;
+    color: Orange;
+    border: none;
+    text-align: center;
+    font-size: 1.4em;
+}
+
+.secondary_title{
+    color: white;
+    font-family: "Avenir Next";
+    margin-left: 40px;
+    font-weight: 100;
+    font-size: 1.2em;
+}
+
+.options{
+    margin-top: 20px;
+    margin-bottom: 20px;
+    margin-left: 40px;
+    color: white;
+    font-family: "Avenir Next";
+}
+
+.option{
+    background: #444;
+    display: inline-block;
+    padding: 10px;
+}
+.option:hover{
+    background: #666;
+    cursor: pointer;
+}
 @media only screen
 and (min-device-width : 375px)
 and (max-device-width : 667px) {
@@ -441,7 +508,7 @@ and (max-device-width : 667px) {
 
     }
     body{
-	background: #efefef;
+	background: #111;
     }
     .bottom_bar{
 	display: block;
@@ -510,7 +577,6 @@ and (max-device-width : 667px) {
 	right: 10px;
 	height: 100%;
 	top: 100%;
-
 	display: block;
     }
     .up{

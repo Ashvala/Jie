@@ -1,49 +1,44 @@
-function arg(arg_name, argument_list){
+function arg(arg_name, argument){
     this.arg_name =  arg_name
-    this.argument_list = argument_list
+    this.argument = argument
 }
 
+//instr_str = ";instr 01"
+instr_str = "k1 chnget \"hello\";[max=1200]"
 
-var args_arr = ["//", "repeat: max=120, min=10;", "Q22: max=220, min=10;", "//"];
+function parseArgStr(str){
 
-function parseArgArray(array){
-    var argh;
-    var name;
-    var args = [];
-
-    for(i = 0; i < array.length; i++){
-	if (array[i].indexOf(":") != -1){
-	    name = array[i].split(":")[0];
-	}
-	if (array[i].indexOf(",") != -1){
-	    args.push(array[i].split(",")[0]);
-	}
-	if (array[i].indexOf(";") != -1){
-	    args.push(array[i].split(";")[0]);
-	}
-    }
-
-    argh = new arg(name, args);
-    return argh;
-
-}
-
-parseArgs = function(arg_arr){
-    var args_list = [];
-    var temp_arg = [];
-    console.log(arg_arr);
-    for (i = 0; i < arg_arr.length; i++){
-	console.log(arg_arr[i]);
-	temp_arr = arg_arr[i].split(" ");
-	if (temp_arr[0] == "//"){
-	    console.log("HEH");
+    if (str.indexOf("=") == -1){
+	throw "ERROR, NOT AN ARGUMENT"
+    }else{
+	arr = str.split("=");
+	if(arr[0] == "display"){
+	    if(arr[1] == "seq_button" || arr[1] == "knob" || arr[1] == "slider" || arr[1] == "none"){
+		var args = new arg("display", arr[1])
+		return args;
+	    }
+	}else if(arr[0] == "max"){
+	    var args = new arg("data-max", arr[1])
+	    return args;
 	}else{
-	    temp_arg = parseArgArray(temp_arr);
-	    args_list.push(temp_arg);
+	    throw "UNPARSABLE"
 	}
     }
 
-    console.log(args_list);
-    return args_list;
+
 }
-parseArgs(args_arr);
+
+parseArgs = function(str){
+    semiColonIndex = str.indexOf(";")
+    if (semiColonIndex != 0 && semiColonIndex != -1){
+	if(str[semiColonIndex+1] == "["){
+	    openBracketIndex = str.indexOf("[")
+	    closeBracketIndex = str.indexOf("]");
+	    if(closeBracketIndex != -1){
+		new_arg = parseArgStr(str.substring(openBracketIndex+1,closeBracketIndex));
+		console.log(new_arg);
+	    }
+	}
+    }
+}
+parseArgs(instr_str);
