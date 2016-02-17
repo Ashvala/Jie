@@ -2,3 +2,142 @@
  margin: 0;
  padding: 0;
 }
+
+body{
+  background: white;
+}
+
+.screen{
+    width: 100%;
+    height: Calc(100% - 35px);
+    position: absolute;
+    top: 14px;
+    left: 0px;
+}
+.left{
+  float: left;
+  width: 20%;
+  margin-top: 20px;
+}
+.instr_list{
+   float: left;
+   background: #eee;
+   border-right: 1px solid #bbb;
+   width: 100%;
+   height: 100%;
+   margin-top: auto;
+   font-family: "Avenir";
+}
+.top_bar{
+  position: fixed;
+  height: 32px;
+  width: 100%;
+  top: 0px;
+  left: 0px;
+  font-family: "Avenir Next";
+  border-bottom: 1px dotted #bbb;
+  background: none;
+}
+
+.active{
+  background: #fff;
+}
+
+.file_name{
+  float: left;
+  margin-top: 20px;
+  width: 77.5%;
+  color: black;
+  border:none;
+  font-size: 1.3em;
+  margin-left: 10px;
+  font-family: "Avenir Next";
+}
+
+.file_name:focus{
+  outline: none;
+}
+
+.name{
+  color: black;
+  padding-left: 10px;
+  padding-top: 4px;
+  font-weight: 100;
+}
+
+.instr_list_helper_title{
+  font-size: 0.9em;
+  margin-bottom: 20px;
+  margin-top: 20px;
+  margin-left: 10px;
+}
+.instr_list_button{
+  background: none;
+  padding-top: 20px;
+  padding-bottom: 20px;
+  padding-left: 10px;
+  border-bottom: 1px solid #aaa;
+  font-family: "Avenir Next";
+}
+.instr_list_button:hover{
+  background: #e1e1e1;
+  cursor: pointer;
+}
+
+.right{
+/*  background: #222; */
+  float: right;
+  width: 80%;
+  height: 100%;
+  margin-top: 20px;
+}
+.editor{
+  background: none;
+  color: black;
+  font-family: Menlo, Monaco, monospace;
+  line-height: 1.5em;
+  resize: none;
+  font-size: 0.8em;
+  padding-left: 20px;
+  padding-top: 10px;
+  overflow-y: scroll;
+  border: none;
+  width: 40%;
+  height: calc(100% - 80px);
+  -webkit-transform: transform3d(0, 0, 0);
+  z-index: 5;
+}
+.options{
+  width: 22.5%;
+  position: fixed;
+  right: 0;
+  top: 34px;
+  background: #eee;
+  border-left: 1px solid #bbb;
+  height: 100%;
+}
+.options_helper{
+  font-family: Avenir;
+  padding-left: 20px;
+  border-bottom: 1px dotted #bbb;
+  padding-bottom: 10px;
+  padding-top: 10px;
+  font-weight: bold;
+}
+.options_button{
+  background: none;
+  padding-top: 10px;
+  padding-bottom: 10px;
+  padding-left: 20px;
+  border-bottom: 1px dotted #bbb;
+  font-family: Avenir;
+}
+
+.options_button:hover{
+  background: #ccc;
+  cursor: pointer;
+}
+
+.editor:focus {
+  outline: none;
+}
