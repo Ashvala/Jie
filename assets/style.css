@@ -1,585 +1,574 @@
-*{
-    margin: 0;
-    padding: 0;
+* {
+  margin: 0;
+  padding: 0;
+}
+body {
+  background: #1f1f1f;
+  color: black;
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  -khtml-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+.floating_keyboard {
+  background: rgba(0, 0, 0, 0.4);
+  display: none;
+  position: fixed;
+  height: 30%;
+  bottom: 267px;
+  z-index: 10001;
+  width: 100%;
+  left: 0;
+}
+.content {
+  width: 100%;
+  height: 100%;
+}
+.topbar {
+  background: none;
+  width: 100%;
+  height: 30px;
+  color: white;
+  font-family: "AvenirNext-UltraLight";
+  /*border-bottom:1px solid #111;*/
+}
+.title {
+  padding-top: 3px;
+  padding-left: 40px;
+  font-size: 1.2em;
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  -khtml-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  max-width: 30%;
+}
+.title:hover {
+  color: orange;
+  cursor: default;
+}
+.send {
+  float: right;
+  text-align: right;
+  margin-top: -22px;
+  margin-right: 30px;
+  max-width: 10%;
+}
+.send:hover {
+  color: orange;
+  cursor: pointer;
+}
+.sequencer {
+  margin-top: 10px;
+  margin-left: 20%;
+}
+.sample_trigger {
+  margin-left: 20%;
+  margin-top: 10px;
+}
+.seq_button {
+  width: 10%;
+  height: 14%;
+  float: left;
+  background: #333;
+  margin-right: 11%;
+  margin-bottom: 5%;
+  color: white;
+  font-family: "Avenir Next";
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  -khtml-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  border-radius: 8px;
+}
+.pgm_button {
+  position: absolute;
+  bottom: 70px;
+  right: 50px;
+  color: white;
+  font-family: "Avenir Next";
+  font-weight: 300;
+}
+.sample {
+  width: 24%;
+  height: 25%;
+  float: left;
+  background: #333;
+  margin-right: 3px;
+  margin-bottom: 3px;
+  color: white;
+  font-family: "Avenir Next";
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  -khtml-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  -webkit-filter: brightness(0.8);
+}
+.screen_title {
+  text-align: left;
+  margin-top: 20px;
+  margin-bottom: 20px;
+  font-family: "Avenir Next";
+  font-weight: 100;
+  font-size: 2em;
+  color: white;
+  margin-left: 40px;
 }
 
-body{
-    background: #1f1f1f;
-    color: black;
-    -webkit-touch-callout: none;
-    -webkit-user-select: none;
-    -khtml-user-select: none;
-    -moz-user-select: none;
-    -ms-user-select: none;
-    user-select: none;
+.note_name {
+  float: left;
+  padding-left: 13px;
+  font-size: 1.4em;
+  font-weight: 100;
+  padding-top: 10px;
+}
+.sample_name {
+  text-align: left;
+  font-size: 1.4em;
+  font-weight: 400;
+  padding-top: 10px;
+  margin-left: 10px;
+}
+.sample:hover {
+  -webkit-filter: brightness(1.0);
+  cursor: pointer;
+}
+.samples {
+  margin-top: 100px;
+}
+.inactive_dir {
+  color: #555;
+}
+.active_dir {
+  color: #ddd;
+}
+.active_dir:hover {
+  color: #fff;
+  cursor: pointer;
+}
+.active {
+  background: #0CA7Db;
+}
+.active:hover {
+  background: #0CB7DB;
+}
+.help_screen {
+  width: 97%;
+  height: 88%;
+  position: absolute;
+  z-index: 7;
+  top: 40;
+  left: 20;
+  background: rgba(0, 0, 0, 0.8);
+  color: white;
+  font-family: Avenir;
+  display: none;
+}
+.help_content {
+  margin-left: 10px;
+}
+.help_content p {
+  line-height: 2em;
+}
+.bottom_bar {
+  position: fixed;
+  bottom: 0;
+  width: 100%;
+  height: 32px;
+  color: white;
+}
+.octaves {
+  float: right;
+  margin-right: 43%;
+  margin-top: -20px;
+}
+.octave {
+  height: 100%;
+  float: left;
+  margin-right: 10px;
+  padding-left: 10px;
+  padding-right: 10px;
+  width: 20px;
+  font-size: 1.4em;
 }
 
-.floating_keyboard{
-    background: rgba(0,0,0,0.4);
-    display: none;
-    position: fixed;
-    height: 30%;
-    bottom: 32px;
-    z-index: 10001;
-    width: 100%;
-    left: 0;
+.octave:hover {
+  color: orange;
 }
 
-.content{
-    width: 100%;
-    height: 100%;
+.help_button {
+  float: left;
+  margin-left: 40px;
+  margin-right: 30px;
+  padding-top: 3px;
+  font-size: 1.4em;
 }
 
-.topbar{
-    background: none;
-    width: 100%;
-    height: 30px;
-    color:white;
-    font-family: "AvenirNext-UltraLight";
-    /*border-bottom:1px solid #111;*/
+.help_button:hover {
+  color: orange;
+  cursor: pointer;
 }
-
-.title{
-    padding-top: 3px;
-    padding-left: 40px;
-    font-size: 1.2em;
-    -webkit-touch-callout: none;
-    -webkit-user-select: none;
-    -khtml-user-select: none;
-    -moz-user-select: none;
-    -ms-user-select: none;
-    user-select: none;
-    max-width: 30%;
+.clear {
+  font-size: 1.4em;
+  padding-top: 3px;
 }
-
-.title:hover{
-    color: orange;
-    cursor: default;
+.clear:hover {
+  color: orange;
+  cursor: pointer;
 }
-
-.send{
-    float: right;
-    text-align: right;
-    margin-top: -22px;
-    margin-right: 30px;
-    max-width: 10%;
+.dial {
+  font-family: "Avenir Next";
 }
-
-.send:hover{
-    color: orange;
-    cursor: pointer;
+.knobs_container {
+  margin-left: 30px;
+  margin-top: 30px;
+  width: 100%;
+  height: 264px;
+  display: none;
 }
-.sequencer{
-    margin-top: 10px;
-    margin-left: 20%;
+.knob_container {
+  float: left;
+  margin-right: 8%;
+  margin-top: 25px;
+  margin-bottom: 25px;
 }
-.sample_trigger{
-    margin-left: 20%;
-    margin-top: 10px;
+.knob_container .knob_name {
+  text-align: center;
+  color: white;
+  font-family: "Avenir Next";
+  font-weight: 300;
 }
-
-
-.seq_button{
-    width: 10%;
-    height: 14%;
-    float: left;
-    background: #333;
-    margin-right: 11%;
-    margin-bottom: 5%;
-    color: white;
-    font-family: "Avenir Next";
-    -webkit-touch-callout: none;
-    -webkit-user-select: none;
-    -khtml-user-select: none;
-    -moz-user-select: none;
-    -ms-user-select: none;
-    border-radius: 8px;
+.button {
+  width: 24%;
+  height: 25%;
+  float: left;
+  background: #333;
+  margin-right: 3px;
+  margin-bottom: 3px;
+  color: white;
+  font-family: "Avenir Next";
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  -khtml-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  font-size: 1.3em;
 }
-.pgm_button{
-    position: absolute;
-    bottom: 70px;
-    right: 50px;
-    color: white;
-    font-family: "Avenir Next";
-    font-weight: 300;
-
+.button:hover {
+  background: #444;
+  cursor: pointer;
 }
-.sample{
-    width: 24%;
-    height: 25%;
-    float: left;
-    background: #333;
-    margin-right: 3px;
-    margin-bottom: 3px;
-    color: white;
-    font-family: "Avenir Next";
-    -webkit-touch-callout: none;
-    -webkit-user-select: none;
-    -khtml-user-select: none;
-    -moz-user-select: none;
-    -ms-user-select: none;
-    user-select: none;
-    -webkit-filter: brightness(0.8);
-
+.action_container {
+  width: 90%;
+  margin: 0px auto;
 }
-
-
-.screen_title{
-    text-align: left;
-    margin-top: 20px;
-    margin-bottom: 20px;
-    font-family: "Avenir Next";
-    font-weight: 100;
-    font-size: 2em;
-    color: white;
-    margin-left: 40px;
+#engine {
+  width: 0px;
+  height: 0px;
 }
-
-.note_name{
-    float: left;
-    padding-left: 13px;
-    font-size: 1.4em;
-    font-weight: 100;
-    padding-top: 10px;
+.editor {
+  background: none;
+  color: white;
+  font-family: Menlo, Monaco, monospace;
+  line-height: 1.5em;
+  resize: none;
+  font-size: 0.8em;
+  padding-left: 40px;
+  padding-top: 10px;
+  overflow-y: scroll;
+  position: absolute;
+  border: none;
+  width: 40%;
+  left: 20%;
+  height: calc(100% - 80px);
+  -webkit-transform: transform3d(0, 0, 0);
+  z-index: 5;
 }
-
-.sample_name{
-    text-align: left;
-    font-size: 1.4em;
-    font-weight: 400;
-    padding-top: 10px;
-    margin-left: 10px;
+.content_instr_details {
+  width: 40%;
+  margin-left: 20%;
+  padding-left: 40px;
+  color: white;
+  bottom: 20px;
+  font-family: "Avenir";
+  font-weight: 300;
+  line-height: 1.5em;
 }
-.sample:hover{
-    -webkit-filter: brightness(1.0);
-    cursor: pointer;
+.editor:focus {
+  outline: none;
 }
-
-.samples{
-    margin-top: 100px;
+.parsed_elements_container {
+  position: fixed;
+  display: none;
+  right: 0;
+  bottom: 32px;
+  width: 100%;
+  height: Calc(240px);
+  z-index: 10000;
+  background: rgba(0, 0, 0, 0.7);
+  overflow-x: scroll;
 }
-
-.inactive_dir{
-    color: #555;
+.parsed_knobs {
+  margin-left: 40px;
 }
-
-.active_dir{
-    color: #ddd;
+#csound_module {
+  width: 0;
 }
-
-.active_dir:hover{
-    color: #fff;
-    cursor: pointer;
+.console {
+  height: 100%;
+  overflow-y: scroll;
 }
-
-
-.active{
-    background: #0CA7Db;
+.slide_in {
+  float: right;
+  margin-right: 20px;
+  margin-top: 1px;
+  font-size: 1.4em;
 }
-
-.active:hover{
-    background: #0CB7DB;
+.slide_in:hover {
+  color: #0CA7DB;
+  cursor: pointer;
 }
-
-.help_screen{
-    width: 97%;
-    height: 88%;
-    position: absolute;
-    z-index: 7;
-    top: 40;
-    left: 20;
-    background: rgba(0,0,0,0.8);
-    color: white;
-    font-family: Avenir;
-    display: none;
+.rotate {
+  transform: rotate(180deg)
 }
-
-.help_content{
-    margin-left: 10px;
+.instrument_num {
+  color: white;
+  font-family: Helvetica;
+  margin-left: 40px;
+  margin-top: 20px;
 }
-
-.help_content p{
-    line-height: 2em;
-
+.instruments_container {
+  width: 10%;
+  margin-top: 20px;
+  margin-left: 40px;
+  color: white;
+  display: none;
 }
-
-.bottom_bar{
-    position: fixed;
-    bottom: 0;
-    width: 100%;
-    height: 32px;
-    color: white;
+.instrument_button {
+  float: left;
+  background: #222;
+  display: inline-block;
+  font-family: "Avenir Next";
+  font-weight: 100;
+  color: white;
+  padding-top: 10px;
+  padding-bottom: 10px;
+  padding-left: 20px;
+  padding-right: 20px;
+  -webkit-filter: brightness(0.8);
+  font-size: 1.1em;
+  margin-right: 10px;
+  margin-bottom: 20px;
 }
-
-.octaves{
-    float: right;
-    margin-right: 43%;
-    margin-top: -20px;
+.instrument_button:hover {
+  -webkit-filter: brightness(1.0);
+  cursor: pointer;
 }
-
-.octave{
-
-    height: 100%;
-    float: left;
-    margin-right: 10px;
-    padding-left: 10px;
-    padding-right: 10px;
-    width: 20px;
-    font-size: 1.4em;
-
+.section_orc {
+  margin-right: 10px;
+  font-family: Monaco, Menlo, fixed-width;
+  color: black;
+  line-height: 1.4em;
+  height: Calc(100% - 64px);
+  overflow-x: scroll;
+  overflow-y: scroll;
 }
-
-.octave:hover{
-    color: orange;
+.seq_container {
+  width: 100%;
+  margin-left: 10%;
+  margin-top: 40px;
 }
-
-.help_button{
-    float: left;
-    margin-left: 40px;
-    margin-right: 30px;
-    padding-top: 3px;
-    font-size: 1.4em;
+.seq_button {
+  background: #2a2a2a;
+  float: left;
+  width: 120;
+  height: 120;
+  margin-left: 10px;
+  margin-right: 40px;
+  padding-left: 10px;
+  padding-top: 10px;
+  padding-bottom: 10px;
 }
-
-.help_button:hover{
-    color: orange;
-    cursor: pointer;
+.keyboard_float {
+  clear: both;
+  padding: 0 7% 0;
+  height: 82%;
+  width: 100%;
 }
-
-.clear{
-    font-size: 1.4em;
-    padding-top: 3px;
+.param_container {
+  float: left;
+  margin-bottom: 10px;
+  margin-left: 40px;
+  margin-right: 40px;
+  font-family: Menlo;
+  color: white;
 }
-
-.clear:hover{
-    color: orange;
-    cursor: pointer;
+.param_container input {
+  background: #333;
+  color: Orange;
+  border: none;
+  text-align: center;
+  font-size: 1.4em;
 }
-
-.dial{
-    font-family: "Avenir Next";
-
+.secondary_title {
+  color: white;
+  font-family: "Avenir Next";
+  margin-left: 40px;
+  font-weight: 100;
+  font-size: 1.2em;
 }
-.knobs_container{
-    margin-left: 30px;
-    margin-top: 30px;
-    width: 100%;
-    display: none;
+.options {
+  margin-top: 20px;
+  margin-bottom: 20px;
+  margin-left: 40px;
+  color: white;
+  font-family: "Avenir Next";
 }
-
-.knob_container{
-    float: left;
-    margin-right: 8%;
-    margin-top: 25px;
-    margin-bottom: 25px;
+.option {
+  background: #444;
+  display: inline-block;
+  padding: 10px;
 }
-
-.knob_container .knob_name{
-    text-align: center;
-    color: white;
-    font-family: "Avenir Next";
-    font-weight: 300;
+.option:hover {
+  background: #666;
+  cursor: pointer;
 }
 
 
-.button{
-    width: 24%;
-    height: 25%;
-    float: left;
-    background: #333;
-    margin-right: 3px;
-    margin-bottom: 3px;
-    color: white;
-    font-family: "Avenir Next";
-    -webkit-touch-callout: none;
-    -webkit-user-select: none;
-    -khtml-user-select: none;
-    -moz-user-select: none;
-    -ms-user-select: none;
-    user-select: none;
-    font-size: 1.3em;
+.name_field{
+margin-left: 40px;
+}
+.SocketField{
+  width: 78%;
+  height: 60px;
+  background: none;
+  border-top: none;
+  border-left: none;
+  border-right: none;
+  border-bottom: solid 1px #888;
+  font-size: 1.4em;
+  font-family: "Avenir";
+  font-style: italic;
+  color: white;
+}
+.SocketField: focus{
+  border: none;
+}
+.client_bar{
+  position: fixed;
+  width: 15%;
+  background: rgba(0,0,0,0.1);
+  height: 100%;
+  right: 0;
+  top: 0px;
+  color: white;
 }
 
-.button:hover{
-    background: #444;
-    cursor: pointer;
+.client_button{
+  padding-top: 20px;
+  padding-bottom: 20px;
+  border-bottom: 1px solid white;
+  font-family: "Avenir";
+  -webkit-filter: brightness(0.9);
+}
+.client_button:hover{
+  -webkit-filter:brightness(1.0);
+  cursor: pointer; 
+}
+.client_bar_title{
+  padding-top: 5px;
+  padding-bottom: 10px;
+  font-family: "Avenir Next";
+  font-weight: 100;
 }
 
-.action_container{
-    width: 90%;
-    margin: 0px auto;
-}
-#engine{
-    width: 0px;
-    height: 0px;
-}
-
-.editor{
-    background: none;
-    color:white;
-    font-family: Menlo, Monaco, monospace;
-    line-height: 1.5em;
-    resize: none;
-    font-size: 0.8em;
-    padding-left: 40px;
-    padding-top: 10px;
-    overflow-y: scroll;
-    position: absolute;
-    border: none;
-    width: 40%;
-    left: 20%;
-    height: calc(100% - 80px);
-    -webkit-transform: transform3d(0,0,0);
-    z-index: 5;
-}
-.content_instr_details{
-    width: 40%;
-    margin-left: 20%;
-    padding-left: 40px;
-    color: white;
-    bottom: 20px;
-    font-family: "Avenir";
-    font-weight: 300;
-    line-height: 1.5em;
 
 
-}
-.editor:focus{
-    outline: none;
-}
-.parsed_elements_container{
-    position: fixed;
-    display: none;
-    right: 0;
-    top: 32px;
+@media only screen and (min-device-width: 375px) and (max-device-width: 667px) {
+
+  .button {
     width: 20%;
-    height: Calc(100% - 64px);
-    z-index: 10000;
+    height: 21%;
+    font-size: 0.9em;
+  }
+  body {
     background: #111;
-    overflow-y: scroll;
-}
-.parsed_knobs{
-    margin-left: 40px;
-}
-
-#csound_module{
-    width: 0;
-}
-.console{
-    height: 100%;
-    overflow-y: scroll;
-}
-.slide_in{
-    float: right;
-    margin-right: 20px;
-    margin-top: 1px;
-    font-size: 1.4em;
-}
-
-.slide_in:hover{
-    color: #0CA7DB;
-    cursor: pointer;
-}
-
-.rotate{
-    transform: rotate(180deg)
-}
-.instrument_num{
-    color: white;
-    font-family: Helvetica;
-    margin-left: 40px;
-    margin-top:  20px;
-}
-
-.instruments_container{
-    width: 20%;
-    margin-top: 20px;
-    margin-left: 40px;
-    color: white;
+  }
+  .bottom_bar {
+    display: block;
+    z-index: 10002;
+  }
+  .screen_title {
     display: none;
-}
-
-
-.instrument_button{
-    float: left;
-    background: #222;
-    display: inline-block;
-    font-family: "Avenir Next";
-    font-weight: 100;
-    color: white;
-    padding-top: 10px;
-    padding-bottom:10px;
-    padding-left: 20px;
-    padding-right: 20px;
-    -webkit-filter: brightness(0.8);
-    font-size: 1.1em;
-    margin-right: 10px;
-    margin-bottom: 20px;
-}
-
-.instrument_button:hover{
-    -webkit-filter: brightness(1.0);
-    cursor: pointer;
-}
-
-.section_orc{
-    margin-right: 10px;
-    font-family: Monaco, Menlo, fixed-width;
-    color: black;
-    line-height: 1.4em;
-    height: Calc(100% - 64px);
-    overflow-x: scroll;
-    overflow-y: scroll;
-
-}
-
-.seq_container{
-    width: 100%;
-    margin-left: 10%;
-    margin-top: 40px;
-}
-.seq_button{
-    background: #2a2a2a;
-    float: left;
-    width: 120;
-    height: 120;
-    margin-left: 10px;
-    margin-right: 40px;
-    padding-left: 10px;
-    padding-top: 10px;
-    padding-bottom: 10px;
-}
-
-.keyboard_float{
-    clear: both;
-    padding: 0 7% 0;
-    height: 82%;
-    width: 100%;
-}
-
-.param_container{
-    float: left;
-    margin-bottom: 10px;
-    margin-left: 40px;
-    margin-right: 40px;
-    font-family: Menlo;
-    color: white;
-}
-.param_container input{
-    background: #333;
-    color: Orange;
+  }
+  .topbar {
+    background: none;
     border: none;
-    text-align: center;
-    font-size: 1.4em;
-}
-
-.secondary_title{
-    color: white;
-    font-family: "Avenir Next";
-    margin-left: 40px;
-    font-weight: 100;
+    height: 8%;
+  }
+  .title {
+    max-width: 60%;
     font-size: 1.2em;
-}
-
-.options{
-    margin-top: 20px;
-    margin-bottom: 20px;
-    margin-left: 40px;
-    color: white;
-    font-family: "Avenir Next";
-}
-
-.option{
-    background: #444;
     display: inline-block;
-    padding: 10px;
-}
-.option:hover{
-    background: #666;
-    cursor: pointer;
-}
-@media only screen
-and (min-device-width : 375px)
-and (max-device-width : 667px) {
-    .button{
-	width: 20%;
-	height: 21%;
-	font-size: 0.9em;
-
-    }
-    body{
-	background: #111;
-    }
-    .bottom_bar{
-	display: block;
-	z-index: 10002;
-    }
-    .screen_title{
-	display: none;
-    }
-    .topbar{
-	background: none;
-	border: none;
-	height: 8%;
-    }
-    .title{
-	max-width: 60%;
-	font-size: 1.2em;
-	display: inline-block;
-	text-align: center;
-	clear: both;
-	font-weight: light;
-	font-family: "Avenir Next";
-    }
-    .send{
-	margin-top: 10px;
-    }
-    .action_container{
-	margin-top: 30px;
-	display: none;
-    }
-    .knobs_container{
-
-	display: block;
-    }
-    .knob_name{
-	font-weight: light;
-	font-family:"Avenir Next";
-    }
-    .keyboard{
-	width: 100%;
-	height: 55%;
-	position: absolute;
-	left: 0%;
-	top: 30%;
-    }
-    .key .white_key{
-	background: white;
-	width: 33px;
-	height: 100%;
-	float: left;
-	border: 1px solid grey;
-    }
-    .dir-left{
-	z-index: 400;
-    }
-    .dir-right{
-	z-index:400;
-    }
-    .note_name{
-	font-size: 1.0em;
-	padding-left: 4px;
-    }
-
-    .parsed_elements_container{
-	position: absolute;
-	width: 100%;
-	right: 10px;
-	height: 100%;
-	top: 100%;
-	display: block;
-    }
-    .up{
-	display: block;
-    }
+    text-align: center;
+    clear: both;
+    font-weight: light;
+    font-family: "Avenir Next";
+  }
+  .send {
+    margin-top: 10px;
+  }
+  .action_container {
+    margin-top: 30px;
+    display: none;
+  }
+  .knobs_container {
+    display: block;
+  }
+  .knob_name {
+    font-weight: light;
+    font-family: "Avenir Next";
+  }
+  .keyboard {
+    width: 100%;
+    height: 55%;
+    position: absolute;
+    left: 0%;
+    top: 30%;
+  }
+  .key .white_key {
+    background: white;
+    width: 33px;
+    height: 100%;
+    float: left;
+    border: 1px solid grey;
+  }
+  .dir-left {
+    z-index: 400;
+  }
+  .dir-right {
+    z-index: 400;
+  }
+  .note_name {
+    font-size: 1.0em;
+    padding-left: 4px;
+  }
+  .parsed_elements_container {
+    position: absolute;
+    width: 100%;
+    right: 10px;
+    height: 100%;
+    top: 100%;
+    display: block;
+  }
+  .up {
+    display: block;
+  }
 }

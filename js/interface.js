@@ -28,7 +28,8 @@ function moduleDidLoad(){
 }
 
 function handleMessage(message){
-    $(".console").append(message.data + "<br/>");
+//    $(".console").append(message.data + "<br/>");
+
 }
 
 $(document).ready(function(){
