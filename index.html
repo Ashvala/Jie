@@ -1,130 +1,17 @@
 <html>
-
-<head>
-  <meta name="viewport" content="width=device-width, initial-scale=1 user-scalable=0">
-  <link rel="stylesheet" href="assets/style_piano.css">
-  <link rel="stylesheet" href="assets/style.css">
-
-  <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
-  <link rel="shortcut icon" type="image/png" href="favicon.png" />
-  <script src="https://cdn.socket.io/socket.io-1.2.0.js"></script>
-  <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
-  <script src="csound.js">
-  </script>
-  <script src="js/interface.js">
-  </script>
-  <script src="js/jtm.js">
-  </script>
-  <script src="js/jquery.knob.min.js">
-  </script>
-  <script src="js/main.js">
-  </script>
-  <script src="js/socket_interface.js">
-  </script>
-  <title> Connections </title>
-</head>
-
-<body>
-  <div class="content">
-    <div class="topbar">
-      <div class="title">
-        Connections
-      </div>
-    </div>
-
+  <head>
+    <link rel="stylesheet" href="assets/style.css">
+    <script src="https://cdn.socket.io/socket.io-1.2.0.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+    <script src="js/main.js"></script>
+    <script src="csound.js"> </script>
+    <script src="js/socket_interface.js"> </script>
+  </head>
+  <body>
+    <div id="engine"> </div>
     <div class="screen">
-      <div class="name_field">
-        <input class="SocketField" placeholder="Give yourself a name!"> </input>
-      <div class="instruments_container">
-      </div>
-
-      <div class="instrument_num"> </div>
-      <div class="content_instr_details">
-
-      </div>
-      <div class="client_bar">
-        <div class="client_bar_title"> Ensemble Members </div>
-      </div>
-      <div class="parsed_elements_container">
-        <div class="seq_container"> </div>
-        <div class="parsed_knobs">
-        </div>
-      </div>
+      <div class="instr_list"> </div> 
     </div>
-  <div class="help_screen">
-    <div class="console">
-    </div>
-  </div>
-  <div class="floating_keyboard">
-    <div class="param_container">
-      <div class="label"> Instrument Number </div>
-      <input class="instrnum" value="1"> </input>
-    </div>
-    <div class="param_container">
-      <div class="label"> Duration </div>
-      <input class="time" value="4"> </input>
-    </div>
-
-    <div class="keyboard_float">
-
-      <div class="keys_container">
-
-        <div class="keys">
-          <div class="key white_key" data="36"> </div>
-          <div class="key black_key" data="37"> </div>
-          <div class="key white_key" data="38"> </div>
-          <div class="key black_key" data="39"> </div>
-          <div class="key white_key" data="40"> </div>
-          <div class="key white_key" data="41"> </div>
-          <div class="key black_key" data="42"> </div>
-          <div class="key white_key" data="43"> </div>
-          <div class="key black_key" data="44"> </div>
-          <div class="key white_key" data="45"> </div>
-          <div class="key black_key" data="46"> </div>
-          <div class="key white_key" data="47"> </div>
-          <div class="key white_key" data="48"> </div>
-          <div class="key black_key" data="49"> </div>
-          <div class="key white_key" data="50"> </div>
-          <div class="key black_key" data="51"> </div>
-          <div class="key white_key" data="52"> </div>
-          <div class="key white_key" data="53"> </div>
-          <div class="key black_key" data="54"> </div>
-          <div class="key white_key" data="55"> </div>
-          <div class="key black_key" data="56"> </div>
-          <div class="key white_key" data="57"> </div>
-          <div class="key black_key" data="58"> </div>
-          <div class="key white_key" data="59"> </div>
-          <div class="key white_key" data="60"> </div>
-          <div class="key black_key" data="61"> </div>
-          <div class="key white_key" data="62"> </div>
-          <div class="key black_key" data="63"> </div>
-          <div class="key white_key" data="64"> </div>
-          <div class="key white_key" data="65"> </div>
-          <div class="key black_key" data="66"> </div>
-          <div class="key white_key" data="67"> </div>
-          <div class="key black_key" data="68"> </div>
-          <div class="key white_key" data="69"> </div>
-          <div class="key black_key" data="70"> </div>
-          <div class="key white_key" data="71"> </div>
-          <div class="key white_key" data="72"> </div>
-        </div>
-
-      </div>
-
-    </div>
-
-  </div>
-  <div class="bottom_bar">
-    <div class="help_button">
-      <div class="fa fa-question-circle"> </div>
-    </div>
-    <div class="slide_in">
-      <div class="fa fa-caret-square-o-left"></div>
-    </div>
-  </div>
-  </div>
-  </div>
-  <div id="engine"> </div>
-</body>
+  </body>
 
 </html>
