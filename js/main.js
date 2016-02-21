@@ -11,17 +11,26 @@ dial_init = function() {
     'change': function(val) {
       var final_message;
       var name = this.$.attr("data-name");
-      var final_message_filt = name + " " + parseInt(val);
-      socket.emit('chanmsg', final_message_filt);
+      var final_message_filt = name + " " + parseFloat(val);
+      ev_dets = {}
+      ev_dets.from = ins_num
+      ev_dets.name = "channel_message"
+      ev_dets.args = final_message_filt
+      socket.emit('event', ev_dets);
     }
   }); //Dial handled here
 
 }
+
+//parse a line
+
 parseOrcLineAndRender = function(str, context) {
   var new_str = str.split(" ");
-  var dial_str_head = '<div class="knob_container"><input type="text" value="0" class="dial" data-fgcolor="#0CA7DB" data-angleOffset="-125" data-angleArc="256" data-min="0" data-max="880" data-thickness="0.1" data-width="125" data-height="125" data-font-family="Avenir" data-font-weight="300" data-name='
+
+  var dial_str_head = '<div class="knob_container"><input type="text" value="0" class="dial" data-fgcolor="#0CA7DB" data-angleOffset="-125" data-angleArc="256" data-min="0" data-max="1000" data-thickness="0.1" data-width="125" data-height="125" data-font-family="Avenir" data-font-weight="300" data-name='
   var dial_str_mid = '> <div class="knob_name"> '
   var dial_str_tail = "</div> </div>"
+
   if (context == "default") {
     if (new_str[1] == "chnget") {
       console.log("Rendering Channel Controller for this");
@@ -45,8 +54,13 @@ parseOrcLineAndRender = function(str, context) {
   $(".parsed_elements_container").fadeIn(100);
   $(".parsed_elements_container").css("opacity", "1.0");
 }
+
+//orchestra stuff
+
 var split_orcs = [];
 var section_count = 0;
+
+
 split_orc = function(orc_str) {
   var prev_index = 0;
   temp_arr = orc_str.split("\n");
@@ -65,16 +79,13 @@ split_orc = function(orc_str) {
     }
   }
 }
-sanitize = function(orc_str) {
-  args_arr = [];
-
-  return str_arr_final;
-}
 
 function moduleDidLoad() {
   csound.Play();
-//  socket.emit("request_orc")
 }
+
+
+
 
 function append_sections(split_orc_arr) {
   for (i = 0; i < split_orc_arr.length; i++) {
@@ -122,6 +133,11 @@ function parseOrc(str, job) {
 
 }
 $(document).ready(function() {
+  if (!csound.module){
+    $(".SocketField").css("display", "none");
+    $(".client_bar").css("display", "none");
+    $(".obs_screen").fadeIn("slow");
+  }
   var active = 0;
   var seq_list = [];
   dial_init();
@@ -136,14 +152,20 @@ $(document).ready(function() {
     });
   }); //Button hover 2
   $(".key").click(function() {
+    var final_mesg;
     console.log($(this).attr("data"));
     console.log(total_instrs);
     if ($(".instrnum").val() <= total_instrs) {
       console.log("sendable");
       console.log($(".time").val());
-      final_mesg = "i " + $(".instrnum").val() + " 0 " + $(".time").val() + " " + $(this).attr("data");
     }
-    socket.emit('sco', final_mesg);
+    final_mesg = "i " + $(".instrnum").val() + " 0 " + $(".time").val() + " " + $(this).attr("data");
+    console.log(final_mesg);
+    var ev_dets = {}
+    ev_dets.from = ins_num
+    ev_dets.event_type = "note_message"
+    ev_dets.event_args = final_mesg
+    socket.emit('event', ev_dets);
   }); //Pressing the button
 
   $(".button").click(function() {
@@ -164,7 +186,9 @@ $(document).ready(function() {
     str_for_ev = 'i "' + $(this).attr("data-name") + '" 0 3';
     csound.Event(str_for_ev);
   });
+
   var content_arr = ["This is the mix section for your group. You have control over the reverb and output levels!<br/>" + "Use the power wisely and make your group sound better", "This is a mode synth!<br/><br/> Usage: i 1 0 4 60.<br/><br/> Use the side bar to manipulate values.", "Uh", "uh", "You have the percussion section!"]
+
   $(document).on("click", ".instrument_button", function() {
     temp_sec_val = split_orcs[parseInt($(this).attr("data-section-number"))]
     $(".content_instr_details").html(content_arr[parseInt($(this).attr("data-section-number"))])
@@ -179,7 +203,7 @@ $(document).ready(function() {
   });
 
   $(".help_button").click(function() {
-    $(".help_screen").fadeToggle(400);
+    $(".obs_screen").fadeToggle(400);
   }); //Help screen.
 
   $(".send").click(function() {
@@ -191,27 +215,31 @@ $(document).ready(function() {
     $(".floating_keyboard").fadeToggle();
     $(this).toggleClass("rotate");
   });
-  $(".SocketField").on("keypress", function(e){
+  $(".SocketField").on("keypress", function(e) {
     if (e.which == 13) {
       console.log($(this).val());
       $(this).css("display", "none");
       socket.emit("client_name", ins_num + ":::" + $(this).val())
+      if (csound.module){
+        socket.emit("csound_able")
+      }
     }
   });
+
   var clicked = 0;
   $(".slide_in").click(function() {
     console.log("Expansion of parsed_elements_container happens here!");
     $(this).toggleClass("rotate");
     if (clicked == 0) {
-      // $(".parsed_elements_container").transition({
-      //   width: '100%'
-      // }, 'slow', 'ease');
+      $(".parsed_elements_container").transition({
+        height: '100%'
+      }, 'slow', 'ease');
       $(".floating_keyboard").fadeIn("fast");
       clicked = 1
     } else {
-      // $(".parsed_elements_container").transition({
-      //   width: '20%'
-      // });
+      $(".parsed_elements_container").transition({
+        height: '240px'
+      });
       $(".floating_keyboard").fadeOut("fast");
       clicked = 0;
     }

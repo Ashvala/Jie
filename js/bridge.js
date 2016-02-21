@@ -1,4 +1,6 @@
 var express = require('express');
+var mongoose = require('mongoose');
+
 var app = express();
 app.use(function(req, res, next) {
   res.header("Access-Control-Allow-Origin", "*");
@@ -28,28 +30,28 @@ fs.readFile("0.orc", "utf-8", function(err, data) {
 
 });
 
-function client_deets(name, id) {
-  this.name = name
-  this.id = id
-}
-
 function get_client(id) {
   var found_index = -1;
   for (i in clients) {
     if (clients[i].id == id) {
-      found_index = id;
+      found_index = i;
     }
   }
   return found_index
 }
 
-//
+//connection event
 io.on('connection', function(socket) {
+  //useful debug info
   console.log("Connected a client");
   //  clients.push(socket.id);
+  // you get your ID
   io.to(socket.id).emit("current_id", socket.id);
-
-  var n_client = new client_deets(NaN, socket.id);
+  var n_client = {}
+  //var n_client = client_deets(NaN, socket.id, "observer");
+  n_client.name = "Hello"
+  n_client.id = socket.id
+  n_client.role = "Observer"
   clients.push(n_client)
   console.log(clients);
   total_clients += 1
@@ -59,7 +61,7 @@ io.on('connection', function(socket) {
     io.to(clients[i].id).emit("instrument_ctrl", i % 6)
   }
 
-  if (clients.length == 6) {
+  if (clients.length === 6) {
     io.emit("serve_choices")
   }
 
@@ -67,10 +69,16 @@ io.on('connection', function(socket) {
     io.to(socket.id).emit('orc', orc_str);;
   });
 
+
   socket.on("note_message", function(msg) {
     io.emit("note_message", msg);
     console.log(msg);
   });
+
+  socket.on("event", function(msg){
+    console.log(msg);
+    io.emit("event", msg);
+  })
 
   socket.on("orc", function(msg) {
     io.emit("orc", msg);
@@ -96,6 +104,14 @@ io.on('connection', function(socket) {
     total_clients = total_clients - 1;
     for (i in clients) {
       io.to(clients[i].id).emit("instrument_ctrl", (get_client(socket.id) % 6))
+    }
+  });
+  socket.on("csound_able", function(){
+    console.log("csound able called?")
+    console.log("index: ", get_client(socket.id));
+    if(get_client(socket.id) <= 5){
+      console.log("lol?")
+      clients[get_client(socket.id)].role = "ensemble";
     }
   });
   socket.on("control_disable", function(msg) {
