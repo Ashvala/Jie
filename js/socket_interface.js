@@ -191,7 +191,7 @@ socket.on('chanmsg', function(obj) {
 
 socket.on('client_list', function(obj) {
     console.log(obj)
-
+    client_arr = obj;
     for (i = 0; i < obj.length - 1; i++) {
         console.log(obj[i].name);
         var div_str = "<div class='client_button' style='background:" + color_arr_orig[i] + "'> " + obj[i].name + "</div>"

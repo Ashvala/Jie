@@ -295,7 +295,7 @@ body {
   width: 100%;
   height: Calc(240px);
   z-index: 10000;
-  background: rgba(0, 0, 0, 0.7);
+  background: rgba(0, 0, 0, 0.9);
   overflow-x: scroll;
 }
 .parsed_knobs {
