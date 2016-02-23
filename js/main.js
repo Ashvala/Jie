@@ -16,7 +16,7 @@ dial_init = function() {
       ev_dets.from = ins_num
       ev_dets.event_type = "channel_message"
       ev_dets.event_args = final_message_filt
-      socket.emit('chanmsg', final_message_filt);
+      socket.emit('event', ev_dets);
     }
   }); //Dial handled here
 
@@ -165,8 +165,8 @@ $(document).ready(function() {
     ev_dets.from = ins_num
     ev_dets.event_type = "note_message"
     ev_dets.event_args = final_mesg
-    //socket.emit('event', ev_dets);
-    socket.emit("sco", final_mesg)
+    socket.emit('event', ev_dets);
+//    socket.emit("sco", final_mesg)
   }); //Pressing the button
 
   $(".button").click(function() {
