@@ -15,7 +15,7 @@ socket.on('connect', function(msg) {
     socket.emit("client_list_req")
 });
 
-// arrays
+
 
 verifyNote = function(event_args) {
     console.log(event_args);
@@ -35,11 +35,12 @@ parse_event = function(event_obj) {
         console.log("This is a note event")
         if (verifyNote(event_obj.event_args) == true) {
             console.log("this can be sent");
+            console.log(event_obj.event_args)
             csound.Event(event_obj.event_args);
         }
     } else if (event_obj.event_type == "channel_message") {
         console.log("This is a channel message")
-        channel_message(event_obj.args)
+        channel_message(event_obj.event_args)
     }
 }
 var color_arr_orig = ["#e67e22", "#0CA7DB", "#34495e", "#e74c3c", "#f1c40f", "#1abc9c"]
@@ -83,20 +84,24 @@ socket.on('note_message', function(obj) {
 
 socket.on('current_id', function(msg) {
     console.log(msg);
+    me.id = msg;
 });
 
 orc_str = ""
 
 //if I ever use the csound moduleDidLoad function, I'll handle some of that code here.
 function moduleDidLoad() {
-    
+    csound.Play();
+    console.log("Csound loaded, perhaps!")
     if (ins_num < 6){
         $(".SocketField").css("display", "block");
         $(".obs_screen").fadeOut("slow");
         $(".client_bar").fadeIn("slow");
     }
 }
-
+function handleMessage(message){
+	console.log(message.data)
+}
 
 //Handle Orchestra messages here
 
@@ -164,6 +169,7 @@ function channel_message(obj) {
 }
 
 //Handle channel messages. Deprecated.
+
 socket.on('chanmsg', function(obj) {
     console.log("THIS IS DEPRECATED. USE socket.emit('event') INSTEAD ")
     if (csound.module) {
@@ -218,6 +224,7 @@ socket.on("client_add", function(obj) {
 });
 
 // When the server says "SERVE ORCHESTRAS", you serve the damn orchestras.
+
 socket.on("serve_choices", function() {
     socket.emit("request_orc")
 });

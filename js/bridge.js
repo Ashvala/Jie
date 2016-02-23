@@ -40,6 +40,17 @@ function get_client(id) {
   return found_index
 }
 
+function count_total_csoundable(arr){
+    var total = 0
+    for (i in arr){
+        console.log(arr[i].role)
+        if (arr[i].role == "ensemble"){
+            total += 1
+            console.log(total)
+        }
+    }
+    return total
+}
 //connection event
 io.on('connection', function(socket) {
   //useful debug info
@@ -61,7 +72,7 @@ io.on('connection', function(socket) {
     io.to(clients[i].id).emit("instrument_ctrl", i % 6)
   }
 
-  if (clients.length === 6) {
+  if (count_total_csoundable(clients) === 6){
     io.emit("serve_choices")
   }
 
@@ -112,7 +123,12 @@ io.on('connection', function(socket) {
     if(get_client(socket.id) <= 5){
       console.log("lol?")
       clients[get_client(socket.id)].role = "ensemble";
-    }
+      if (get_client(socket.id) == 5){
+          io.emit("serve_choices")
+      }
+  }if (get_client(socket.id) > 5 ){
+      console.log("lol, no");
+  }
   });
   socket.on("control_disable", function(msg) {
     console.log(msg);
@@ -131,7 +147,7 @@ io.on('connection', function(socket) {
         clients[i].name = args[1]
       }
     }
-    console.log(clients)
+     console.log(clients)
     io.emit("client_add", obj)
   });
 

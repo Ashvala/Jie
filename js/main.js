@@ -11,17 +11,17 @@ dial_init = function() {
     'change': function(val) {
       var final_message;
       var name = this.$.attr("data-name");
-      var final_message_filt = name + " " + parseFloat(val);
+      var final_message_filt = name + " " + parseInt(val);
       ev_dets = {}
       ev_dets.from = ins_num
-      ev_dets.name = "channel_message"
-      ev_dets.args = final_message_filt
-      socket.emit('event', ev_dets);
+      ev_dets.event_type = "channel_message"
+      ev_dets.event_args = final_message_filt
+      socket.emit('chanmsg', final_message_filt);
     }
   }); //Dial handled here
 
 }
-
+var section_names = ["Mix section", "modal synth", "LFOoo", "Clarinet", "FM synth", "Drums"]
 //parse a line
 
 parseOrcLineAndRender = function(str, context) {
@@ -89,7 +89,7 @@ function moduleDidLoad() {
 
 function append_sections(split_orc_arr) {
   for (i = 0; i < split_orc_arr.length; i++) {
-    var instr_button_header = "<div class='instrument_button' data-section-number='" + i + "'> Group " + ((i) + 1) + "</div>"
+    var instr_button_header = "<div class='instrument_button' data-section-number='" + i + "'>"+ section_names[i] + "</div>"
     $(".instruments_container").append(instr_button_header);
   }
   $(".instruments_container").fadeIn("slow")
@@ -165,7 +165,8 @@ $(document).ready(function() {
     ev_dets.from = ins_num
     ev_dets.event_type = "note_message"
     ev_dets.event_args = final_mesg
-    socket.emit('event', ev_dets);
+    //socket.emit('event', ev_dets);
+    socket.emit("sco", final_mesg)
   }); //Pressing the button
 
   $(".button").click(function() {
@@ -219,6 +220,7 @@ $(document).ready(function() {
     if (e.which == 13) {
       console.log($(this).val());
       $(this).css("display", "none");
+      me.name = $(this).val();
       socket.emit("client_name", ins_num + ":::" + $(this).val())
       if (csound.module){
         socket.emit("csound_able")

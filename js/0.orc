@@ -125,9 +125,9 @@ instr 4
 kcar chnget "carrier-freq"
 kcar *= 0.001
 kmod chnget "mod-freq"
-kmod *= 0.01
+kmod *= 0.001
 kndx chnget "index"
-kndx *= 0.1
+kndx *= 0.001
 asig = foscil(0.8, cpsmidinn(p4), kcar, kmod, kndx, 1)
 klev chnget "instrument-4-lev"
 klev *= 0.001

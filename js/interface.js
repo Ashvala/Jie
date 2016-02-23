@@ -28,8 +28,7 @@ function moduleDidLoad(){
 }
 
 function handleMessage(message){
-//    $(".console").append(message.data + "<br/>");
-
+	console.log(message)
 }
 
 $(document).ready(function(){
