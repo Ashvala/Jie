@@ -26,7 +26,7 @@ fs.readFile("0.orc", "utf-8", function(err, data) {
         throw err;
     }
     orc_str = data;
-    console.log(orc_str);
+//    console.log(orc_str);
 
 });
 
@@ -46,7 +46,7 @@ function count_total_csoundable(arr) {
         console.log(arr[i].role)
         if (arr[i].role == "ensemble") {
             total += 1
-            console.log(total)
+            console.log("Csound Total: ", total)
         }
     }
     return total
@@ -65,8 +65,7 @@ io.on('connection', function(socket) {
     // you get your ID
     io.to(socket.id).emit("current_id", socket.id);
     var n_client = {}
-        //var n_client = client_deets(NaN, socket.id, "observer");
-        //create a new client object
+    //create a new client object
     n_client.name = "Hello" // name
     n_client.id = socket.id // id
     n_client.role = "Observer" // observer
@@ -82,6 +81,7 @@ io.on('connection', function(socket) {
     }
 
     if (count_total_csoundable(clients) === 6) { //ONLY IF IT EQUALS 6
+        console.log("Found exactly 6")
         io.emit("serve_choices")
     }
     // if you request the orchestra, you get it.
@@ -92,29 +92,30 @@ io.on('connection', function(socket) {
     // if you get a note_message, throw the note_message through. Deprecated soon.
     socket.on("note_message", function(msg) {
         io.emit("note_message", msg);
-        console.log(msg);
+        //        console.log(msg);
     });
 
     socket.on("event", function(msg) {
+        console.log("Event message coming through:\n")
         console.log(msg);
         io.emit("event", msg);
     })
 
     socket.on("orc", function(msg) {
         io.emit("orc", msg);
-        console.log(msg);
+        //        console.log(msg);
     });
 
     // if you get a note_message, throw the score through. Deprecated soon.
     socket.on("sco", function(msg) {
         io.emit("sco", msg);
-        console.log(msg);
+        //        console.log(msg);
     });
 
     // if you get a note_message, throw the channel through. Deprecated soon.
     socket.on("chanmsg", function(msg) {
         io.emit("chanmsg", msg);
-        console.log(msg);
+        //        console.log(msg);
     });
 
     //Handle disconnects like the champ that you are.
@@ -160,7 +161,7 @@ io.on('connection', function(socket) {
         io.to(socket.id).emit("client_list", clients)
     });
 
-    // If you send a client name, I'll change it for you, following which, I will send you the details about the object to add. 
+    // If you send a client name, I'll change it for you, following which, I will send you the details about the object to add.
     socket.on("client_name", function(obj) {
         var args = obj.split(":::")
         console.log(obj);
