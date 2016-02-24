@@ -55,10 +55,10 @@ function get_client_idArr(id) {
 function count_total_csoundable(arr) {
     var total = 0
     for (i in arr) {
-        console.log(arr[i].role)
+        //console.log(arr[i].role)
         if (arr[i].role == "ensemble") {
             total += 1
-            console.log("Csound Total: ", total)
+            //console.log("Csound Total: ", total)
         }
     }
     return total
@@ -86,24 +86,6 @@ io.on('connection', function(socket) {
     client_id_arr.push(socket.id)
     io.to(socket.id).emit("current_ind", get_client_idArr(socket.id));
     // might need to relook into this function
-
-
-
-    // if (count_total_csoundable(clients) === 6) { //ONLY IF IT EQUALS 6
-    //     console.log("Found exactly 6")
-    //     io.emit("serve_choices")
-    // }
-
-    /** rewrite begins here */
-
-    // for (i in clients) {
-    //     console.log(clients[i].id) // clients
-    //     if (i <= 6){
-    //         io.to(clients[i].id).emit("instrument_ctrl", i) // client modulo 6
-    //     }else{
-    //         console.log("Force observe")
-    //     }
-    // }
 
     // Basically, a event handler for event handling... Much ayy lmao
     socket.on("event", function(msg) {
@@ -179,21 +161,6 @@ io.on('connection', function(socket) {
             io.to(clients[i].id).emit("instrument_ctrl", (get_client(socket.id) % 6))
         }
     });
-
-    // If you get the message about being able to Csound, you basically update things on your end
-    // socket.on("csound_able", function() {
-    //     console.log("csound able called?")
-    //     console.log("index: ", get_client(socket.id));
-    //     if (get_client(socket.id) <= 5) {
-    //         console.log("lol?")
-    //         clients[get_client(socket.id)].role = "ensemble";
-    //         if (get_client(socket.id) == 5) {
-    //             io.emit("serve_choices")
-    //         }
-    //     } else if (get_client(socket.id) > 5) {
-    //         console.log("lol, no");
-    //     }
-    // });
 
     // If you click on something, you disable it here.
 

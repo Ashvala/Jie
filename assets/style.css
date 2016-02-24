@@ -212,7 +212,7 @@ body {
 }
 .knob_container {
     float: left;
-    margin-right: 8%;
+    margin-right: 5%;
     margin-top: 25px;
     margin-bottom: 25px;
 }
@@ -289,7 +289,7 @@ body {
     width: 100%;
     height: Calc(240px);
     z-index: 10000;
-    background: white;
+    background: rgba(255,255,255,0.8);
     border-top: 1px dotted #666;
     overflow-x: scroll;
 }
@@ -345,7 +345,7 @@ body {
     margin-right: 10px;
     margin-bottom: 1px;
     width: 100%;
-    border-bottom: 1px dotted #666;
+    border-bottom: 1px dotted #aaa;
 }
 .instrument_button:hover {
     -webkit-filter: brightness(1.0);
@@ -479,7 +479,7 @@ body {
 .performer_space {
     float: left;
     background: none;
-    width: 16.45%;
+    width: 16.597%;
     height: 100%;
     border-right: 1px dotted white;
     -webkit-filter: brightness(0.9);
@@ -536,6 +536,18 @@ body {
     line-height: 1.2em;
     font-weight: 300;
     color: black;
+}
+
+.my_color{
+    position:fixed;
+    background-color: #333;
+    width: 20px;
+    height: 20px;
+    border-radius: 30px;
+    border: 1px dotted #aaa;
+    right: 10;
+    bottom: 4px;
+
 }
 @media only screen and (min-device-width: 375px) and (max-device-width: 667px) {
     .button {

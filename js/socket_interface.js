@@ -30,7 +30,7 @@ verifyNote = function(event_args) {
         return false
     }
 }
-var color_arr_orig = ["#e67e22", "#0CA7DB", "#666", "#e74c3c", "#f1c40f", "#1abc9c"]
+var color_arr_orig = ["#e67e22", "#0CA7DB", "#2c3e50", "#e74c3c", "#f1c40f", "#1abc9c"]
 
 var color_arr = ["#afafaf", "#afafaf", "#afafaf", "#afafaf", "#afafaf", "#afafaf"]
 sequence_play = function(event_args) {
@@ -55,6 +55,24 @@ glow_animate = function(div_obj){
     div_obj.animate({
         backgroundColor: $.Color({lightness: original_lightness})
     }, 1500);
+}
+glow_animate_color = function(div_obj){
+    original_lightness = $.Color(div_obj, 'color').lightness()
+    new_lightness = original_lightness + 0.4;
+    original_hsla = $.Color(div_obj, 'color').hsla()
+    original_rgba = $.Color(div_obj, 'color').rgba()
+    new_hsla = {}
+    new_hsla.hue = original_hsla.hue
+    new_hsla.saturation = original_hsla.saturation
+    new_hsla.lightness = new_lightness
+    new_hsla.alpha = original_hsla.alpha
+    console.log(original_lightness)
+    div_obj.animate({
+        color: $.Color({lightness: new_lightness})
+    }, 200).delay(1400);
+    div_obj.animate({
+        color: $.Color({lightness: original_lightness})
+    }, 200);
 }
 
 parse_event = function(event_obj) {
@@ -246,6 +264,7 @@ socket.on('client_list', function(obj) {
 
 socket.on("client_add", function(obj) {
     //console.log(obj);
+    glow_animate_color($(".help_button"))
     var div_str = "<div class='client_button' style='background:" + color_arr_orig[obj.id] + "'> " + obj.name + "</div>"
     $(".client_bar").append(div_str)
     $(".performer_space").each(function() {
@@ -262,7 +281,10 @@ socket.on("client_add", function(obj) {
 socket.on("serve_choices", function() {
     socket.emit("request_orc")
 });
+
+// aw, data about me? AWWWW
 socket.on("you", function(obj){
     me = obj;
+    $(".my_color").css("background", color_arr_orig[obj.id])
     //console.log("Received data about me!")
 })
