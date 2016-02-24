@@ -44,6 +44,7 @@ parse_event = function(event_obj) {
         if (verifyNote(event_obj.event_args) == true) {
             console.log("this can be sent");
             console.log(event_obj.event_args)
+            notify("note_event", event_obj)
             csound.Event(event_obj.event_args);
         }
     } else if (event_obj.event_type == "channel_message") {

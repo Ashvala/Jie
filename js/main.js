@@ -93,8 +93,12 @@ notify = function(type, obj){
         client_str = obj.name + " was added to the ensemble!"
         $(".notification_content").html(client_str);
     }
-    $(".notification_area").fadeIn("slow").delay(6000);
-    $(".notification_area").fadeOut("slow");
+    if(type == "note_event"){
+        $(".notification_title").html(obj.from.name + " played a note")
+        $(".notification_content").html(obj.event_args + " was sent")
+    }
+    $(".notification_area").fadeIn("fast").delay(1000);
+    $(".notification_area").fadeOut("fast");
 
 }
 
@@ -173,7 +177,7 @@ $(document).ready(function() {
     final_mesg = "i " + $(".instrnum").val() + " 0 " + $(".time").val() + " " + $(this).attr("data");
     console.log(final_mesg);
     var ev_dets = {}
-    ev_dets.from = ins_num
+    ev_dets.from = me
     ev_dets.event_type = "note_message"
     ev_dets.event_args = final_mesg
     socket.emit('event', ev_dets);
@@ -196,17 +200,21 @@ $(document).ready(function() {
     });
     console.log($(this).attr("data-name"));
     str_for_ev = 'i "' + $(this).attr("data-name") + '" 0 3';
-    csound.Event(str_for_ev);
+    ev_dets = {}
+    ev_dets.from = me
+    ev_dets.event_type = "note_message"
+    ev_dets.event_args = str_for_ev
+    socket.emit('event', ev_dets)
   });
 
-  var content_arr = ["This is the mix section for your group. You have control over the reverb and output levels!<br/>" + "Use the power wisely and make your group sound better", "This is a mode synth!<br/><br/> Usage: i 1 0 4 60.<br/><br/> Use the side bar to manipulate values.", "Uh", "uh", "You have the percussion section!"]
+  var content_arr = ["This is the mix section for your group. You have control over the reverb and output levels!<br/>" + "Use the power wisely and make your group sound better", "This is a mode synth!<br/><br/> Usage: i 1 0 4 60.<br/><br/> Use the side bar to manipulate values.", "Uh", "uh", "uh", "You have the percussion section!"]
 
   $(document).on("click", ".instrument_button", function() {
     temp_sec_val = split_orcs[parseInt($(this).attr("data-section-number"))]
     $(".content_instr_details").html(content_arr[parseInt($(this).attr("data-section-number"))])
     $(".editor").val(temp_sec_val)
     $(this).css("background", ins_num)
-    socket.emit("control_disable", ins_num + " ::: " + $(this).attr("data-section-number"));
+    socket.emit("control_disable", me.id + " ::: " + $(this).attr("data-section-number"));
     if (parseInt($(this).attr("data-section-number")) == 5) {
       parseOrc(temp_sec_val, "seq_button");
     } else {

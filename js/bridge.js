@@ -119,6 +119,12 @@ io.on('connection', function(socket) {
             clients.push(temp_client_val);
             console.log(clients)
             io.emit("client_add", temp_client_val)
+            if (count_total_csoundable(clients) == 6){
+                io.emit("serve_choices");
+            }
+            if (count_total_csoundable(clients) > 6){
+                console.log("not sending anything")
+            }
         }else{
             io.emit("event", msg);
         }
@@ -202,17 +208,5 @@ io.on('connection', function(socket) {
         io.to(socket.id).emit("client_list", clients)
     });
 
-    // If you send a client name, I'll change it for you, following which, I will send you the details about the object to add.
-    // socket.on("client_name", function(obj) {
-    //     var args = obj.split(":::")
-    //     console.log(obj);
-    //     for (i in clients) {
-    //         if (clients[i].id == socket.id) {
-    //             clients[i].name = args[1]
-    //         }
-    //     }
-    //     console.log(clients)
-    //     io.emit("client_add", obj)
-    // });
 
 });
