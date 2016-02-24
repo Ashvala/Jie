@@ -246,7 +246,7 @@ socket.on('client_list', function(obj) {
 
 socket.on("client_add", function(obj) {
     console.log(obj);
-    var div_str = "<div class='client_button' style='background:" + "white" + "'> " + obj.name + "</div>"
+    var div_str = "<div class='client_button' style='background:" + color_arr_orig[obj.id] + "'> " + obj.name + "</div>"
     $(".client_bar").append(div_str)
     $(".performer_space").each(function() {
         if (parseInt($(this).attr("data-id")) == obj.id) {

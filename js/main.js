@@ -245,7 +245,7 @@ $(document).ready(function() {
       ev_dets.event_type = "add_client"
       ev_args = {}
       ev_args.name = $(this).val()
-      if (temp_ins_num < 6){
+      if (temp_ins_num <= 6){
           ev_args.role = "ensemble";
       }else{
           ev_args.role = "observer";
