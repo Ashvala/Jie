@@ -5,6 +5,9 @@ var me = {};
 var ins_num;
 //the strategy for this is simple: replicate the server side client_arr here to make it easier to parse through data and the changes.
 var client_arr = [];
+
+//Temporary instrument number:
+var temp_ins_num
 // Enable socket
 
 socket.on('connect', function(msg) {
@@ -49,7 +52,7 @@ parse_event = function(event_obj) {
     } else if (event_obj.event_type == "sequence") {
         console.log("Got a sequence");
         sequence_play(event_obj.event_args)
-    } else if (event_obj.event_type == "add_to_ensemble"){
+    } else if (event_obj.event_type == "add_client_to_ensemble"){
 
     }
 }
@@ -58,7 +61,6 @@ parse_event = function(event_obj) {
 socket.on("instrument_ctrl", function(msg) {
     console.log(msg);
     ins_num = msg;
-    me.clientNumber = ins_num;
     $("body").css("background", "#eee" );
     $(".title").css("color", "black");
 });
@@ -89,9 +91,9 @@ socket.on('note_message', function(obj) {
 
 // current id... never used this...
 
-socket.on('current_id', function(msg) {
+socket.on('current_ind', function(msg) {
     console.log(msg);
-    me.id = msg;
+    temp_ins_num = msg
 });
 
 orc_str = ""
@@ -105,9 +107,9 @@ function moduleDidLoad() {
 //        $(".client_bar").fadeIn("slow");
 }
 
-function handleMessage(message) {
-    console.log(message.data)
-}
+// function handleMessage(message) {
+//     console.log(message.data)
+// }
 
 //Handle Orchestra messages here
 
@@ -198,7 +200,7 @@ socket.on('chanmsg', function(obj) {
 socket.on('client_list', function(obj) {
     console.log(obj)
     client_arr = obj;
-    for (i = 0; i < obj.length - 1; i++) {
+    for (i = 0; i <= obj.length - 1; i++) {
         console.log(obj[i].name);
         var div_str = "<div class='client_button' style='background:" +
         "white"+ "'> " + obj[i].name + "</div>"
@@ -218,14 +220,13 @@ socket.on('client_list', function(obj) {
 
 socket.on("client_add", function(obj) {
     console.log(obj);
-    console.log(obj.split(":::"))
-    var args = obj.split(":::")
-    var div_str = "<div class='client_button' style='background:" + "white" + "'> " + args[1] + "</div>"
+    var div_str = "<div class='client_button' style='background:" + "white" + "'> " + obj.name + "</div>"
     $(".client_bar").append(div_str)
     $(".performer_space").each(function() {
-        if (parseInt($(this).attr("data-id")) == parseInt(args[0])) {
-            $(this).css("background", color_arr_orig[parseInt(args[0])]);
-            $(this).children(".performer_name").html(args[1])
+        if (parseInt($(this).attr("data-id")) == obj.id) {
+            $(this).css("background", color_arr_orig[obj.id]);
+            notify("new_client", obj);
+            $(this).children(".performer_name").html(obj.name)
         }
     });
 });
@@ -235,3 +236,7 @@ socket.on("client_add", function(obj) {
 socket.on("serve_choices", function() {
     socket.emit("request_orc")
 });
+socket.on("you", function(obj){
+    me = obj;
+    console.log("Received data about me!")
+})

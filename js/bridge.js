@@ -83,8 +83,8 @@ io.on('connection', function(socket) {
     console.log("Connected a client");
     //  clients.push(socket.id);
     // you get your ID
-    io.to(socket.id).emit("current_id", socket.id);
     client_id_arr.push(socket.id)
+    io.to(socket.id).emit("current_ind", get_client_idArr(socket.id));
     // might need to relook into this function
 
 
@@ -104,13 +104,12 @@ io.on('connection', function(socket) {
     //         console.log("Force observe")
     //     }
     // }
-    
+
     // Basically, a event handler for event handling... Much ayy lmao
     socket.on("event", function(msg) {
         console.log("Event message coming through:\n")
         if (msg.event_type == "add_client"){
             temp_ins_num = get_client_idArr(socket.id)
-            console.log(temp_ins_num, ":: is the instrument value...?")
             temp_client_val = {}
             temp_client_val.name = msg.event_args.name
             temp_client_val.role = msg.event_args.role
@@ -119,9 +118,10 @@ io.on('connection', function(socket) {
             io.to(socket.id).emit("you", temp_client_val)
             clients.push(temp_client_val);
             console.log(clients)
+            io.emit("client_add", temp_client_val)
+        }else{
+            io.emit("event", msg);
         }
-        io.emit("event", msg);
-
     });
 
 
@@ -162,10 +162,13 @@ io.on('connection', function(socket) {
         console.log("Disconnected");
         var outgoing_client = socket;
         var index = get_client(outgoing_client.id);
+
         console.log(index);
         clients.splice(index, 1);
+        client_id_arr.splice(index,1)
         console.log(clients);
         total_clients = total_clients - 1;
+
         for (i in clients) {
             io.to(clients[i].id).emit("instrument_ctrl", (get_client(socket.id) % 6))
         }

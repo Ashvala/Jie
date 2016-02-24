@@ -86,6 +86,17 @@ function moduleDidLoad() {
 
 
 
+notify = function(type, obj){
+    console.log("Notification!");
+    if(type == "new_client"){
+        $(".notification_title").html("New client added");
+        client_str = obj.name + " was added to the ensemble!"
+        $(".notification_content").html(client_str);
+    }
+    $(".notification_area").fadeIn("slow").delay(6000);
+    $(".notification_area").fadeOut("slow");
+
+}
 
 function append_sections(split_orc_arr) {
   for (i = 0; i < split_orc_arr.length; i++) {
@@ -221,12 +232,16 @@ $(document).ready(function() {
       console.log($(this).val());
       $(this).css("display", "none");
       me.name = $(this).val();
-      me.role = "ensemble";      
+      me.role = "ensemble";
       ev_dets = {}
       ev_dets.event_type = "add_client"
       ev_args = {}
       ev_args.name = $(this).val()
-      ev_args.role = "ensemble";
+      if (temp_ins_num < 6){
+          ev_args.role = "ensemble";
+      }else{
+          ev_args.role = "observer";
+      }
       ev_dets.event_args = ev_args
       socket.emit("event", ev_dets)
     }

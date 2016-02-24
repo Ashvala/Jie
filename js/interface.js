@@ -27,9 +27,9 @@ function moduleDidLoad(){
     console.log("Csound Loaded");
 }
 
-function handleMessage(message){
-	console.log(message)
-}
+// function handleMessage(message){
+// 	console.log(message)
+// }
 
 $(document).ready(function(){
 
