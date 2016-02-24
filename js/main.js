@@ -221,10 +221,14 @@ $(document).ready(function() {
       console.log($(this).val());
       $(this).css("display", "none");
       me.name = $(this).val();
-      socket.emit("client_name", ins_num + ":::" + $(this).val())
-      if (csound.module){
-        socket.emit("csound_able")
-      }
+      me.role = "ensemble";      
+      ev_dets = {}
+      ev_dets.event_type = "add_client"
+      ev_args = {}
+      ev_args.name = $(this).val()
+      ev_args.role = "ensemble";
+      ev_dets.event_args = ev_args
+      socket.emit("event", ev_dets)
     }
   });
 

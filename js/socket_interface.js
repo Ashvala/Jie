@@ -100,11 +100,9 @@ orc_str = ""
 function moduleDidLoad() {
     csound.Play();
     console.log("Csound loaded, perhaps!")
-    if (ins_num < 6) {
-        $(".SocketField").css("display", "block");
-        $(".obs_screen").fadeOut("slow");
+    $(".SocketField").css("display", "block");
+    $(".obs_screen").fadeOut("slow");
 //        $(".client_bar").fadeIn("slow");
-    }
 }
 
 function handleMessage(message) {
