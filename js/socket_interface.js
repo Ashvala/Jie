@@ -37,6 +37,26 @@ sequence_play = function(event_args) {
     csonud.ReadScore(event_args);
 }
 
+glow_animate = function(div_obj){
+    original_lightness = $.Color(div_obj, 'background').lightness()
+    new_lightness = original_lightness + 0.05;
+    original_hsla = $.Color(div_obj, 'background').hsla()
+    original_rgba = $.Color(div_obj, 'background').rgba()
+    new_hsla = {}
+    new_hsla.hue = original_hsla.hue
+    new_hsla.saturation = original_hsla.saturation
+    new_hsla.lightness = new_lightness
+    new_hsla.alpha = original_hsla.alpha
+
+
+    div_obj.animate({
+        backgroundColor: $.Color({lightness: new_lightness})
+    }, 1500).delay(1400);
+    div_obj.animate({
+        backgroundColor: $.Color({lightness: original_lightness})
+    }, 1500);
+}
+
 parse_event = function(event_obj) {
     console.log("the event type specified was: ", event_obj.event_type)
     if (event_obj.event_type == "note_message") {
@@ -45,6 +65,11 @@ parse_event = function(event_obj) {
             console.log("this can be sent");
             console.log(event_obj.event_args)
             notify("note_event", event_obj)
+            $(".performer_space").each(function(){
+                if($(this).attr("data-id") == event_obj.from.id){
+                    glow_animate($(this))
+                }
+            })
             csound.Event(event_obj.event_args);
         }
     } else if (event_obj.event_type == "channel_message") {
