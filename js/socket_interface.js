@@ -11,9 +11,9 @@ var temp_ins_num
 // Enable socket
 
 socket.on('connect', function(msg) {
-    console.log('Socket is up');
+    //console.log('Socket is up');
     if (!csound.module) {
-        console.log("oh");
+        //console.log("oh");
     }
     socket.emit("client_list_req")
 });
@@ -21,8 +21,8 @@ socket.on('connect', function(msg) {
 
 
 verifyNote = function(event_args) {
-    console.log(event_args);
-    console.log("here?")
+    //console.log(event_args);
+    //console.log("here?")
     var split = event_args.split(" ");
     if (split[0] == "i") {
         return true
@@ -58,12 +58,12 @@ glow_animate = function(div_obj){
 }
 
 parse_event = function(event_obj) {
-    console.log("the event type specified was: ", event_obj.event_type)
+    //console.log("the event type specified was: ", event_obj.event_type)
     if (event_obj.event_type == "note_message") {
-        console.log("This is a note event")
+        //console.log("This is a note event")
         if (verifyNote(event_obj.event_args) == true) {
-            console.log("this can be sent");
-            console.log(event_obj.event_args)
+            //console.log("this can be sent");
+            //console.log(event_obj.event_args)
             notify("note_event", event_obj)
             $(".performer_space").each(function(){
                 if($(this).attr("data-id") == event_obj.from.id){
@@ -73,10 +73,10 @@ parse_event = function(event_obj) {
             csound.Event(event_obj.event_args);
         }
     } else if (event_obj.event_type == "channel_message") {
-        console.log("This is a channel message")
+        //console.log("This is a channel message")
         channel_message(event_obj.event_args)
     } else if (event_obj.event_type == "sequence") {
-        console.log("Got a sequence");
+        //console.log("Got a sequence");
         sequence_play(event_obj.event_args)
     } else if (event_obj.event_type == "add_client_to_ensemble"){
 
@@ -85,7 +85,7 @@ parse_event = function(event_obj) {
 
 // You get your instrument number here.
 socket.on("instrument_ctrl", function(msg) {
-    console.log(msg);
+    //console.log(msg);
     ins_num = msg;
     $("body").css("background", "#eee" );
     $(".title").css("color", "black");
@@ -100,17 +100,17 @@ var csound_msg; //use this in the future to develop stuff.
 
 //Solitary note messages. Deprecated.
 socket.on('note_message', function(obj) {
-    console.log("THIS IS DEPRECATED. USE socket.emit('event') INSTEAD ")
-    console.log(obj);
+    //console.log("THIS IS DEPRECATED. USE socket.emit('event') INSTEAD ")
+    //console.log(obj);
     if (csound.module) {
-        console.log("can do csound events");
+        //console.log("can do csound events");
         var new_str = obj.split(" ");
-        console.log(new_str[1]);
+        //console.log(new_str[1]);
         var event_str = "i 1 0 4 " + new_str[1];
-        console.log(event_str);
+        //console.log(event_str);
         csound.Event(event_str);
     } else {
-        console.log("Sends csound events.");
+        //console.log("Sends csound events.");
     }
 });
 
@@ -118,7 +118,7 @@ socket.on('note_message', function(obj) {
 // current id... never used this...
 
 socket.on('current_ind', function(msg) {
-    console.log(msg);
+    //console.log(msg);
     temp_ins_num = msg
 });
 
@@ -127,24 +127,24 @@ orc_str = ""
 //if I ever use the csound moduleDidLoad function, I'll handle some of that code here.
 function moduleDidLoad() {
     csound.Play();
-    console.log("Csound loaded, perhaps!")
+    //console.log("Csound loaded, perhaps!")
     $(".SocketField").css("display", "block");
     $(".obs_screen").fadeOut("slow");
 //        $(".client_bar").fadeIn("slow");
 }
 
 // function handleMessage(message) {
-//     console.log(message.data)
+//     //console.log(message.data)
 // }
 
 //Handle Orchestra messages here
 
 socket.on('orc', function(obj) {
-    //    console.log(obj);
+    //    //console.log(obj);
     if (csound.module) {
         csound.CompileOrc(obj);
     } else {
-        console.log("Huh");
+        //console.log("Huh");
     }
     parseOrc(obj, "init");
 });
@@ -153,14 +153,14 @@ socket.on('orc', function(obj) {
 //Handle Score messages here
 
 socket.on('sco', function(obj) {
-    console.log("THIS IS DEPRECATED. USE socket.emit('event') INSTEAD ")
-    console.log(obj);
+    //console.log("THIS IS DEPRECATED. USE socket.emit('event') INSTEAD ")
+    //console.log(obj);
     if (csound.module) {
         var new_str = obj.split(" ");
-        console.log(new_str[1]);
+        //console.log(new_str[1]);
         csound.Event(obj);
     } else {
-        console.log("Sends csound events.")
+        //console.log("Sends csound events.")
     }
 });
 
@@ -170,11 +170,11 @@ socket.on('sco', function(obj) {
 socket.on("control_disable", function(obj) {
 
     var args = obj.split(":::")
-    console.log(args[0], args[1])
+    //console.log(args[0], args[1])
     if (args[0] != ins_num) {
-        //console.log("I am " + ins_num + " you are on: " + args[1] + " and this implies that the background is going to be " + color_arr_orig[parseInt(args[0])])
+        ////console.log("I am " + ins_num + " you are on: " + args[1] + " and this implies that the background is going to be " + color_arr_orig[parseInt(args[0])])
         $(".instrument_button").each(function() {
-            console.log($(this).attr("data-section-number"))
+            //console.log($(this).attr("data-section-number"))
             if ($(this).attr("data-section-number") == parseInt(args[1])) {
                 $(this).css("background", color_arr_orig[parseInt(args[0])])
             }
@@ -193,9 +193,9 @@ socket.on("control_disable", function(obj) {
 
 function channel_message(obj) {
     var new_str = obj.split(" ");
-    console.log(new_str[0]);
+    //console.log(new_str[0]);
     var new_val = parseFloat(new_str[1]);
-    console.log(new_val);
+    //console.log(new_val);
     csound.SetChannel(new_str[0], new_val)
     name = new_str[0];
     divstr = ".dial[data-name=" + name + "]";
@@ -205,36 +205,36 @@ function channel_message(obj) {
 //Handle channel messages. Deprecated.
 
 socket.on('chanmsg', function(obj) {
-    console.log("THIS IS DEPRECATED. USE socket.emit('event') INSTEAD ")
+    //console.log("THIS IS DEPRECATED. USE socket.emit('event') INSTEAD ")
     if (csound.module) {
-        console.log("can do csound events");
+        //console.log("can do csound events");
         var new_str = obj.split(" ");
-        console.log(new_str[0]);
+        //console.log(new_str[0]);
         var new_val = parseFloat(new_str[1]);
-        console.log(new_val);
+        //console.log(new_val);
         csound.SetChannel(new_str[0], new_val)
         name = new_str[0];
         divstr = ".dial[data-name=" + name + "]";
         $(divstr).val(new_val);
     } else {
-        console.log("Sends csound events.")
+        //console.log("Sends csound events.")
     }
 });
 
 // Client List. This can use a bit of tweaking
 
 socket.on('client_list', function(obj) {
-    console.log(obj)
+    //console.log(obj)
     client_arr = obj;
     for (i = 0; i <= obj.length - 1; i++) {
-        console.log(obj[i].name);
+        //console.log(obj[i].name);
         var div_str = "<div class='client_button' style='background:" +
         "white"+ "'> " + obj[i].name + "</div>"
         $(".client_bar").append(div_str)
-        console.log(obj[i].id)
+        // //console.log(obj[i].id)
         $(".performer_space").each(function() {
             if (parseInt($(this).attr("data-id")) == i) {
-                console.log("from client_list");
+                //console.log("from client_list");
                 $(this).css("background", color_arr_orig[i]);
                 $(this).children(".performer_name").html(obj[i].name)
             }
@@ -245,7 +245,7 @@ socket.on('client_list', function(obj) {
 // Add a client. Could use tweaking.
 
 socket.on("client_add", function(obj) {
-    console.log(obj);
+    //console.log(obj);
     var div_str = "<div class='client_button' style='background:" + color_arr_orig[obj.id] + "'> " + obj.name + "</div>"
     $(".client_bar").append(div_str)
     $(".performer_space").each(function() {
@@ -264,5 +264,5 @@ socket.on("serve_choices", function() {
 });
 socket.on("you", function(obj){
     me = obj;
-    console.log("Received data about me!")
+    //console.log("Received data about me!")
 })

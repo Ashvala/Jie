@@ -207,7 +207,13 @@ $(document).ready(function() {
     socket.emit('event', ev_dets)
   });
 
-  var content_arr = ["This is the mix section for your group. You have control over the reverb and output levels!<br/>" + "Use the power wisely and make your group sound better", "This is a mode synth!<br/><br/> Usage: i 1 0 4 60.<br/><br/> Use the side bar to manipulate values.", "Uh", "uh", "uh", "You have the percussion section!"]
+  var content_arr = [
+      "This is the mix section for your group. You have control over the reverb and output levels!<br/>" + "Use the power wisely and make your group sound better",
+      "This is a mode synth!<br/><br/> It uses a mode filter as both the excitation and the resonator. <br/><br/> Usage: Use the bottom bar to manipulate filter values... When you click the drawer icon on the bottom right, change instrument number to 1 and set your duration to your desire.",
+      "This is an LFO chained into an oscillator <br/><br/> Usage: Use the bottom bar to manipulate LFO values... When you click the drawer icon on the bottom right, change instrument number to 2 and set your duration to your desire.",
+      "This is a waveguide clarinet<br/><br/> Usage: Use the bottom bar to manipulate LFO values... When you click the drawer icon on the bottom right, change instrument number to 2 and set your duration to your desire.",
+      "This is an FM Synth <br/><br/> Usage: Use the bottom bar to manipulate LFO values... When you click the drawer icon on the bottom right, change instrument number to 2 and set your duration to your desire.",
+      "You have the percussion section!"]
 
   $(document).on("click", ".instrument_button", function() {
     temp_sec_val = split_orcs[parseInt($(this).attr("data-section-number"))]
@@ -261,7 +267,7 @@ $(document).ready(function() {
     $(this).toggleClass("rotate");
     if (clicked == 0) {
       $(".parsed_elements_container").transition({
-        height: '100%'
+        height: '96%'
       }, 'slow', 'ease');
       $(".floating_keyboard").fadeIn("fast");
       clicked = 1
