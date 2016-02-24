@@ -15,6 +15,7 @@ var fs = require("fs");
 var io = require('socket.io').listen(8181);
 console.log("Listening on port: 8181");
 var clients = [];
+var client_id_arr = [];
 var total_clients = 0;
 var current_orc = "";
 var split_orcs = [];
@@ -33,12 +34,23 @@ fs.readFile("0.orc", "utf-8", function(err, data) {
 function get_client(id) {
     var found_index = -1;
     for (i in clients) {
-        if (clients[i].id == id) {
+        if (clients[i].socket_id == id) {
             found_index = i;
         }
     }
     return found_index
 }
+function get_client_idArr(id) {
+    var found_index = -1;
+    for (i in client_id_arr) {
+        if (client_id_arr[i]== id) {
+            found_index = i;
+        }
+    }
+    return found_index
+}
+
+
 
 function count_total_csoundable(arr) {
     var total = 0
@@ -51,6 +63,14 @@ function count_total_csoundable(arr) {
     }
     return total
 }
+
+
+function handle_event(msg){
+    console.log(msg);
+    event = msg
+
+}
+
 //connection event
 
 
@@ -63,27 +83,55 @@ io.on('connection', function(socket) {
     console.log("Connected a client");
     //  clients.push(socket.id);
     // you get your ID
-    io.to(socket.id).emit("current_id", socket.id);
-    var n_client = {}
-    //create a new client object
-    n_client.name = "Hello" // name
-    n_client.id = socket.id // id
-    n_client.role = "Observer" // observer
-    clients.push(n_client) //append to array
-    console.log(clients); //print it out
-    total_clients += 1 // add to total
-
+    client_id_arr.push(socket.id)
+    io.to(socket.id).emit("current_ind", get_client_idArr(socket.id));
     // might need to relook into this function
 
-    for (i in clients) {
-        console.log(clients[i].id) // clients
-        io.to(clients[i].id).emit("instrument_ctrl", i % 6) // client modulo 6
-    }
 
-    if (count_total_csoundable(clients) === 6) { //ONLY IF IT EQUALS 6
-        console.log("Found exactly 6")
-        io.emit("serve_choices")
-    }
+
+    // if (count_total_csoundable(clients) === 6) { //ONLY IF IT EQUALS 6
+    //     console.log("Found exactly 6")
+    //     io.emit("serve_choices")
+    // }
+
+    /** rewrite begins here */
+
+    // for (i in clients) {
+    //     console.log(clients[i].id) // clients
+    //     if (i <= 6){
+    //         io.to(clients[i].id).emit("instrument_ctrl", i) // client modulo 6
+    //     }else{
+    //         console.log("Force observe")
+    //     }
+    // }
+
+    // Basically, a event handler for event handling... Much ayy lmao
+    socket.on("event", function(msg) {
+        console.log("Event message coming through:\n")
+        if (msg.event_type == "add_client"){
+            temp_ins_num = get_client_idArr(socket.id)
+            temp_client_val = {}
+            temp_client_val.name = msg.event_args.name
+            temp_client_val.role = msg.event_args.role
+            temp_client_val.id = temp_ins_num
+            temp_client_val.socket_id = socket.id
+            io.to(socket.id).emit("you", temp_client_val)
+            clients.push(temp_client_val);
+            console.log(clients)
+            io.emit("client_add", temp_client_val)
+            if (count_total_csoundable(clients) == 6){
+                io.emit("serve_choices");
+            }
+            if (count_total_csoundable(clients) > 6){
+                console.log("not sending anything")
+            }
+        }else{
+            io.emit("event", msg);
+        }
+    });
+
+
+    /** Old code that actually works. */
     // if you request the orchestra, you get it.
     socket.on("request_orc", function() {
         io.to(socket.id).emit('orc', orc_str);
@@ -95,11 +143,7 @@ io.on('connection', function(socket) {
         //        console.log(msg);
     });
 
-    socket.on("event", function(msg) {
-        console.log("Event message coming through:\n")
-        console.log(msg);
-        io.emit("event", msg);
-    })
+
 
     socket.on("orc", function(msg) {
         io.emit("orc", msg);
@@ -124,29 +168,32 @@ io.on('connection', function(socket) {
         console.log("Disconnected");
         var outgoing_client = socket;
         var index = get_client(outgoing_client.id);
+
         console.log(index);
         clients.splice(index, 1);
+        client_id_arr.splice(index,1)
         console.log(clients);
         total_clients = total_clients - 1;
+
         for (i in clients) {
             io.to(clients[i].id).emit("instrument_ctrl", (get_client(socket.id) % 6))
         }
     });
 
     // If you get the message about being able to Csound, you basically update things on your end
-    socket.on("csound_able", function() {
-        console.log("csound able called?")
-        console.log("index: ", get_client(socket.id));
-        if (get_client(socket.id) <= 5) {
-            console.log("lol?")
-            clients[get_client(socket.id)].role = "ensemble";
-            if (get_client(socket.id) == 5) {
-                io.emit("serve_choices")
-            }
-        } else if (get_client(socket.id) > 5) {
-            console.log("lol, no");
-        }
-    });
+    // socket.on("csound_able", function() {
+    //     console.log("csound able called?")
+    //     console.log("index: ", get_client(socket.id));
+    //     if (get_client(socket.id) <= 5) {
+    //         console.log("lol?")
+    //         clients[get_client(socket.id)].role = "ensemble";
+    //         if (get_client(socket.id) == 5) {
+    //             io.emit("serve_choices")
+    //         }
+    //     } else if (get_client(socket.id) > 5) {
+    //         console.log("lol, no");
+    //     }
+    // });
 
     // If you click on something, you disable it here.
 
@@ -161,17 +208,5 @@ io.on('connection', function(socket) {
         io.to(socket.id).emit("client_list", clients)
     });
 
-    // If you send a client name, I'll change it for you, following which, I will send you the details about the object to add.
-    socket.on("client_name", function(obj) {
-        var args = obj.split(":::")
-        console.log(obj);
-        for (i in clients) {
-            if (clients[i].id == socket.id) {
-                clients[i].name = args[1]
-            }
-        }
-        console.log(clients)
-        io.emit("client_add", obj)
-    });
 
 });

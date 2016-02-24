@@ -5,6 +5,9 @@ var me = {};
 var ins_num;
 //the strategy for this is simple: replicate the server side client_arr here to make it easier to parse through data and the changes.
 var client_arr = [];
+
+//Temporary instrument number:
+var temp_ins_num
 // Enable socket
 
 socket.on('connect', function(msg) {
@@ -27,11 +30,11 @@ verifyNote = function(event_args) {
         return false
     }
 }
+var color_arr_orig = ["#e67e22", "#0CA7DB", "#666", "#e74c3c", "#f1c40f", "#1abc9c"]
 
-sequence_play = function(event_args){
+var color_arr = ["#afafaf", "#afafaf", "#afafaf", "#afafaf", "#afafaf", "#afafaf"]
+sequence_play = function(event_args) {
     csonud.ReadScore(event_args);
-        
-
 }
 
 parse_event = function(event_obj) {
@@ -41,27 +44,26 @@ parse_event = function(event_obj) {
         if (verifyNote(event_obj.event_args) == true) {
             console.log("this can be sent");
             console.log(event_obj.event_args)
+            notify("note_event", event_obj)
             csound.Event(event_obj.event_args);
         }
     } else if (event_obj.event_type == "channel_message") {
         console.log("This is a channel message")
         channel_message(event_obj.event_args)
-    } else if (event_obj.event_type == "sequence"){
+    } else if (event_obj.event_type == "sequence") {
         console.log("Got a sequence");
         sequence_play(event_obj.event_args)
+    } else if (event_obj.event_type == "add_client_to_ensemble"){
+
     }
 }
-var color_arr_orig = ["#e67e22", "#0CA7DB", "#34495e", "#e74c3c", "#f1c40f", "#1abc9c"]
-
-var color_arr = ["#333", "#333", "#333", "#333", "#333", "#333"]
 
 // You get your instrument number here.
 socket.on("instrument_ctrl", function(msg) {
     console.log(msg);
     ins_num = msg;
-    me.clientNumber = ins_num;
-    $("body").css("background", color_arr[ins_num]);
-    $(".title").css("color", color_arr_orig[ins_num]);
+    $("body").css("background", "#eee" );
+    $(".title").css("color", "black");
 });
 
 
@@ -90,9 +92,9 @@ socket.on('note_message', function(obj) {
 
 // current id... never used this...
 
-socket.on('current_id', function(msg) {
+socket.on('current_ind', function(msg) {
     console.log(msg);
-    me.id = msg;
+    temp_ins_num = msg
 });
 
 orc_str = ""
@@ -101,15 +103,14 @@ orc_str = ""
 function moduleDidLoad() {
     csound.Play();
     console.log("Csound loaded, perhaps!")
-    if (ins_num < 6){
-        $(".SocketField").css("display", "block");
-        $(".obs_screen").fadeOut("slow");
-        $(".client_bar").fadeIn("slow");
-    }
+    $(".SocketField").css("display", "block");
+    $(".obs_screen").fadeOut("slow");
+//        $(".client_bar").fadeIn("slow");
 }
-function handleMessage(message){
-	console.log(message.data)
-}
+
+// function handleMessage(message) {
+//     console.log(message.data)
+// }
 
 //Handle Orchestra messages here
 
@@ -139,14 +140,14 @@ socket.on('sco', function(obj) {
 });
 
 
-//needs a rewrite.
+//needs a rewrite. Can I tie this in with the new Event API?
 
 socket.on("control_disable", function(obj) {
 
     var args = obj.split(":::")
     console.log(args[0], args[1])
     if (args[0] != ins_num) {
-        console.log("I am " + ins_num + " you are on: " + args[1] + " and this implies that the background is going to be " + color_arr_orig[parseInt(args[0])])
+        //console.log("I am " + ins_num + " you are on: " + args[1] + " and this implies that the background is going to be " + color_arr_orig[parseInt(args[0])])
         $(".instrument_button").each(function() {
             console.log($(this).attr("data-section-number"))
             if ($(this).attr("data-section-number") == parseInt(args[1])) {
@@ -156,7 +157,7 @@ socket.on("control_disable", function(obj) {
         $(".performer_space").each(function() {
             if (parseInt($(this).attr("data-id")) == parseInt(args[0])) {
                 $(this).css("background", color_arr_orig[parseInt(args[0])]);
-                $(this).children(".performer_controlling").html(args[1])
+                $(this).children(".performer_controlling").html(section_names[parseInt(args[1])])
             }
         });
     }
@@ -200,9 +201,10 @@ socket.on('chanmsg', function(obj) {
 socket.on('client_list', function(obj) {
     console.log(obj)
     client_arr = obj;
-    for (i = 0; i < obj.length - 1; i++) {
+    for (i = 0; i <= obj.length - 1; i++) {
         console.log(obj[i].name);
-        var div_str = "<div class='client_button' style='background:" + color_arr_orig[i] + "'> " + obj[i].name + "</div>"
+        var div_str = "<div class='client_button' style='background:" +
+        "white"+ "'> " + obj[i].name + "</div>"
         $(".client_bar").append(div_str)
         console.log(obj[i].id)
         $(".performer_space").each(function() {
@@ -219,14 +221,13 @@ socket.on('client_list', function(obj) {
 
 socket.on("client_add", function(obj) {
     console.log(obj);
-    console.log(obj.split(":::"))
-    var args = obj.split(":::")
-    var div_str = "<div class='client_button' style='background:" + color_arr_orig[parseInt(args[0])] + "'> " + args[1] + "</div>"
+    var div_str = "<div class='client_button' style='background:" + "white" + "'> " + obj.name + "</div>"
     $(".client_bar").append(div_str)
     $(".performer_space").each(function() {
-        if (parseInt($(this).attr("data-id")) == parseInt(args[0])) {
-            $(this).css("background", color_arr_orig[parseInt(args[0])]);
-            $(this).children(".performer_name").html(args[1])
+        if (parseInt($(this).attr("data-id")) == obj.id) {
+            $(this).css("background", color_arr_orig[obj.id]);
+            notify("new_client", obj);
+            $(this).children(".performer_name").html(obj.name)
         }
     });
 });
@@ -236,3 +237,7 @@ socket.on("client_add", function(obj) {
 socket.on("serve_choices", function() {
     socket.emit("request_orc")
 });
+socket.on("you", function(obj){
+    me = obj;
+    console.log("Received data about me!")
+})

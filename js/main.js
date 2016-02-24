@@ -27,7 +27,7 @@ var section_names = ["Mix section", "modal synth", "LFOoo", "Clarinet", "FM synt
 parseOrcLineAndRender = function(str, context) {
   var new_str = str.split(" ");
 
-  var dial_str_head = '<div class="knob_container"><input type="text" value="0" class="dial" data-fgcolor="#0CA7DB" data-angleOffset="-125" data-angleArc="256" data-min="0" data-max="1000" data-thickness="0.1" data-width="125" data-height="125" data-font-family="Avenir" data-font-weight="300" data-name='
+  var dial_str_head = '<div class="knob_container"><input type="text" value="0" class="dial" data-fgcolor="#0CA7DB" data-bgcolor="#333" data-angleOffset="-125" data-angleArc="256" data-min="0" data-max="1000" data-thickness="0.1" data-width="125" data-height="125" data-font-family="Avenir" data-font-weight="300" data-name='
   var dial_str_mid = '> <div class="knob_name"> '
   var dial_str_tail = "</div> </div>"
 
@@ -86,6 +86,21 @@ function moduleDidLoad() {
 
 
 
+notify = function(type, obj){
+    console.log("Notification!");
+    if(type == "new_client"){
+        $(".notification_title").html("New client added");
+        client_str = obj.name + " was added to the ensemble!"
+        $(".notification_content").html(client_str);
+    }
+    if(type == "note_event"){
+        $(".notification_title").html(obj.from.name + " played a note")
+        $(".notification_content").html(obj.event_args + " was sent")
+    }
+    $(".notification_area").fadeIn("fast").delay(1000);
+    $(".notification_area").fadeOut("fast");
+
+}
 
 function append_sections(split_orc_arr) {
   for (i = 0; i < split_orc_arr.length; i++) {
@@ -162,7 +177,7 @@ $(document).ready(function() {
     final_mesg = "i " + $(".instrnum").val() + " 0 " + $(".time").val() + " " + $(this).attr("data");
     console.log(final_mesg);
     var ev_dets = {}
-    ev_dets.from = ins_num
+    ev_dets.from = me
     ev_dets.event_type = "note_message"
     ev_dets.event_args = final_mesg
     socket.emit('event', ev_dets);
@@ -185,17 +200,21 @@ $(document).ready(function() {
     });
     console.log($(this).attr("data-name"));
     str_for_ev = 'i "' + $(this).attr("data-name") + '" 0 3';
-    csound.Event(str_for_ev);
+    ev_dets = {}
+    ev_dets.from = me
+    ev_dets.event_type = "note_message"
+    ev_dets.event_args = str_for_ev
+    socket.emit('event', ev_dets)
   });
 
-  var content_arr = ["This is the mix section for your group. You have control over the reverb and output levels!<br/>" + "Use the power wisely and make your group sound better", "This is a mode synth!<br/><br/> Usage: i 1 0 4 60.<br/><br/> Use the side bar to manipulate values.", "Uh", "uh", "You have the percussion section!"]
+  var content_arr = ["This is the mix section for your group. You have control over the reverb and output levels!<br/>" + "Use the power wisely and make your group sound better", "This is a mode synth!<br/><br/> Usage: i 1 0 4 60.<br/><br/> Use the side bar to manipulate values.", "Uh", "uh", "uh", "You have the percussion section!"]
 
   $(document).on("click", ".instrument_button", function() {
     temp_sec_val = split_orcs[parseInt($(this).attr("data-section-number"))]
     $(".content_instr_details").html(content_arr[parseInt($(this).attr("data-section-number"))])
     $(".editor").val(temp_sec_val)
     $(this).css("background", ins_num)
-    socket.emit("control_disable", ins_num + " ::: " + $(this).attr("data-section-number"));
+    socket.emit("control_disable", me.id + " ::: " + $(this).attr("data-section-number"));
     if (parseInt($(this).attr("data-section-number")) == 5) {
       parseOrc(temp_sec_val, "seq_button");
     } else {
@@ -221,10 +240,18 @@ $(document).ready(function() {
       console.log($(this).val());
       $(this).css("display", "none");
       me.name = $(this).val();
-      socket.emit("client_name", ins_num + ":::" + $(this).val())
-      if (csound.module){
-        socket.emit("csound_able")
+      me.role = "ensemble";
+      ev_dets = {}
+      ev_dets.event_type = "add_client"
+      ev_args = {}
+      ev_args.name = $(this).val()
+      if (temp_ins_num < 6){
+          ev_args.role = "ensemble";
+      }else{
+          ev_args.role = "observer";
       }
+      ev_dets.event_args = ev_args
+      socket.emit("event", ev_dets)
     }
   });
 
