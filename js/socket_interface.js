@@ -1,4 +1,4 @@
-var socket = io.connect("http://localhost:8181");
+var socket = io.connect("http://crimson.local:8181");
 //Me. Just me.
 var me = {};
 // Get instrument number
@@ -287,4 +287,12 @@ socket.on("you", function(obj){
     me = obj;
     $(".my_color").css("background", color_arr_orig[obj.id])
     //console.log("Received data about me!")
+})
+
+socket.on("disconnect", function(obj){
+    console.log("Oh noes!");
+})
+
+socket.on("MIDImessage", function(obj){
+    csound.MIDIin(obj)
 })

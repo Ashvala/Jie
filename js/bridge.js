@@ -1,5 +1,6 @@
 var express = require('express');
 var mongoose = require('mongoose');
+var midi = require('midi');
 
 var app = express();
 app.use(function(req, res, next) {
@@ -20,6 +21,9 @@ var total_clients = 0;
 var current_orc = "";
 var split_orcs = [];
 var section_count = 0;
+var input = new midi.input()
+console.log(input.getPortCount());
+console.log(input.getPortName(2));
 
 var orc_str;
 fs.readFile("0.orc", "utf-8", function(err, data) {
@@ -73,7 +77,16 @@ function handle_event(msg){
 
 //connection event
 
-
+input.on('message', function(deltaTime, message) {
+  // The message is an array of numbers corresponding to the MIDI bytes:
+  //   [status, data1, data2]
+  // https://www.cs.cf.ac.uk/Dave/Multimedia/node158.html has some helpful
+  // information interpreting the messages.
+  console.log('m:' + message + ' d:' + deltaTime);
+  io.emit("MIDImessage", message)
+});
+ input.openPort(2);
+input.ignoreTypes(false, false, false);
 // All the event handling happens under here
 
 io.on('connection', function(socket) {

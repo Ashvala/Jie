@@ -521,6 +521,7 @@ body {
     height: 100px;
     right: 10px;
     display: none;
+    z-index: 10002;
 }
 .notification_title {
     font-family: "Avenir Next";
