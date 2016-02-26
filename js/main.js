@@ -104,7 +104,7 @@ notify = function(type, obj) {
 
 function append_sections(split_orc_arr) {
     for (i = 0; i < split_orc_arr.length; i++) {
-        var instr_button_header = "<div class='instrument_button' data-section-number='" + i + "'>" + section_names[i] + "</div>"
+        var instr_button_header = "<div class='instrument_button' data-disabled='false' data-section-number='" + i + "'>" + section_names[i] + "</div>"
         $(".instruments_container").append(instr_button_header);
     }
     $(".instruments_container").fadeIn("slow")
@@ -217,15 +217,19 @@ $(document).ready(function() {
     ]
 
     $(document).on("click", ".instrument_button", function() {
-        temp_sec_val = split_orcs[parseInt($(this).attr("data-section-number"))]
-        $(".content_instr_details").html(content_arr[parseInt($(this).attr("data-section-number"))])
-        $(".editor").val(temp_sec_val)
-        $(this).css("background", ins_num)
-        socket.emit("control_disable", me.id + " ::: " + $(this).attr("data-section-number"));
-        if (parseInt($(this).attr("data-section-number")) == 5) {
-            parseOrc(temp_sec_val, "seq_button");
-        } else {
-            parseOrc(temp_sec_val, "default");
+        if ($(this).attr("data-disabled") == "false"){
+            console.log("ooh clickable");
+            temp_sec_val = split_orcs[parseInt($(this).attr("data-section-number"))]
+            $(".content_instr_details").html(content_arr[parseInt($(this).attr("data-section-number"))])
+            $(".editor").val(temp_sec_val)
+            $(this).css("background", ins_num)
+            $(this).attr("data-disabled", "true")
+            socket.emit("control_disable", me.id + " ::: " + $(this).attr("data-section-number"));
+            if (parseInt($(this).attr("data-section-number")) == 5) {
+                parseOrc(temp_sec_val, "seq_button");
+            } else {
+                parseOrc(temp_sec_val, "default");
+            }
         }
     });
 

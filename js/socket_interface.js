@@ -145,7 +145,7 @@ orc_str = ""
 //if I ever use the csound moduleDidLoad function, I'll handle some of that code here.
 function moduleDidLoad() {
     csound.Play();
-    //console.log("Csound loaded, perhaps!")
+    console.log("Csound loaded, perhaps!")
     $(".SocketField").css("display", "block");
     $(".obs_screen").fadeOut("slow");
 //        $(".client_bar").fadeIn("slow");
@@ -195,7 +195,9 @@ socket.on("control_disable", function(obj) {
             //console.log($(this).attr("data-section-number"))
             if ($(this).attr("data-section-number") == parseInt(args[1])) {
                 $(this).css("background", color_arr_orig[parseInt(args[0])])
+                $(this).attr("data-disabled", "true");
             }
+
         });
         $(".performer_space").each(function() {
             if (parseInt($(this).attr("data-id")) == parseInt(args[0])) {
