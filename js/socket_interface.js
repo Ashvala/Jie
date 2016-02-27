@@ -86,7 +86,7 @@ parse_event = function(event_obj) {
             $(".performer_space").each(function(){
                 if($(this).attr("data-id") == event_obj.from.id){
                     glow_animate($(this))
-                    glow_animate($(".topbar"))
+                    glow_animate_color($(".topbar"))
                 }
             })
             $(".mini_performer_space").each(function(){
