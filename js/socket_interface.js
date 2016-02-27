@@ -289,6 +289,7 @@ socket.on("you", function(obj){
     me = obj;
     console.log(obj);
     $(".my_color").css("background", color_arr_orig[obj.id])
+    $(".topbar").css("border-bottom", ("1px dotted " + color_arr_orig[obj.id]))
     ins_num = obj.id;
     //console.log("Received data about me!")
 })

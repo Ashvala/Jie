@@ -1,5 +1,5 @@
 var performance_mode;
-var controlling_bool = true
+var controlling_bool = false;
 var controlling_item = NaN;
 
 function arg(arg_name, argument_list) {
