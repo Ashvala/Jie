@@ -276,8 +276,7 @@ body {
     padding-left: 40px;
     color: black;
     bottom: 20px;
-    font-family: "Avenir";
-    font-weight: 300;
+    font-family: "AvenirNext-Medium";
     line-height: 1.5em;
 }
 .editor:focus {
