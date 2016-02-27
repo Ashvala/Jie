@@ -528,30 +528,31 @@ body {
     color: white;
 }
 .notification_area {
-    background: #efefef;
+    background: rgba(43, 43, 43, 0.92);
     border: 1px dotted #666;
     position: fixed;
     top: 35px;
     width: 300px;
-    height: 100px;
+    height: 80px;
     right: 10px;
     display: none;
+    border-radius: 10px;
     z-index: 10002;
 }
 .notification_title {
-    font-family: "Roboto";
+    font-family: "Lato";
+    margin-top: 10px;
     font-size: 1.2em;
-    color: black;
+    color: white;
     margin-left: 10px;
     margin-bottom: 10px;
 }
 .notification_content {
     font-size: 0.9em;
-    font-family: "Roboto";
+    font-family: "Lato";
     margin-left: 10px;
     line-height: 1.2em;
-    font-weight: 300;
-    color: black;
+    color: white;
 }
 
 .my_color{
