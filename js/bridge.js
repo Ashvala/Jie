@@ -75,6 +75,9 @@ function handle_event(msg){
 
 }
 
+
+
+
 //connection event
 
 input.on('message', function(deltaTime, message) {
@@ -108,12 +111,15 @@ io.on('connection', function(socket) {
             temp_client_val = {}
             temp_client_val.name = msg.event_args.name
             temp_client_val.role = msg.event_args.role
-            temp_client_val.id = temp_ins_num
             temp_client_val.socket_id = socket.id
             io.to(socket.id).emit("you", temp_client_val)
             clients.push(temp_client_val);
             console.log(clients)
-            io.emit("client_add", temp_client_val)
+            console.log(get_client(socket.id))
+            ind = get_client(socket.id)
+            clients[ind].id = ind
+            io.emit("client_add",client[ind])
+
             if (count_total_csoundable(clients) == 6){
                 io.emit("serve_choices");
             }
