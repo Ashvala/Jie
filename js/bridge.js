@@ -196,6 +196,7 @@ io.on('connection', function(socket) {
     });
 
     // If you request a client list, you get it here.
+
     socket.on("client_list_req", function() {
         console.log("Client list was requested!")
         io.to(socket.id).emit("client_list", clients)

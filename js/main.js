@@ -263,7 +263,13 @@ $(document).ready(function() {
     ]
 
     $(document).on("click", ".instrument_button", function() {
+        var clicked_div = $(this);
         if ($(this).attr("data-disabled") == "false" && controlling_bool == false) {
+            $(".instrument_button").each(function(){
+                if ($(this) != clicked_div){
+                    $(this).fadeOut("slow");
+                }
+            });
             controlling_bool = true
             sectionNumber = parseInt($(this).attr("data-section-number"))
             temp_sec_val = split_orcs[sectionNumber]
