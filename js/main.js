@@ -263,7 +263,7 @@ $(document).ready(function() {
     ]
 
     $(document).on("click", ".instrument_button", function() {
-        if ($(this).attr("data-disabled") == "false") {
+        if ($(this).attr("data-disabled") == "false" && controlling_bool == false) {
             controlling_bool = true
             sectionNumber = parseInt($(this).attr("data-section-number"))
             temp_sec_val = split_orcs[sectionNumber]
