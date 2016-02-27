@@ -29,7 +29,7 @@ var section_names = ["Mix section", "modal synth", "LFOoo", "Clarinet", "FM synt
 parseOrcLineAndRender = function(str, context) {
     var new_str = str.split(" ");
 
-    var dial_str_head = '<div class="knob_container"><input type="text" value="0" class="dial" data-fgcolor="#0CA7DB" data-bgcolor="#333" data-angleOffset="-125" data-angleArc="256" data-min="0" data-max="1000" data-thickness="0.1" data-width="125" data-height="125" data-font-family="Avenir" data-font-weight="300" data-name='
+    var dial_str_head = '<div class="knob_container"><input type="text" value="0" class="dial" data-fgcolor="#0CA7DB" data-bgcolor="#333" data-angleOffset="-125" data-angleArc="256" data-min="0" data-max="1000" data-thickness="0.2" data-width="125" data-height="125" data-font-family="Avenir" data-font-weight="300" data-name='
     var dial_str_mid = '> <div class="knob_name"> '
     var dial_str_tail = "</div> </div>"
 
@@ -263,7 +263,7 @@ $(document).ready(function() {
     ]
 
     $(document).on("click", ".instrument_button", function() {
-        if ($(this).attr("data-disabled") == "false") {
+        if ($(this).attr("data-disabled") == "false" && controlling_bool == false) {
             controlling_bool = true
             sectionNumber = parseInt($(this).attr("data-section-number"))
             temp_sec_val = split_orcs[sectionNumber]
