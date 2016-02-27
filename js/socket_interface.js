@@ -39,7 +39,7 @@ sequence_play = function(event_args) {
 
 glow_animate = function(div_obj){
     original_lightness = $.Color(div_obj, 'background').lightness()
-    new_lightness = original_lightness + 0.05;
+    new_lightness = original_lightness + 0.1;
     original_hsla = $.Color(div_obj, 'background').hsla()
     original_rgba = $.Color(div_obj, 'background').rgba()
     new_hsla = {}
@@ -84,6 +84,12 @@ parse_event = function(event_obj) {
             //console.log(event_obj.event_args)
             notify("note_event", event_obj)
             $(".performer_space").each(function(){
+                if($(this).attr("data-id") == event_obj.from.id){
+                    glow_animate($(this))
+                    glow_animate($(".topbar"))
+                }
+            })
+            $(".mini_performer_space").each(function(){
                 if($(this).attr("data-id") == event_obj.from.id){
                     glow_animate($(this))
                 }
@@ -188,9 +194,7 @@ socket.on('sco', function(obj) {
 socket.on("control_disable", function(obj) {
 
     var args = obj.split(":::")
-    //console.log(args[0], args[1])
     if (args[0] != ins_num) {
-        ////console.log("I am " + ins_num + " you are on: " + args[1] + " and this implies that the background is going to be " + color_arr_orig[parseInt(args[0])])
         $(".instrument_button").each(function() {
             //console.log($(this).attr("data-section-number"))
             if ($(this).attr("data-section-number") == parseInt(args[1])) {
@@ -259,6 +263,12 @@ socket.on('client_list', function(obj) {
                 $(this).children(".performer_name").html(obj[i].name)
             }
         });
+        $(".mini_performer_space").each(function() {
+            if (parseInt($(this).attr("data-id")) == i) {
+                //console.log("from client_list");
+                $(this).css("background", color_arr_orig[i]);
+            }
+        });
     }
 });
 
@@ -270,6 +280,13 @@ socket.on("client_add", function(obj) {
     var div_str = "<div class='client_button' style='background:" + color_arr_orig[obj.id] + "'> " + obj.name + "</div>"
     $(".client_bar").append(div_str)
     $(".performer_space").each(function() {
+        if (parseInt($(this).attr("data-id")) == obj.id) {
+            $(this).css("background", color_arr_orig[obj.id]);
+            notify("new_client", obj);
+            $(this).children(".performer_name").html(obj.name)
+        }
+    });
+    $(".mini_performer_space").each(function() {
         if (parseInt($(this).attr("data-id")) == obj.id) {
             $(this).css("background", color_arr_orig[obj.id]);
             notify("new_client", obj);
