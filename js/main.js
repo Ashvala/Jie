@@ -160,17 +160,32 @@ $(document).ready(function() {
         WebMidi.addListener(
             'noteon',
             function(e) {
-                socket.emit("MIDImessage", e.data)
+                decompiledData = e.data
+                if (controlling_item != NaN) {
+                    decompiledData[0] += (controlling_item - 1)
+                    socket.emit("MIDImessage", decompiledData);
+                }
             }
 
         );
         WebMidi.addListener(
             'noteoff',
             function(e) {
-                socket.emit("MIDImessage", e.data)
+                if (controlling_item != NaN) {
+                    decompiledData[0] += (controlling_item - 1)
+                    socket.emit("MIDImessage", decompiledData);
+                }
             }
         );
-
+        WebMidi.addListener(
+            'controlchange',
+            function(e) {
+                if (controlling_item != NaN) {
+                    decompiledData[0] += (controlling_item - 1)
+                    socket.emit("MIDImessage", decompiledData);
+                }
+            }
+        );
     }
 
 

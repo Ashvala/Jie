@@ -287,7 +287,9 @@ socket.on("serve_choices", function() {
 // aw, data about me? AWWWW
 socket.on("you", function(obj){
     me = obj;
+    console.log(obj);
     $(".my_color").css("background", color_arr_orig[obj.id])
+    ins_num = obj.id;
     //console.log("Received data about me!")
 })
 
@@ -298,9 +300,5 @@ socket.on("disconnect", function(obj){
 socket.on("MIDImessage", function(obj){
     decompiledObj = obj
     console.log("MIDIMessage: Got message: ", obj)
-    if (controlling_item != NaN){
-        console.log("Midi message received and you're controlling something!")
-        decompiledObj[0] += controlling_item-1
-    }
     csound.MIDIin(decompiledObj[0], decompiledObj[1], decompiledObj[2])
 })
