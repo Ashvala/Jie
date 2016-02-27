@@ -83,7 +83,7 @@ input.on('message', function(deltaTime, message) {
   // https://www.cs.cf.ac.uk/Dave/Multimedia/node158.html has some helpful
   // information interpreting the messages.
   console.log('m:' + message + ' d:' + deltaTime);
-  io.emit("MIDImessage", message)
+//  io.emit("MIDImessage", message)
 });
  input.openPort(2);
 input.ignoreTypes(false, false, false);
@@ -125,6 +125,12 @@ io.on('connection', function(socket) {
         }
     });
 
+    /** MIDI things */
+
+    socket.on("MIDImessage", function(msg){
+        console.log("Client Side MIDI!");
+        io.emit("MIDImessage",msg);
+    })
 
     /** Old code that actually works. */
     // if you request the orchestra, you get it.

@@ -151,9 +151,9 @@ function moduleDidLoad() {
 //        $(".client_bar").fadeIn("slow");
 }
 
-// function handleMessage(message) {
-//     //console.log(message.data)
-// }
+function handleMessage(message) {
+    console.log(message.data)
+}
 
 //Handle Orchestra messages here
 
@@ -296,5 +296,11 @@ socket.on("disconnect", function(obj){
 })
 
 socket.on("MIDImessage", function(obj){
-    csound.MIDIin(obj)
+    decompiledObj = obj
+    console.log("MIDIMessage: Got message: ", obj)
+    if (controlling_item != NaN){
+        console.log("Midi message received and you're controlling something!")
+        decompiledObj[0] += controlling_item-1
+    }
+    csound.MIDIin(decompiledObj[0], decompiledObj[1], decompiledObj[2])
 })

@@ -1,4 +1,6 @@
 var performance_mode;
+var controlling_bool = true
+var controlling_item = NaN;
 
 function arg(arg_name, argument_list) {
     this.arg_name = arg_name
@@ -148,6 +150,35 @@ function parseOrc(str, job) {
 
 }
 $(document).ready(function() {
+    /*** Work on WebMidi things here: */
+    WebMidi.enable(onSuccess, onFailure);
+
+    function onSuccess() {
+        console.log("WebMidi enabled.");
+        console.log(WebMidi.inputs);
+        console.log(WebMidi.outputs);
+        WebMidi.addListener(
+            'noteon',
+            function(e) {
+                socket.emit("MIDImessage", e.data)
+            }
+
+        );
+        WebMidi.addListener(
+            'noteoff',
+            function(e) {
+                socket.emit("MIDImessage", e.data)
+            }
+        );
+
+    }
+
+
+    function onFailure(err) {
+        console.log("WebMidi could not be enabled.", err);
+    }
+
+
     if (!csound.module) {
         $(".SocketField").css("display", "none");
         $(".client_bar").css("display", "none");
@@ -217,15 +248,17 @@ $(document).ready(function() {
     ]
 
     $(document).on("click", ".instrument_button", function() {
-        if ($(this).attr("data-disabled") == "false"){
-            console.log("ooh clickable");
-            temp_sec_val = split_orcs[parseInt($(this).attr("data-section-number"))]
-            $(".content_instr_details").html(content_arr[parseInt($(this).attr("data-section-number"))])
+        if ($(this).attr("data-disabled") == "false") {
+            controlling_bool = true
+            sectionNumber = parseInt($(this).attr("data-section-number"))
+            temp_sec_val = split_orcs[sectionNumber]
+            controlling_item = sectionNumber
+            $(".content_instr_details").html(content_arr[sectionNumber])
             $(".editor").val(temp_sec_val)
             $(this).css("background", ins_num)
             $(this).attr("data-disabled", "true")
-            socket.emit("control_disable", me.id + " ::: " + $(this).attr("data-section-number"));
-            if (parseInt($(this).attr("data-section-number")) == 5) {
+            socket.emit("control_disable", me.id + " ::: " + sectionNumber);
+            if (sectionNumber == 5) {
                 parseOrc(temp_sec_val, "seq_button");
             } else {
                 parseOrc(temp_sec_val, "default");
@@ -281,19 +314,9 @@ $(document).ready(function() {
             $(".parsed_elements_container").transition({
                 height: '240px'
             }, 'fast', 'ease');
-                $(".floating_keyboard").fadeOut("fast");
+            $(".floating_keyboard").fadeOut("fast");
             $(".screen").css("-webkit-filter", "blur(0px)");
             clicked = 0;
         }
     });
 });
-/*** Work on WebMidi things here: */
-WebMidi.enable(onSuccess, onFailure);
-
-function onSuccess() {
-    console.log("WebMidi enabled.");
-}
-
-function onFailure(err) {
-    console.log("WebMidi could not be enabled.", err);
-}
