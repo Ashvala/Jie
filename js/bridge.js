@@ -128,6 +128,7 @@ io.on('connection', function(socket) {
                 console.log("not sending anything")
             }
         }else{
+	    console.log(msg);
             io.emit("event", msg);
         }
     });
