@@ -15,7 +15,7 @@ dial_init = function() {
             var name = this.$.attr("data-name");
             var final_message_filt = name + " " + parseInt(val);
             ev_dets = {}
-            ev_dets.from = ins_num
+            ev_dets.from = me
             ev_dets.event_type = "channel_message"
             ev_dets.event_args = final_message_filt
             socket.emit('event', ev_dets);
