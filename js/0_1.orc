@@ -4,8 +4,21 @@ kr = 441
 nchnls = 2
 0dbfs = 1.0
 
+
+
+; create midi assignments here:
+massign 1, 1
+massign 2, 2
+massign 3, 3
+massign 4, 4
+massign 5, 5
+
+; global assignments.
 garvbL init 0
 garvbR init 0
+
+gaPercBusL init 0
+gaPercBusR init 0
 
 gaoutL init 0
 gaoutR init 0
@@ -37,6 +50,16 @@ clear gaoutL
 endin
 
 
+instr percBus
+denorm gaPercBusL
+denorm gaPercBusR
+kmastLev chnget "Master-Send-2"
+kmastLev *= 0.001
+gaoutL += (kmastLev * gaPercBusL)
+gaoutR += (kmastLev * gaPercBusR)
+clear gaPercBusL
+clear gaPercBusR
+endin
 
 ;-------------------------------------------;
 
@@ -47,15 +70,17 @@ endin
 
 instr 1
 
+icps cpsmidi
+
 idur = p3
-ifreq11 = cpsmidinn(p4)
-ifreq12 = cpsmidinn(p4) * 8
+ifreq11 = icps
+ifreq12 = icps * 8
 kq1 chnget "Q11"
 kq2 chnget "Q12"
 
 iamp = 0.01
-ifreq21 = cpsmidinn(p4) * 5
-ifreq22 = cpsmidinn(p4) * 1.5
+ifreq21 = icps * 5
+ifreq22 = icps * 1.5
 kq21 chnget "Q21"
 kq22 chnget "Q22"
 irep chnget "repeat"
@@ -91,9 +116,12 @@ endin
 ; Oscillator with an LFO and an envelope. This is an example of the new function syntax that's part of Csound 6
 
 instr 2
+
+icps cpsmidi
+
 klforate chnget "lfo-rate" ; LFO
 klforate *= 0.001
-a1 oscili linseg(0,p3/2,0.8,p3/2,0), oscil(1,klforate) * cpsmidinn(p4)
+a1 oscili linseg(0,p3/2,0.8,p3/2,0), oscil(1,klforate) * icps
 klev chnget "instr-2-level"
 klev *= 0.001
 gaoutL += (klev * a1)
@@ -106,13 +134,14 @@ endin
 
 instr 3
 ; waveguide clarinet
+icps cpsmidi
 kstiff = -0.3 ; stiffness
 iatt = 0.1 ; attack
 idetk = 0.1 ;time to stop
 kvibf chnget "vibrato-depth" ; vibrato depth
 kvibf *= 0.01 ; calc
 kngain = 0.5 ; gain
-asig wgclar 0.9, cpsmidinn(p4), kstiff, iatt, idetk, kngain, kvibf,0.1, 1
+asig wgclar 0.9, icps, kstiff, iatt, idetk, kngain, kvibf,0.1, 1
 klev chnget "instr-3-level"
 gaoutL += (klev * (asig/1000))
 gaoutR += (klev * (asig/1000))
@@ -128,7 +157,8 @@ kmod chnget "mod-freq"
 kmod *= 0.001
 kndx chnget "index"
 kndx *= 0.001
-asig = foscil(0.8, cpsmidinn(p4), kcar, kmod, kndx, 1)
+icps cpsmidi
+asig = foscil(0.8, icps, kcar, kmod, kndx, 1)
 klev chnget "instrument-4-lev"
 klev *= 0.001
 gaoutR += (klev * asig)
@@ -141,8 +171,7 @@ endin
 ;----------------------------------------;
 
 ;Section 6
-gaPercBusL init 0
-gaPercBusR init 0
+
 instr kick
 a1,a2 diskin2 "./http/assets/kick.wav", 1
 kperclev chnget "kick-send"
@@ -167,14 +196,4 @@ gaPercBusL += (kperclev * a1)
 gaPercBusR += (kperclev * a2)
 endin
 
-instr percBus
-denorm gaPercBusL
-denorm gaPercBusR
-kmastLev chnget "Master-Send-2"
-kmastLev *= 0.001
-gaoutL += (kmastLev * gaPercBusL)
-gaoutR += (kmastLev * gaPercBusR)
-clear gaPercBusL
-clear gaPercBusR
-endin
 ;-----------------------------------------;
