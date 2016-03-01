@@ -14,7 +14,7 @@ app.use(function(req, res, next) {
 var fs = require("fs");
 
 
-var io = require('socket.io').listen(8181);
+var io = require('socket.io').listen(8080);
 console.log("Listening on port: 8181");
 var clients = [];
 var client_id_arr = [];
@@ -83,7 +83,7 @@ io.on('connection', function(socket) {
     //  clients.push(socket.id);
     // you get your ID
     client_id_arr.push(socket.id)
-    // io.to(socket.id).emit("current_ind", get_client_idArr(socket.id));
+    io.to(socket.id).emit("current_ind", get_client_idArr(socket.id));
     // might need to relook into this function
 
     // Basically, a event handler for event handling... Much ayy lmao
@@ -109,6 +109,9 @@ io.on('connection', function(socket) {
             }
             if (count_total_csoundable(clients) > 6){
                 console.log("not sending anything")
+            }
+	    if (count_total_csoundable(clients) < 6){
+                console.log("not sending anything... yet", count_total_csoundable(clients))
             }
         }else{
 	    console.log(msg);
@@ -185,6 +188,7 @@ io.on('connection', function(socket) {
         console.log("Client list was requested!")
         io.to(socket.id).emit("client_list", clients)
     });
+
     socket.on('ping', function() {
         socket.emit('pong');
     });

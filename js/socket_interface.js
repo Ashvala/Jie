@@ -1,4 +1,4 @@
-var socket = io.connect("http://crimson.local:8181");
+var socket = io.connect("http://git.ashva.la:8080");
 //Me. Just me.
 var me = {};
 // Get instrument number
