@@ -320,3 +320,14 @@ socket.on("MIDImessage", function(obj){
     console.log("MIDIMessage: Got message: ", obj)
     csound.MIDIin(decompiledObj[0], decompiledObj[1], decompiledObj[2])
 })
+var startTime;
+
+setInterval(function() {
+  startTime = Date.now();
+  socket.emit('ping');
+}, 2000);
+
+socket.on('pong', function() {
+  latency = Date.now() - startTime;
+  console.log(latency);
+});

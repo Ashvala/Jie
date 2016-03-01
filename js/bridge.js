@@ -13,12 +13,8 @@ app.use(function(req, res, next) {
 
 var fs = require("fs");
 
-var options = {
-  pingTimeout: 3000,
-  pingInterval: 3000,
-};
 
-var io = require('socket.io').listen(8181, options);
+var io = require('socket.io').listen(8181);
 console.log("Listening on port: 8181");
 var clients = [];
 var client_id_arr = [];
@@ -78,15 +74,7 @@ function handle_event(msg){
 }
 
 
-
-
-//connection event
-
-
-//input.openPort(2);
-//input.ignoreTypes(false, false, false);
-// All the event handling happens under here
-
+//Connection event handlers.
 io.on('connection', function(socket) {
 
 
@@ -95,7 +83,7 @@ io.on('connection', function(socket) {
     //  clients.push(socket.id);
     // you get your ID
     client_id_arr.push(socket.id)
-    io.to(socket.id).emit("current_ind", get_client_idArr(socket.id));
+    // io.to(socket.id).emit("current_ind", get_client_idArr(socket.id));
     // might need to relook into this function
 
     // Basically, a event handler for event handling... Much ayy lmao
@@ -197,6 +185,8 @@ io.on('connection', function(socket) {
         console.log("Client list was requested!")
         io.to(socket.id).emit("client_list", clients)
     });
-
+    socket.on('ping', function() {
+        socket.emit('pong');
+    });
 
 });
