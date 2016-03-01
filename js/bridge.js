@@ -13,7 +13,12 @@ app.use(function(req, res, next) {
 
 var fs = require("fs");
 
-var io = require('socket.io').listen(8181);
+var options = {
+  pingTimeout: 3000,
+  pingInterval: 3000,
+};
+
+var io = require('socket.io').listen(8181, options);
 console.log("Listening on port: 8181");
 var clients = [];
 var client_id_arr = [];
@@ -21,8 +26,6 @@ var total_clients = 0;
 var current_orc = "";
 var split_orcs = [];
 var section_count = 0;
-
-
 
 var orc_str;
 fs.readFile("0.orc", "utf-8", function(err, data) {
