@@ -1,0 +1,151 @@
+<html>
+    <head>
+        <meta name="apple-mobile-web-app-capable" content="yes">
+        <meta name="apple-mobile-web-app-status-bar-style" content="default">
+        <script src="https://cdn.socket.io/socket.io-1.2.0.js"></script>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+        <script src="js/jquery.knob.min.js"></script>
+        <script src="js/socket_interface.js"></script>
+        <script src="js/pres.js"></script>
+
+        <script src="csound.js"></script>
+        <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
+        <link rel="stylesheet" href="assets/style.css">
+    </head>
+    <body>
+        <div class="dir">
+            <div class="dir-left inactive_dir">
+                <div class="fa fa-angle-left"></div>
+            </div>
+            <div class="dir-right active_dir">
+                <div class="fa fa-angle-right"></div>
+            </div>
+        </div>
+        <div class="screen">
+            <div class='screen_title_centered'>
+                Jie
+            </div>
+        </div>
+        <div class="screen">
+            <div class="screen_title">
+                What is it?
+            </div>
+            <div class="screen_content">
+                <p>
+                    Jie (&#x59D0) literally translates to "connect" in Chinese.
+                </p>
+            </div>
+        </div>
+        <div class="screen">
+            <div class="screen_title">
+                What is it?
+            </div>
+            <div class="screen_content">
+                <p>
+                    Jie allows you to participate in Jam sessions using nothing more than a web-browser
+                </p>
+            </div>
+        </div>
+        <div class="screen">
+            <div class="screen_title">
+                What is it?
+            </div>
+            <div class="screen_content">
+                <p>
+                    Jie allows you to collaborate with people thousands of miles away with just an internet connection</p>
+            </div>
+        </div>
+        <div class="screen">
+            <div class="screen_title">
+                Architecture
+            </div>
+            <div class="screen_content">
+                Message passing:
+            </div>
+            <div class="image">
+                <img src="assets/Architecture.jpeg" style="width: 50%;margin-left: 13%"></img>
+            </div>
+        </div>
+        <div class="screen">
+            <div class="screen_title">
+                Event Handling:
+            </div>
+            <div class="screen_content">
+                <p>
+                    All events that are generated are JSON objects. This makes it easier for people who are saavy with Web-Development to parse and make sense of the data that they're receiving. Here's an example of such an object:
+                </p>
+                <div class="code" data-action="send_json_to_server">
+                    <textarea class="editor" disabled></textarea>
+                </div>
+            </div>
+
+        </div>
+        <div class="screen">
+            <div class="screen_title">
+                Modulate knobs:
+            </div>
+            <div class="screen_content">
+                <div class="parsed_elements_container">
+                    <div class="parsed_knobs"></div>
+                </div>
+            </div>
+        </div>
+        <div class="screen">
+            <div class="screen_title">
+                Send MIDI
+            </div>
+            <div class="screen_content">
+                You can send standard MIDI messages. As an example, if you wanted to send MIDI
+                <code>
+                    note 60
+                </code>
+                with
+                <code>
+                    velocity 127</code>
+                and status byte
+                <code>
+                    0x90
+                </code>
+                (midi channel 1 - note 1):
+                <div class="midi_button" data-action="note_on">
+                    Note ON: (144, 60, 127)
+                </div>
+                <div class="midi_button" data-action="note_off">
+                    Note OFF: (128, 60, 0)
+                </div>
+            </div>
+        </div>
+    </body>
+    <script>
+        $("document").ready(function () {
+            dial_init();
+            $(".dial").knob({
+                'font': "AvenirNext-UltraLight",
+                'change': function (val) {
+                    var final_message;
+                    var name = this.$.attr("data-name");
+                    var final_message_filt = name + " " + parseInt(val);
+                    socket.emit('chanmsg', final_message_filt);
+                }
+            });
+            blog_init();
+            $(".code").click(function () {
+                console.log($(this).children(".editor").val());
+                if ($(this).attr("data-action") == "send_json_to_server") {
+                    socket.emit("event", note_ev_dets)
+                }
+            });
+            $(".midi_button").click(function(){
+                if($(this).attr("data-action") == "note_on"){
+                    midi_obj = [144, 60, 127]
+                    socket.emit("MIDImessage", midi_obj)
+                }
+                if($(this).attr("data-action") == "note_off"){
+                    midi_obj = [128, 60, 0]
+                    socket.emit("MIDImessage", midi_obj)
+                }
+            });
+        });
+
+    </script>
+</html>
