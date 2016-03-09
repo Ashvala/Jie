@@ -1,0 +1,263 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <title>three.js canvas - lines - sphere</title>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
+        <style>
+            body {
+                background-color: #000000;
+                margin: 0;
+                overflow: hidden;
+            }
+            a {
+                color: #0078ff;
+            }
+
+        </style>
+    </head>
+    <body>
+
+        <script src="js/three.min.js"></script>
+
+        <script src="js/renderers/Projector.js"></script>
+        <script src="js/renderers/CanvasRenderer.js"></script>
+        <script src="js/shaders/CopyShader.js"></script>
+        <script src="js/shaders/DigitalGlitch.js"></script>
+        <script src="js/postprocessing/EffectComposer.js"></script>
+        <script src="js/postprocessing/RenderPass.js"></script>
+        <script src="js/postprocessing/MaskPass.js"></script>
+        <script src="js/postprocessing/ShaderPass.js"></script>
+        <script src="js/postprocessing/GlitchPass.js"></script>
+
+        <script>
+
+            var SCREEN_WIDTH = window.innerWidth,
+                SCREEN_HEIGHT = window.innerHeight,
+
+                mouseX = 0,
+                mouseY = 0,
+                multFactor = 1,
+                set = 0,
+                windowHalfX = window.innerWidth / 2,
+                windowHalfY = window.innerHeight / 2,
+
+                SEPARATION = 200,
+                AMOUNTX = 10,
+                AMOUNTY = 10,
+                l_array = [],
+                camera,
+                scene,
+                renderer,
+                composer;
+
+            init();
+            animate();
+            var glitchPass;
+            function init() {
+
+                var container,
+                    separation = 800,
+                    amountX = 900,
+                    amountY = 900,
+                    particles,
+                    particle;
+
+                container = document.createElement('div');
+                document.body.appendChild(container);
+
+                camera = new THREE.PerspectiveCamera(800, SCREEN_WIDTH / SCREEN_HEIGHT, 20, 6000);
+                camera.position.z = 600;
+
+                scene = new THREE.Scene();
+
+                renderer = new THREE.WebGLRenderer();
+                renderer.setPixelRatio(window.devicePixelRatio);
+                renderer.setSize(SCREEN_WIDTH, SCREEN_HEIGHT);
+                container.appendChild(renderer.domElement);
+
+                // particles
+
+                var PI2 = Math.PI * 2;
+                var material = new THREE.SpriteMaterial({
+
+                    color: 0xffffff,
+                    program: function (context) {
+
+                        context.beginPath();
+                        context.arc(0, 0, 1, 0, PI2, true);
+                        context.fill();
+
+                    }
+
+                });
+
+                for (var i = 0; i < 800; i++) {
+
+                    particle = new THREE.Sprite(material);
+                    particle.position.x = Math.random() * 1 - 1;
+                    particle.position.y = Math.random() * 2 - 1;
+                    particle.position.z = Math.random() * 2 - 1;
+                    particle.position.normalize();
+                    particle.position.multiplyScalar(Math.random() * 8 + 450);
+                    particle.scale.multiplyScalar(2);
+                    scene.add(particle);
+
+                }
+
+                // lines
+                drawLines(300);
+                scene.fog = new THREE.Fog(0x000000, 200, 1000);
+                // ambient light
+                scene.add(new THREE.AmbientLight(0x000000));
+
+                light = new THREE.DirectionalLight(0xeeeeee);
+                light.position.set(1, 1, 1);
+                light1 = new THREE.PointLight(0xff0040, 10, 50);
+                scene.add(light1);
+                scene.add(light);
+                var directionalLight = new THREE.DirectionalLight(Math.random() * 0xffffff);
+                directionalLight.position.x = Math.random() - 0.5;
+                directionalLight.position.y = Math.random() - 0.5;
+                directionalLight.position.z = Math.random() - 0.5;
+                directionalLight.position.normalize();
+                scene.add(directionalLight);
+
+                var directionalLight = new THREE.DirectionalLight(Math.random() * 0xffffff);
+                directionalLight.position.x = Math.random() - 0.5;
+                directionalLight.position.y = Math.random() - 0.5;
+                directionalLight.position.z = Math.random() - 0.5;
+                directionalLight.position.normalize();
+                scene.add(directionalLight);
+
+                composer = new THREE.EffectComposer(renderer);
+                composer.addPass(new THREE.RenderPass(scene, camera));
+
+                glitchPass = new THREE.GlitchPass();
+                glitchPass.renderToScreen = true;
+                composer.addPass(glitchPass);
+
+                document.addEventListener('mousemove', onDocumentMouseMove, false);
+                document.addEventListener('touchstart', onDocumentTouchStart, false);
+                document.addEventListener('touchmove', onDocumentTouchMove, false);
+                document.addEventListener('keydown', onDocummentKeyDown, false);
+
+                //
+
+                window.addEventListener('resize', onWindowResize, false);
+
+            }
+            function drawLines(scalar) {
+                for (var i = 0; i < 300; i++) {
+
+                    var geometry = new THREE.Geometry();
+
+                    var vertex = new THREE.Vector3(Math.random() * 1 - 0.5, Math.random() * 2 - 1, Math.random() * 2 - 1);
+                    vertex.normalize();
+                    vertex.multiplyScalar(scalar);
+
+                    geometry.vertices.push(vertex);
+
+                    var vertex2 = vertex.clone();
+                    vertex2.multiplyScalar(Math.random() * 0.5 + 0.5);
+
+                    geometry.vertices.push(vertex2);
+
+                    var line = new THREE.Line(geometry, new THREE.LineBasicMaterial({color: 0xdddddd, opacity: Math.random()}));
+                    l_array.push(line);
+                    scene.add(line)
+                }
+
+            }
+            function onWindowResize() {
+
+                windowHalfX = window.innerWidth / 2;
+                windowHalfY = window.innerHeight / 2;
+
+                camera.aspect = window.innerWidth / window.innerHeight;
+                camera.updateProjectionMatrix();
+
+                renderer.setSize(window.innerWidth, window.innerHeight);
+
+            }
+
+            //
+
+            function onDocumentMouseMove(event) {
+
+                mouseX = event.clientX - windowHalfX;
+                mouseY = event.clientY - windowHalfY;
+            }
+
+            function onDocumentTouchStart(event) {
+
+                if (event.touches.length > 1) {
+
+                    event.preventDefault();
+
+                    mouseX = event.touches[0].pageX - windowHalfX;
+                    mouseY = event.touches[0].pageY - windowHalfY;
+
+                }
+
+            }
+
+            function onDocumentTouchMove(event) {
+
+                if (event.touches.length == 1) {
+
+                    event.preventDefault();
+
+                    mouseX = event.touches[0].pageX - windowHalfX;
+                    mouseY = event.touches[0].pageY - windowHalfY;
+
+                }
+
+            }
+
+            function onDocummentKeyDown(event) {
+                event.preventDefault();
+                var vector = new THREE.Vector3();
+                if (event.keyCode == 32) {
+                    if (set == 0) {
+                        for (rand_ind in l_array) {
+                            l_array[rand_ind].geometry.vertices[0].multiplyScalar(1.2)
+                            l_array[rand_ind].geometry.vertices[1].multiplyScalar(1.2)
+                            l_array[rand_ind].geometry.verticesNeedUpdate = true
+                        }
+                        set = 1
+                    } else {
+                        for (rand_ind in l_array) {
+                            l_array[rand_ind].geometry.vertices[0].multiplyScalar(0.83)
+                            l_array[rand_ind].geometry.vertices[1].multiplyScalar(0.83)
+                            l_array[rand_ind].geometry.verticesNeedUpdate = true
+                            set = 0
+                        }
+                    }
+                }
+
+            }
+            //
+
+            function animate() {
+
+                requestAnimationFrame(animate);
+
+                render();
+                composer.render();
+
+            }
+
+            function render() {
+                renderer.setSize(SCREEN_WIDTH * multFactor, SCREEN_HEIGHT * multFactor)
+                camera.position.x += (mouseX - camera.position.x) * .6;
+                camera.position.y += (-mouseY + 100 - camera.position.y) * .6;
+                camera.position.z += ((mouseX - mouseY) - camera.position.z) / 4 * 0.5;
+                camera.lookAt(scene.position);
+
+                renderer.render(scene, camera);
+
+            }
+        </script>
+    </body>
+</html>

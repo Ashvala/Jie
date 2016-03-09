@@ -24,7 +24,7 @@ var split_orcs = [];
 var section_count = 0;
 
 var orc_str;
-fs.readFile("0.orc", "utf-8", function(err, data) {
+fs.readFile("0_1.orc", "utf-8", function(err, data) {
     if (err) {
         throw err;
     }
