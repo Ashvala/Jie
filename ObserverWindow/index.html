@@ -19,7 +19,8 @@
     <body>
 
         <script src="js/three.min.js"></script>
-
+        <script src="https://cdn.socket.io/socket.io-1.4.5.js"></script>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
         <script src="js/renderers/Projector.js"></script>
         <script src="js/renderers/CanvasRenderer.js"></script>
         <script src="js/shaders/CopyShader.js"></script>
@@ -259,6 +260,10 @@
                 renderer.render(scene, camera);
 
             }
+            var socket = io.connect("http://crimson.local:8181")
+            socket.on("connect", function(){
+                console.log("Connected?")
+            });
         </script>
     </body>
 </html>
