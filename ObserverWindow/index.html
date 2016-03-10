@@ -261,8 +261,19 @@
 
             }
             var socket = io.connect("http://crimson.local:8181")
-            socket.on("connect", function(){
+            socket.on("connect", function () {
                 console.log("Connected?")
+            });
+            socket.on("MIDImessage", function (obj) {
+                if (obj[2] < 127 && obj[2] >0 ) {
+                    console.log(obj[2]/64)
+                    for (rand_ind in l_array) {
+
+                        l_array[rand_ind].geometry.vertices[0].multiplyScalar((obj[2]/64))
+                        l_array[rand_ind].geometry.vertices[1].multiplyScalar((obj[2]/64))
+                        l_array[rand_ind].geometry.verticesNeedUpdate = true
+                    }
+                }
             });
         </script>
     </body>
