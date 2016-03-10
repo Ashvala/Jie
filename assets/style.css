@@ -8,7 +8,7 @@
     padding: 0;
 }
 body {
-    background: white;
+    background: #eee;
     color: black;
     -webkit-touch-callout: none;
     -webkit-user-select: none;
@@ -299,14 +299,13 @@ body {
 }
 .parsed_elements_container {
     position: fixed;
-    display: none;
+    display: block;
     right: 0;
-    bottom: 32px;
+    bottom: 35%;
     width: 100%;
     height: Calc(240px);
     z-index: 10000;
-    background: rgba(255,255,255,0.8);
-    border-top: 1px dotted #666;
+    background: #eeeeeeaa;
     overflow-x: scroll;
 }
 .parsed_knobs {

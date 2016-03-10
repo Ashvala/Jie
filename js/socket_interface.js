@@ -195,15 +195,16 @@ socket.on("control_disable", function(obj) {
 
     var args = obj.split(":::")
     if (args[0] != ins_num) {
-        $(".instrument_button").each(function() {
+        $(".item").each(function() {
             //console.log($(this).attr("data-section-number"))
             if ($(this).attr("data-section-number") == parseInt(args[1])) {
-                $(this).css("background", color_arr_orig[parseInt(args[0])])
-                $(this).attr("data-disabled", "true");
+                $(this).children(".sector").css("fill", color_arr_orig[parseInt(args[0])])
+                $(this).children(".sector").css("color","white")
+                $(this).children(".sector").css("stroke","white")
             }
 
         });
-        $(".performer_space").each(function() {
+        $(".item").each(function() {
             if (parseInt($(this).attr("data-id")) == parseInt(args[0])) {
                 $(this).css("background", color_arr_orig[parseInt(args[0])]);
                 $(this).children(".performer_controlling").html(section_names[parseInt(args[1])])

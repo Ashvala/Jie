@@ -29,7 +29,7 @@ var section_names = ["Mix section", "modal synth", "LFOoo", "Clarinet", "FM synt
 parseOrcLineAndRender = function(str, context) {
     var new_str = str.split(" ");
 
-    var dial_str_head = '<div class="knob_container"><input type="text" value="0" class="dial" data-fgcolor="#0CA7DB" data-bgcolor="#333" data-angleOffset="-125" data-angleArc="256" data-min="0" data-max="1000" data-thickness="0.2" data-width="125" data-height="125" data-font-family="Roboto" data-name='
+    var dial_str_head = '<div class="knob_container"><input type="text" value="0" class="dial" data-fgcolor="#0CA7DB" data-bgcolor="#333" data-angleOffset="-125" data-angleArc="256" data-min="0" data-max="1000" data-thickness="0.15" data-width="125" data-height="125" data-font-family="Roboto Light" data-name='
     var dial_str_mid = '> <div class="knob_name"> '
     var dial_str_tail = "</div> </div>"
 
@@ -308,9 +308,25 @@ $(document).ready(function() {
             }
             ev_dets.event_args = ev_args
             socket.emit("event", ev_dets)
+            socket.emit("request_orc")
         }
     });
+    $(".item").click(function(){
+            sectionNumber = parseInt($(this).attr("data-section-number"))
+            temp_sec_val = split_orcs[sectionNumber]
+            controlling_item = sectionNumber
+            $(".content_instr_details").html(content_arr[sectionNumber])
+            $(this).children(".sector").css("fill", color_arr_orig[ins_num])
+            $(this).css("color","white")
+            $(this).css("stroke","white")
+            socket.emit("control_disable", me.id + " ::: " + sectionNumber);
+            if (sectionNumber == 5) {
+                parseOrc(temp_sec_val, "seq_button");
+            } else {
+                parseOrc(temp_sec_val, "default");
+            }
 
+    });
     var clicked = 0;
     $(".slide_in").click(function() {
         console.log("Expansion of parsed_elements_container happens here!");
@@ -330,8 +346,6 @@ $(document).ready(function() {
             $(".screen").css("-webkit-filter", "blur(0px)");
             clicked = 0;
         }
-        $(".item").click(function(){
-            console.log($(this).attr("id"));
-        });
+
     });
 });
