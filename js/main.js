@@ -330,9 +330,8 @@ $(document).ready(function() {
             $(".screen").css("-webkit-filter", "blur(0px)");
             clicked = 0;
         }
-        $(".item").bind('click',function(e){
-            
-            e.preventDefault();
+        $(".item").click(function(){
+            console.log($(this).attr("id"));
         });
     });
 });
