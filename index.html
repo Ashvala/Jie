@@ -1,186 +1,262 @@
-    <html>
+<html>
 
-<head>
-    <meta name="viewport" content="width=device-width, initial-scale=1 user-scalable=0">
-    <link rel="stylesheet" href="assets/style_piano.css">
-    <link rel="stylesheet" href="assets/style.css">
+    <head>
+        <meta name="viewport" content="width=device-width, initial-scale=1 user-scalable=0">
+        <link rel="stylesheet" href="assets/style_piano.css">
+        <link rel="stylesheet" href="assets/style.css">
 
-    <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
-    <link rel="shortcut icon" type="image/png" href="favicon.png" />
-    <script src="https://cdn.socket.io/socket.io-1.4.5.js"></script>
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
-    <script src="csound.js">
-    </script>
-    <script src="js/interface.js">
-    </script>
-    <script src="js/jtm.js">
-    </script>
-    <script src="js/jquery.color.js">
-    </script>
-    <script src="js/jquery.knob.min.js">
-    </script>
-    <script src="js/webmidi.min.js">
-    </script>
-    <script src="js/main.js">
-    </script>
-    <script src="js/socket_interface.js">
-    </script>
+        <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
+        <link rel="shortcut icon" type="image/png" href="favicon.png"/>
+        <script src="https://cdn.socket.io/socket.io-1.4.5.js"></script>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+        <script src="csound.js"></script>
+        <script src="js/interface.js"></script>
+        <script src="js/jtm.js"></script>
+        <script src="js/jquery.color.js"></script>
+        <script src="js/jquery.knob.min.js"></script>
+        <script src="js/webmidi.min.js"></script>
+        <script src="js/main.js"></script>
+        <script src="js/socket_interface.js"></script>
 
-    <title>Jie</title>
-</head>
+        <title>Jie</title>
+    </head>
 
-<body>
-    <div class="content">
-        <div class="topbar">
-            <div class="title">
-                Jie
+    <body>
+        <div class="content">
+            <div class="topbar">
+                <div class="title">
+                    Jie
+                </div>
+                <div class="help_button">
+                    <div class="fa fa-users"></div>
+                </div>
             </div>
-            <div class="help_button">
-                <div class="fa fa-users"> </div>
+            <div class="obs_screen">
+                <div class="performer_space" data-id="0">
+                    <div class="performer_name"></div>
+                    <div class="performer_controlling"></div>
+                    <div class="performer_event"></div>
+                </div>
+                <div class="performer_space" data-id="1">
+                    <div class="performer_name"></div>
+                    <div class="performer_controlling"></div>
+                    <div class="performer_event"></div>
+                </div>
+                <div class="performer_space" data-id="2">
+                    <div class="performer_name"></div>
+                    <div class="performer_controlling"></div>
+                    <div class="performer_event"></div>
+                </div>
+                <div class="performer_space" data-id="3">
+                    <div class="performer_name"></div>
+                    <div class="performer_controlling"></div>
+                    <div class="performer_event"></div>
+                </div>
+                <div class="performer_space" data-id="4">
+                    <div class="performer_name"></div>
+                    <div class="performer_controlling"></div>
+                    <div class="performer_event"></div>
+                </div>
+                <div class="performer_space" data-id="5">
+                    <div class="performer_name"></div>
+                    <div class="performer_controlling"></div>
+                    <div class="performer_event"></div>
+                </div>
             </div>
-        </div>
-        <div class="obs_screen">
-            <div class="performer_space" data-id="0">
-                <div class="performer_name"> </div>
-                <div class="performer_controlling"> </div>
-                <div class="performer_event"> </div>
-            </div>
-            <div class="performer_space" data-id="1">
-                <div class="performer_name"> </div>
-                <div class="performer_controlling"> </div>
-                <div class="performer_event"> </div>
-            </div>
-            <div class="performer_space" data-id="2">
-                <div class="performer_name"> </div>
-                <div class="performer_controlling"> </div>
-                <div class="performer_event"> </div>
-            </div>
-            <div class="performer_space" data-id="3">
-                <div class="performer_name"> </div>
-                <div class="performer_controlling"> </div>
-                <div class="performer_event"> </div>
-            </div>
-            <div class="performer_space" data-id="4">
-                <div class="performer_name"> </div>
-                <div class="performer_controlling"> </div>
-                <div class="performer_event"> </div>
-            </div>
-            <div class="performer_space" data-id="5">
-                <div class="performer_name"> </div>
-                <div class="performer_controlling"> </div>
-                <div class="performer_event"> </div>
-            </div>
-        </div>
-        <div class="screen">
-            <div class="name_field">
-                <input class="SocketField" placeholder="Give yourself a name!"> </input>
-            </div>
-            <div class="instruments_container">
-                Pick your instrument.
-            </div>
+            <div class="screen">
+                <div class="name_field">
+                    <input class="SocketField" placeholder="Give yourself a name!"></input>
+                </div>
+                <div class="instruments_container">
+                    <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="-2 -2 504 504" id="menu" style="z-index: 0; transform-origin: 50% 50% 0px; transform: translate3d(0px, 0px, 0px); -webkit-user-select: none;">
+                        <style>
+                            @import url(https://fonts.googleapis.com/css?family=Roboto:400,100,300,500,700,400italic,300italic,100italic,500italic,700italic,900,900italic);
+                            @import url(https://fonts.googleapis.com/css?family=Lato:400,100,100italic,300,300italic,400italic,700,700italic,900,900italic);
+                            #menu {
+                                display: block;
+                                margin: 0 auto;
+                            }
+                            a {
+                                cursor: pointer;
+                                outline: none;
+                            }
+                            .item .sector {
+                                transition: all 0.4s linear;
+                                fill: #eee;
+                                stroke: black;
+                                color: black;
+                            }
+                            .item:hover .sector,
+                            .item:focus .sector {
+                                fill: #0CA7DB;
+                                stroke: white;
+                            }
+                            .menu-trigger {
+                                fill: #EA2A55;
+                            }
+                            .menu-trigger:hover,
+                            .menu-trigger:focus {
+                                cursor: pointer;
+                            }
+                            symbol {
+                                overflow: visible;
+                            }
+                            text {
+                                fill: #222;
+                                font-family: Lato;
+                                font-weight: 300;
+                                font-size: 0.7em;
+                            }
+                            .icon {
+                                stroke: none;
+                            }
 
-            <div class="instrument_num"> </div>
-            <div class="content_instr_details">
+                        </style>
+                        <g id="symbolsContainer">
+                            <symbol class="icon icon-" id="icon-1" viewBox="0 0 40 40"><!--Replace the contents of this symbol with the content of your icon--><rect fill="none" stroke="none" stroke-width="1" width="100%" height="100%"/>
+                                <text fill="none" x="50%" y="50%" dy=".3em" text-anchor="middle" font-size="1.2em">Mix Section</text>
+                            </symbol>
+
+                            <symbol class="icon icon-" id="icon-2" viewBox="0 0 40 40"><!--Replace the contents of this symbol with the content of your icon--><rect fill="none" stroke="none" stroke-width="1" width="100%" height="100%"/>
+                                <text fill="#222" x="50%" y="50%" dy=".3em" text-anchor="middle" font-size="1.2em">Mode Synth</text>
+                            </symbol>
+
+                            <symbol class="icon icon-" id="icon-3" viewBox="0 0 40 40"><!--Replace the contents of this symbol with the content of your icon--><rect fill="none" stroke="none" stroke-width="1" width="100%" height="100%"/>
+                                <text fill="#222" x="50%" y="50%" dy=".3em" text-anchor="middle" font-size="1.2em">Bass</text>
+                            </symbol>
+
+                            <symbol class="icon icon-" id="icon-4" viewBox="0 0 40 40"><!--Replace the contents of this symbol with the content of your icon--><rect fill="none" stroke="none" stroke-width="1" width="100%" height="100%"/>
+                                <text fill="#222" x="50%" y="50%" dy=".3em" text-anchor="middle" font-size="1.2em">Clarinet</text>
+                            </symbol>
+
+                            <symbol class="icon icon-" id="icon-5" viewBox="0 0 40 40"><!--Replace the contents of this symbol with the content of your icon--><rect fill="none" stroke="none" stroke-width="1" width="100%" height="100%"/>
+                                <text fill="#222" x="50%" y="50%" dy=".3em" text-anchor="middle" font-size="1.2em">FM-Synth</text>
+                            </symbol>
+
+                            <symbol class="icon icon-" id="icon-6" viewBox="0 0 40 40"><!--Replace the contents of this symbol with the content of your icon--><rect fill="none" stroke="none" stroke-width="1" width="100%" height="100%"/>
+                                <text fill="#222" x="50%" y="50%" dy=".3em" text-anchor="middle" font-size="1.2em">Drums</text>
+                            </symbol>
+
+                        </g>
+                        <g id="itemsContainer">
+                            <a class="item" id="item-1" role="link" tabindex="0" xlink:href=" " xlink:title=" " transform="matrix(1,0,0,1,0,0)" data-svg-origin="250 250" style=""><path fill="none" stroke="#111" d="M355,250 l145,0 A250,250 0 0,0 480.9698831278217,154.32914190872754 l-133.96253221413656,55.48909769293803 A105,105 0 0,1 355,250" class="sector"/><use xlink:href="#icon-1" width="40" height="40" x="416.3492126464844" y="192.93283081054688" transform="rotate(78.75 436.3492126464844 212.93283081054688)"/></a>
+                            <a class="item" id="item-2" role="link" tabindex="0" xlink:href=" " xlink:title=" " transform="matrix(0.85264,-0.52249,0.52249,0.85264,-93.78468226751022,167.46460009046413)" data-svg-origin="250 250" style=""><path fill="none" stroke="#111" d="M355,250 l145,0 A250,250 0 0,0 480.9698831278217,154.32914190872754 l-133.96253221413656,55.48909769293803 A105,105 0 0,1 355,250" class="sector"/><use xlink:href="#icon-2" width="40" height="40" x="416.3492126464844" y="192.93283081054688" transform="rotate(78.75 436.3492126464844 212.93283081054688)"/></a>
+                            <a class="item" id="item-3" role="link" tabindex="0" xlink:href=" " xlink:title=" " transform="matrix(0.45399,-0.891,0.891,0.45399,-86.24925598197865,359.2540061122052)" data-svg-origin="250 250" style=""><path fill="none" stroke="#111" d="M355,250 l145,0 A250,250 0 0,0 480.9698831278217,154.32914190872754 l-133.96253221413656,55.48909769293803 A105,105 0 0,1 355,250" class="sector"/><use xlink:href="#icon-3" width="40" height="40" x="416.3492126464844" y="192.93283081054688" transform="rotate(78.75 436.3492126464844 212.93283081054688)"/></a>
+                            <a class="item" id="item-4" role="link" tabindex="0" xlink:href=" " xlink:title=" " transform="matrix(-0.07845,-0.99691,0.99691,-0.07845,20.38544049867923,518.8441073652432)" data-svg-origin="250 250" style=""><path fill="none" stroke="#111" d="M355,250 l145,0 A250,250 0 0,0 480.9698831278217,154.32914190872754 l-133.96253221413656,55.48909769293803 A105,105 0 0,1 355,250" class="sector"/><use xlink:href="#icon-4" width="40" height="40" x="416.3492126464844" y="192.93283081054688" transform="rotate(78.75 436.3492126464844 212.93283081054688)"/></a>
+                            <a class="item" id="item-5" role="link" tabindex="0" xlink:href=" " xlink:title=" " transform="matrix(-0.58778,-0.80901,0.80901,-0.58778,194.6920644793814,599.2005616668552)" data-svg-origin="250 250" style=""><path fill="none" stroke="#111" d="M355,250 l145,0 A250,250 0 0,0 480.9698831278217,154.32914190872754 l-133.96253221413656,55.48909769293803 A105,105 0 0,1 355,250" class="sector"/><use xlink:href="#icon-5" width="40" height="40" x="416.3492126464844" y="192.93283081054688" transform="rotate(78.75 436.3492126464844 212.93283081054688)"/></a>
+                            <a class="item" id="item-6" role="link" tabindex="0" xlink:href=" " xlink:title=" " transform="matrix(-0.92387,-0.38268,0.38268,-0.92387,385.2990250365492,576.6407412190941)" data-svg-origin="250 250" style=""><path fill="none" stroke="#111" d="M355,250 l145,0 A250,250 0 0,0 480.9698831278217,154.32914190872754 l-133.96253221413656,55.48909769293803 A105,105 0 0,1 355,250" class="sector"/><use xlink:href="#icon-6" width="40" height="40" x="416.3492126464844" y="192.93283081054688" transform="rotate(78.75 436.3492126464844 212.93283081054688)"/></a>
+                        </g>
+                        <g id="trigger" class="trigger menu-trigger" role="button">
+                            <circle cx="250" cy="250" r="60"/>
+
+                        </g>
+                    </svg>
+                </div>
+
+                <div class="instrument_num"></div>
+                <div class="content_instr_details"></div>
+                <div class="client_bar">
+                    <div class="client_bar_title">
+                        Ensemble Members
+                    </div>
+                </div>
 
             </div>
-            <div class="client_bar">
-                <div class="client_bar_title"> Ensemble Members </div>
-            </div>
+            <!--div class="mini_bar">
+                <div class="mini_performer_space" data-id="0"></div>
+                <div class="mini_performer_space" data-id="1"></div>
+                <div class="mini_performer_space" data-id="2"></div>
+                <div class="mini_performer_space" data-id="3"></div>
+                <div class="mini_performer_space" data-id="4"></div>
+                <div class="mini_performer_space" data-id="5"></div>
 
-
-        </div>
-        <div class="mini_bar">
-            <div class="mini_performer_space" data-id="0"> </div>
-            <div class="mini_performer_space" data-id="1"> </div>
-            <div class="mini_performer_space" data-id="2"> </div>
-            <div class="mini_performer_space" data-id="3"> </div>
-            <div class="mini_performer_space" data-id="4"> </div>
-            <div class="mini_performer_space" data-id="5"> </div>
-
-        </div>
-        <div class="parsed_elements_container">
+            </div-->
+            <!--div class="parsed_elements_container">
             <div class="seq_container"> </div>
             <div class="parsed_knobs">
             </div>
-        </div>
-        <div class="notification_area">
-            <div class="notification_title"> </div>
-            <div class="notification_content"> </div>
-        </div>
-
-        <div class="help_screen">
-            <div class="console">
-            </div>
-        </div>
-        <div class="floating_keyboard">
-            <div class="param_container">
-                <div class="label"> Instrument Number </div>
-                <input class="instrnum" value="1"> </input>
-            </div>
-            <div class="param_container">
-                <div class="label"> Duration </div>
-                <input class="time" value="4"> </input>
+        </div-->
+            <div class="notification_area">
+                <div class="notification_title"></div>
+                <div class="notification_content"></div>
             </div>
 
-            <div class="keyboard_float">
+            <div class="help_screen">
+                <div class="console"></div>
+            </div>
+            <div class="floating_keyboard">
+                <div class="param_container">
+                    <div class="label">
+                        Instrument Number
+                    </div>
+                    <input class="instrnum" value="1"></input>
+                </div>
+                <div class="param_container">
+                    <div class="label">
+                        Duration
+                    </div>
+                    <input class="time" value="4"></input>
+                </div>
 
-                <div class="keys_container">
+                <div class="keyboard_float">
 
-                    <div class="keys">
-                        <div class="key white_key" data="36"> </div>
-                        <div class="key black_key" data="37"> </div>
-                        <div class="key white_key" data="38"> </div>
-                        <div class="key black_key" data="39"> </div>
-                        <div class="key white_key" data="40"> </div>
-                        <div class="key white_key" data="41"> </div>
-                        <div class="key black_key" data="42"> </div>
-                        <div class="key white_key" data="43"> </div>
-                        <div class="key black_key" data="44"> </div>
-                        <div class="key white_key" data="45"> </div>
-                        <div class="key black_key" data="46"> </div>
-                        <div class="key white_key" data="47"> </div>
-                        <div class="key white_key" data="48"> </div>
-                        <div class="key black_key" data="49"> </div>
-                        <div class="key white_key" data="50"> </div>
-                        <div class="key black_key" data="51"> </div>
-                        <div class="key white_key" data="52"> </div>
-                        <div class="key white_key" data="53"> </div>
-                        <div class="key black_key" data="54"> </div>
-                        <div class="key white_key" data="55"> </div>
-                        <div class="key black_key" data="56"> </div>
-                        <div class="key white_key" data="57"> </div>
-                        <div class="key black_key" data="58"> </div>
-                        <div class="key white_key" data="59"> </div>
-                        <div class="key white_key" data="60"> </div>
-                        <div class="key black_key" data="61"> </div>
-                        <div class="key white_key" data="62"> </div>
-                        <div class="key black_key" data="63"> </div>
-                        <div class="key white_key" data="64"> </div>
-                        <div class="key white_key" data="65"> </div>
-                        <div class="key black_key" data="66"> </div>
-                        <div class="key white_key" data="67"> </div>
-                        <div class="key black_key" data="68"> </div>
-                        <div class="key white_key" data="69"> </div>
-                        <div class="key black_key" data="70"> </div>
-                        <div class="key white_key" data="71"> </div>
-                        <div class="key white_key" data="72"> </div>
+                    <div class="keys_container">
+
+                        <div class="keys">
+                            <div class="key white_key" data="36"></div>
+                            <div class="key black_key" data="37"></div>
+                            <div class="key white_key" data="38"></div>
+                            <div class="key black_key" data="39"></div>
+                            <div class="key white_key" data="40"></div>
+                            <div class="key white_key" data="41"></div>
+                            <div class="key black_key" data="42"></div>
+                            <div class="key white_key" data="43"></div>
+                            <div class="key black_key" data="44"></div>
+                            <div class="key white_key" data="45"></div>
+                            <div class="key black_key" data="46"></div>
+                            <div class="key white_key" data="47"></div>
+                            <div class="key white_key" data="48"></div>
+                            <div class="key black_key" data="49"></div>
+                            <div class="key white_key" data="50"></div>
+                            <div class="key black_key" data="51"></div>
+                            <div class="key white_key" data="52"></div>
+                            <div class="key white_key" data="53"></div>
+                            <div class="key black_key" data="54"></div>
+                            <div class="key white_key" data="55"></div>
+                            <div class="key black_key" data="56"></div>
+                            <div class="key white_key" data="57"></div>
+                            <div class="key black_key" data="58"></div>
+                            <div class="key white_key" data="59"></div>
+                            <div class="key white_key" data="60"></div>
+                            <div class="key black_key" data="61"></div>
+                            <div class="key white_key" data="62"></div>
+                            <div class="key black_key" data="63"></div>
+                            <div class="key white_key" data="64"></div>
+                            <div class="key white_key" data="65"></div>
+                            <div class="key black_key" data="66"></div>
+                            <div class="key white_key" data="67"></div>
+                            <div class="key black_key" data="68"></div>
+                            <div class="key white_key" data="69"></div>
+                            <div class="key black_key" data="70"></div>
+                            <div class="key white_key" data="71"></div>
+                            <div class="key white_key" data="72"></div>
+                        </div>
+
                     </div>
 
                 </div>
 
             </div>
 
-        </div>
-
-        <div class="bottom_bar">
-            <div class="slide_in">
-                <div class="fa fa-caret-up"></div>
-            </div>
-            <div class="my_color"> </div>
+            <!--div class="bottom_bar">
+                <div class="slide_in">
+                    <div class="fa fa-caret-up"></div>
+                </div>
+                <div class="my_color"></div>
+            </div-->
         </div>
     </div>
-    </div>
-    <div id="engine"> </div>
+    <div id="engine"></div>
 </body>
 
 </html>

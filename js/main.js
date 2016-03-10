@@ -126,15 +126,11 @@ function parseOrc(str, job) {
     str_arr = str.split("\n");
     if (job == "init") {
         split_orc(str);
-        $(".instruments_container").html(" ");
-        append_sections(split_orcs);
         for (var i = 0; i < str_arr.length; i++) {
             count_instrs(str_arr[i]);
         }
     }
     if (job == "init_solo") {
-        $(".instruments_container").html(" ");
-        append_sections(temp_new_orc);
         for (var i = 0; i < str_arr.length; i++) {
             count_instrs(str_arr[i]);
         }
