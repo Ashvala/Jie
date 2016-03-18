@@ -1,7 +1,7 @@
 var performance_mode;
 var controlling_bool = false;
 var controlling_item = NaN;
-
+var field_visible = true;
 function arg(arg_name, argument_list) {
     this.arg_name = arg_name
     this.argument_list = argument_list
@@ -294,9 +294,11 @@ $(document).ready(function() {
     });
 
     $(".SocketField").on("keypress", function(e) {
+
         if (e.which == 13) {
             console.log($(this).val());
             $(this).css("display", "none");
+            field_visible = false
             me.name = $(this).val();
             me.role = "ensemble";
             ev_dets = {}
@@ -354,6 +356,7 @@ $(document).ready(function() {
     $(document).keydown(function(e) {
         console.log(e.keyCode);
         var code = e.keyCode;
+        if (field_visible == false){
         switch (code) {
             case 65: // a
                 midi_byte = [(controlling_item + 143), 60, 127]
@@ -409,10 +412,14 @@ $(document).ready(function() {
                 return false;
 
         }
+    }
     });
     $(document).keyup(function(e){
         console.log(e.keyCode);
         var code = e.keyCode;
+        if (field_visible == false){
+
+
         switch (code) {
             case 65: // a
                 midi_byte = [(controlling_item + 127), 60, 127]
@@ -468,5 +475,6 @@ $(document).ready(function() {
                 return false;
 
         }
+    }
     })
 });
