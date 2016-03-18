@@ -153,40 +153,19 @@ endin
 
 ; Section 5
 
-/*instr 4
-kcar chnget "carrier-freq"
-kcar *= 0.001
-kmod chnget "mod-freq"
-kmod *= 0.001
-kndx chnget "index"
-kndx *= 0.001
+instr 4
 icps cpsmidi
-asig = foscil(0.8, icps, kcar, kmod, kndx, 1)
-klev chnget "instr-4-lev"
+iamp = ampmidi(1)
+kpick = 0.7
+iplk = 0
+idamp = 10
+ifilt = 10000
+axcite oscil 0.3, 1, 1
+apluck wgpluck icps, iamp, kpick, iplk, idamp, ifilt, axcite
+klev chnget "instr-4-level"
 klev *= 0.001
-gaoutR += (klev * asig)
-gaoutL += (klev * asig)
-krlev chnget "reverb_send"
-krlev *= 0.001
-garvbL += (krlev * asig)
-garvbR += (krlev * asig)
-endin*/
-
-icps cpsmidi
-giFMsound = ftgen(2,0,256,1, "./http/assets/fwavblnk.aiff",0,0,0)
-kc1 chnget "mod-index"
-kc2 = 1
-kvdepth chnget "vibrato-depth"
-kvrate chnget "vibrato-rate"
-kvrate *= 0.001
-ifn1 = 1
-ifn2 = 1
-ifn3 = 1
-ifn4 = 2
-ivfn = 1
-
-asig = fmrhode(.5, icps, kc1, kc2, kvdepth, kvrate, ifn1, ifn2, ifn3, ifn4, ivfn)
-     outs asig, asig
+outs apluck * klev, apluck *klev
+endin
 
 ;----------------------------------------;
 
