@@ -299,13 +299,12 @@ body {
 }
 .parsed_elements_container {
     position: fixed;
-    display: block;
+    display: none;
     right: 0;
-    bottom: 35%;
-    width: 100%;
-    height: Calc(240px);
+    bottom: 0;
+    width: 25%;
+    height: 50%;
     z-index: 10000;
-    background: #eeeeeeaa;
     overflow-x: scroll;
 }
 .parsed_knobs {
@@ -381,11 +380,11 @@ svg{
     overflow-x: scroll;
     overflow-y: scroll;
 }
-.seq_container {
+/*.seq_container {
     width: 100%;
     margin-left: 10%;
     margin-top: 40px;
-}
+}*/
 .seq_button {
     background: #2a2a2a;
     float: left;

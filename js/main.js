@@ -286,11 +286,13 @@ $(document).ready(function() {
         var string = $(".editor").val();
         parseOrc(string);
         socket.emit("orc", string)
-    })
+    });
+
     $(".up").click(function() {
         $(".floating_keyboard").fadeToggle();
         $(this).toggleClass("rotate");
     });
+
     $(".SocketField").on("keypress", function(e) {
         if (e.which == 13) {
             console.log($(this).val());
@@ -311,20 +313,21 @@ $(document).ready(function() {
             socket.emit("request_orc")
         }
     });
-    $(".item").click(function(){
-            sectionNumber = parseInt($(this).attr("data-section-number"))
-            temp_sec_val = split_orcs[sectionNumber]
-            controlling_item = sectionNumber
-            $(".content_instr_details").html(content_arr[sectionNumber])
-            $(this).children(".sector").css("fill", color_arr_orig[ins_num])
-            $(this).css("color","white")
-            $(this).css("stroke","white")
-            socket.emit("control_disable", me.id + " ::: " + sectionNumber);
-            if (sectionNumber == 5) {
-                parseOrc(temp_sec_val, "seq_button");
-            } else {
-                parseOrc(temp_sec_val, "default");
-            }
+
+    $(".item").click(function() {
+        sectionNumber = parseInt($(this).attr("data-section-number"))
+        temp_sec_val = split_orcs[sectionNumber]
+        controlling_item = sectionNumber
+        $(".content_instr_details").html(content_arr[sectionNumber])
+        $(this).children(".sector").css("fill", color_arr_orig[ins_num])
+        $(this).css("color", "white")
+        $(this).css("stroke", "white")
+        socket.emit("control_disable", me.id + " ::: " + sectionNumber);
+        if (sectionNumber == 5) {
+            parseOrc(temp_sec_val, "seq_button");
+        } else {
+            parseOrc(temp_sec_val, "default");
+        }
 
     });
     var clicked = 0;
@@ -348,4 +351,122 @@ $(document).ready(function() {
         }
 
     });
+    $(document).keydown(function(e) {
+        console.log(e.keyCode);
+        var code = e.keyCode;
+        switch (code) {
+            case 65: // a
+                midi_byte = [(controlling_item + 143), 60, 127]
+                socket.emit("MIDImessage", midi_byte)
+                return false;
+            case 87: // w
+                midi_byte = [(controlling_item + 143), 61, 127]
+                socket.emit("MIDImessage", midi_byte)
+                return false;
+            case 83: // s
+                midi_byte = [(controlling_item + 143), 62, 127]
+                socket.emit("MIDImessage", midi_byte)
+                return false;
+            case 69: // e
+                midi_byte = [(controlling_item + 143), 63, 127]
+                socket.emit("MIDImessage", midi_byte)
+                return false;
+            case 68: // d
+                midi_byte = [(controlling_item + 143), 64, 127]
+                socket.emit("MIDImessage", midi_byte)
+                return false;
+            case 70: // f
+                midi_byte = [(controlling_item + 143), 65, 127]
+                socket.emit("MIDImessage", midi_byte)
+                return false;
+            case 84:
+                midi_byte = [(controlling_item + 143), 66, 127]
+                socket.emit("MIDImessage", midi_byte)
+                return false;
+            case 71:
+                midi_byte = [(controlling_item + 143), 67, 127]
+                socket.emit("MIDImessage", midi_byte)
+                return false;
+            case 89:
+                midi_byte = [(controlling_item + 143), 68, 127]
+                socket.emit("MIDImessage", midi_byte)
+                return false;
+            case 72:
+                midi_byte = [(controlling_item + 143), 69, 127]
+                socket.emit("MIDImessage", midi_byte)
+                return false;
+            case 85:
+                midi_byte = [(controlling_item + 143), 70, 127]
+                socket.emit("MIDImessage", midi_byte)
+                return false;
+            case 74:
+                midi_byte = [(controlling_item + 143), 71, 127]
+                socket.emit("MIDImessage", midi_byte)
+                return false;
+            case 75:
+                midi_byte = [(controlling_item + 143), 72, 127]
+                socket.emit("MIDImessage", midi_byte)
+                return false;
+
+        }
+    });
+    $(document).keyup(function(e){
+        console.log(e.keyCode);
+        var code = e.keyCode;
+        switch (code) {
+            case 65: // a
+                midi_byte = [(controlling_item + 127), 60, 127]
+                socket.emit("MIDImessage", midi_byte)
+                return false;
+            case 87: // w
+                midi_byte = [(controlling_item + 127), 61, 127]
+                socket.emit("MIDImessage", midi_byte)
+                return false;
+            case 83: // s
+                midi_byte = [(controlling_item + 127), 62, 127]
+                socket.emit("MIDImessage", midi_byte)
+                return false;
+            case 69: // e
+                midi_byte = [(controlling_item + 127), 63, 127]
+                socket.emit("MIDImessage", midi_byte)
+                return false;
+            case 68: // d
+                midi_byte = [(controlling_item + 127), 64, 127]
+                socket.emit("MIDImessage", midi_byte)
+                return false;
+            case 70: // f
+                midi_byte = [(controlling_item + 127), 65, 127]
+                socket.emit("MIDImessage", midi_byte)
+                return false;
+            case 84:
+                midi_byte = [(controlling_item + 127), 66, 127]
+                socket.emit("MIDImessage", midi_byte)
+                return false;
+            case 71:
+                midi_byte = [(controlling_item + 127), 67, 127]
+                socket.emit("MIDImessage", midi_byte)
+                return false;
+            case 89:
+                midi_byte = [(controlling_item + 127), 68, 127]
+                socket.emit("MIDImessage", midi_byte)
+                return false;
+            case 72:
+                midi_byte = [(controlling_item + 127), 69, 127]
+                socket.emit("MIDImessage", midi_byte)
+                return false;
+            case 85:
+                midi_byte = [(controlling_item + 127), 70, 127]
+                socket.emit("MIDImessage", midi_byte)
+                return false;
+            case 74:
+                midi_byte = [(controlling_item + 127), 71, 127]
+                socket.emit("MIDImessage", midi_byte)
+                return false;
+            case 75:
+                midi_byte = [(controlling_item + 127), 72, 127]
+                socket.emit("MIDImessage", midi_byte)
+                return false;
+
+        }
+    })
 });
