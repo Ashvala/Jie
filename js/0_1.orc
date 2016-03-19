@@ -13,6 +13,7 @@ massign 3, 3
 massign 4, 4
 massign 5, 5
 
+
 ; global assignments.
 garvbL init 0
 garvbR init 0
@@ -20,13 +21,16 @@ garvbR init 0
 gaPercBusL init 0
 gaPercBusR init 0
 
+gaSamplrL init 0
+gaSamplrR init 0
+
 gaoutL init 0
 gaoutR init 0
 
 schedule "revsc", 0, -1
 schedule "globalmix",0, -1
 schedule "percBus", 0, -1
-
+schedule "samplerBus", 0, -1
 ;ftables
 
 gisine = ftgen(1,0,8192,10,1)
@@ -62,6 +66,21 @@ gaoutL += (kmastLev * gaPercBusL)
 gaoutR += (kmastLev * gaPercBusR)
 clear gaPercBusL
 clear gaPercBusR
+endin
+
+instr samplerBus
+denorm gaSamplrL
+denorm gaSamplrR
+koutLev chnget "Sampler-Out-Level"
+koutLev *= 0.001
+gaoutL += (koutLev * gaSamplrL)
+gaoutR += (koutLev * gaSamplrR)
+kSamplerReverb chnget "Sampler-Reverb-Level"
+kSamplerReverb *= 0.001
+garvbL += (gaSamplrL * kSamplerReverb)
+garvbR += (gaSamplrR * kSamplerReverb)
+clear gaSamplrL
+clear gaSamplrR
 endin
 
 ;-------------------------------------------;
@@ -201,5 +220,6 @@ endin
 
 instr sampler
 a1,a2 diskin2 p4, 1
-outs a1 * 0.7, a2 * 0.7
+gaSamplrL += a1
+gaSamplrR += a2
 endin
