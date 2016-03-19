@@ -279,6 +279,19 @@ $(document).ready(function() {
         }
     });
 
+    $(document).on("click", ".sample", function() {
+
+        var uri_str = "./http/assets/samples/" + $(this).attr("data") + ".wav"
+        console.log(uri_str);
+        str_for_ev = 'i \"sampler\" 0 60 \"'+uri_str+"\"";
+        ev_dets = {}
+        ev_dets.from = me
+        ev_dets.event_type = "note_message"
+        ev_dets.event_args = str_for_ev
+        socket.emit('event', ev_dets)
+
+    });
+
     $(".help_button").click(function() {
         $(".obs_screen").fadeToggle(400);
     }); //Help screen.

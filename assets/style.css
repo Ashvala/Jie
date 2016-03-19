@@ -97,14 +97,6 @@ body {
     font-weight: 300;
 }
 .sample {
-    width: 24%;
-    height: 25%;
-    float: left;
-    background: #333;
-    margin-right: 3px;
-    margin-bottom: 3px;
-    color: black;
-    font-family: "Avenir Next";
     -webkit-touch-callout: none;
     -webkit-user-select: none;
     -khtml-user-select: none;
@@ -123,6 +115,62 @@ body {
     color: black;
     margin-left: 40px;
 }
+.samples{
+    position: fixed;
+    right: 0;
+    width: 25%;
+    height: 40%;
+    color: white;
+    top: 32px;
+}
+.section_title{
+    color: black;
+    font-family: Lato;
+    font-size: 1.2em;
+    margin-bottom: 10px;
+    margin-left: 5px;
+}
+
+.sample{
+    width: 30%;
+    height: 30%;
+    float: left;
+    background: #222;
+    border-radius: 10px;
+    margin-right: 10px;
+    margin-bottom: 10px;
+}
+[data="rural"]{
+    text-shadow: 1px 2px 10px black;
+    background: url("http://i.telegraph.co.uk/multimedia/archive/02616/ruralEngland_2616380k.jpg");
+    background-size: cover;
+}
+[data="rain"] {
+    text-shadow: 1px 2px 10px black;
+    background: url("http://images4.alphacoders.com/235/235564.jpg");
+    background-size: cover;
+}
+[data="wind"] {
+    text-shadow: 1px 2px 10px black;
+    background: url("http://www.sturdyforcommonthings.com/wp-content/uploads/2013/03/wind_blowing.jpg");
+    background-size: cover;
+}
+[data="fire"] {
+    text-shadow: 1px 2px 10px black;
+    background: url("http://upload.wikimedia.org/wikipedia/commons/4/41/Fire.JPG");
+    background-size: cover;
+}
+[data="crowd"] {
+    text-shadow: 1px 2px 10px black;
+    background: url("http://www.retiremove.co.uk/wp-content/uploads/2014/06/Crowd11.jpg");
+    background-size: cover
+}
+[data="city"] {
+    text-shadow: 1px 2px 10px black;
+    background: url("https://newevolutiondesigns.com/images/freebies/city-wallpaper-47.jpg");
+    background-size: cover;
+}
+
 .note_name {
     float: left;
     padding-left: 13px;
@@ -132,18 +180,18 @@ body {
 }
 .sample_name {
     text-align: left;
-    font-size: 1.4em;
+    font-size: 1.2em;
+    font-family: Roboto;
     font-weight: 400;
     padding-top: 10px;
-    margin-left: 10px;
+    padding-left: 5px;
+    padding-right: 5px;
 }
 .sample:hover {
     -webkit-filter: brightness(1.0);
     cursor: pointer;
 }
-.samples {
-    margin-top: 100px;
-}
+
 .inactive_dir {
     color: #555;
 }

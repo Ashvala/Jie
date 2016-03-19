@@ -196,3 +196,10 @@ gaPercBusR += (kperclev * a2)
 endin
 
 ;-----------------------------------------;
+
+;Sampler. No one sees this
+
+instr sampler
+a1,a2 diskin2 p4, 1
+outs a1 * 0.7, a2 * 0.7
+endin
