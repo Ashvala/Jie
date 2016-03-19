@@ -13,6 +13,7 @@ massign 3, 3
 massign 4, 4
 massign 5, 5
 
+
 ; global assignments.
 garvbL init 0
 garvbR init 0
@@ -20,14 +21,20 @@ garvbR init 0
 gaPercBusL init 0
 gaPercBusR init 0
 
+gaSamplrL init 0
+gaSamplrR init 0
+
 gaoutL init 0
 gaoutR init 0
 
 schedule "revsc", 0, -1
 schedule "globalmix",0, -1
 schedule "percBus", 0, -1
+schedule "samplerBus", 0, -1
+;ftables
 
 gisine = ftgen(1,0,8192,10,1)
+
 
 instr revsc
 kfblvl init 0.8
@@ -59,6 +66,21 @@ gaoutL += (kmastLev * gaPercBusL)
 gaoutR += (kmastLev * gaPercBusR)
 clear gaPercBusL
 clear gaPercBusR
+endin
+
+instr samplerBus
+denorm gaSamplrL
+denorm gaSamplrR
+koutLev chnget "Sampler-Out-Level"
+koutLev *= 0.001
+gaoutL += (koutLev * gaSamplrL)
+gaoutR += (koutLev * gaSamplrR)
+kSamplerReverb chnget "Sampler-Reverb-Level"
+kSamplerReverb *= 0.001
+garvbL += (gaSamplrL * kSamplerReverb)
+garvbR += (gaSamplrR * kSamplerReverb)
+clear gaSamplrL
+clear gaSamplrR
 endin
 
 ;-------------------------------------------;
@@ -151,23 +173,19 @@ endin
 ; Section 5
 
 instr 4
-kcar chnget "carrier-freq"
-kcar *= 0.001
-kmod chnget "mod-freq"
-kmod *= 0.001
-kndx chnget "index"
-kndx *= 0.001
 icps cpsmidi
-asig = foscil(0.8, icps, kcar, kmod, kndx, 1)
-klev chnget "instrument-4-lev"
+iamp = ampmidi(1)
+kpick = 0.7
+iplk = 0
+idamp = 10
+ifilt = 10000
+axcite oscil 0.3, 1, 1
+apluck wgpluck icps, iamp, kpick, iplk, idamp, ifilt, axcite
+klev chnget "instr-4-level"
 klev *= 0.001
-gaoutR += (klev * asig)
-gaoutL += (klev * asig)
-krlev chnget "reverb_send"
-krlev *= 0.001
-garvbL += (krlev * asig)
-garvbR += (krlev * asig)
+outs apluck * klev, apluck *klev
 endin
+
 ;----------------------------------------;
 
 ;Section 6
@@ -197,3 +215,11 @@ gaPercBusR += (kperclev * a2)
 endin
 
 ;-----------------------------------------;
+
+;Sampler. No one sees this
+
+instr sampler
+a1,a2 diskin2 p4, 1
+gaSamplrL += a1
+gaSamplrR += a2
+endin

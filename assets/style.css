@@ -1,14 +1,13 @@
 /* font imports */
+
 @import url(https://fonts.googleapis.com/css?family=Roboto:400,100,300,500,700,400italic,300italic,100italic,500italic,700italic,900,900italic);
-
 @import url(https://fonts.googleapis.com/css?family=Lato:400,100,100italic,300,300italic,400italic,700,700italic,900,900italic);
-
 * {
     margin: 0;
     padding: 0;
 }
 body {
-    background: white;
+    background: #eee;
     color: black;
     -webkit-touch-callout: none;
     -webkit-user-select: none;
@@ -30,8 +29,6 @@ body {
     width: 100%;
     height: 100%;
 }
-
-
 .topbar {
     background: none;
     width: 100%;
@@ -42,7 +39,7 @@ body {
 }
 .title {
     padding-top: 3px;
-    padding-left: 20px;
+    padding-left: 30px;
     font-size: 1.2em;
     -webkit-touch-callout: none;
     -webkit-user-select: none;
@@ -52,7 +49,6 @@ body {
     user-select: none;
     max-width: 30%;
 }
-
 .send {
     float: right;
     text-align: right;
@@ -73,14 +69,17 @@ body {
     margin-top: 10px;
 }
 .seq_button {
-    width: 10%;
-    height: 14%;
+    width: 120;
+    height: 120;
     float: left;
     background: #333;
-    margin-right: 11%;
-    margin-bottom: 5%;
+    margin-right: 10px;
+    margin-bottom: 10px;
     color: #eee;
-    font-family: "Avenir Next";
+    font-family: "Roboto";
+    padding-left: 5px;
+    padding-top: 5px;
+    padding-right: 5px;
     -webkit-touch-callout: none;
     -webkit-user-select: none;
     -khtml-user-select: none;
@@ -97,14 +96,6 @@ body {
     font-weight: 300;
 }
 .sample {
-    width: 24%;
-    height: 25%;
-    float: left;
-    background: #333;
-    margin-right: 3px;
-    margin-bottom: 3px;
-    color: black;
-    font-family: "Avenir Next";
     -webkit-touch-callout: none;
     -webkit-user-select: none;
     -khtml-user-select: none;
@@ -123,6 +114,60 @@ body {
     color: black;
     margin-left: 40px;
 }
+.samples {
+    position: fixed;
+    right: 0;
+    width: 25%;
+    height: 40%;
+    color: white;
+    top: 32px;
+}
+.section_title {
+    color: black;
+    font-family: Lato;
+    font-size: 1.2em;
+    margin-bottom: 10px;
+    margin-left: 10px;
+}
+.sample {
+    width: 30%;
+    height: 30%;
+    float: left;
+    background: #222;
+    border-radius: 10px;
+    margin-right: 10px;
+    margin-bottom: 10px;
+}
+[data="rural"] {
+    text-shadow: 1px 2px 5px #111;
+    background: url("http://i.telegraph.co.uk/multimedia/archive/02616/ruralEngland_2616380k.jpg");
+    background-size: cover;
+}
+[data="rain"] {
+    text-shadow: 1px 2px 5px #111;
+    background: url("http://images4.alphacoders.com/235/235564.jpg");
+    background-size: cover;
+}
+[data="wind"] {
+    text-shadow: 1px 2px 5px #111;
+    background: url("http://www.sturdyforcommonthings.com/wp-content/uploads/2013/03/wind_blowing.jpg");
+    background-size: cover;
+}
+[data="fire"] {
+    text-shadow: 1px 2px 5px #111;
+    background: url("http://upload.wikimedia.org/wikipedia/commons/4/41/Fire.JPG");
+    background-size: cover;
+}
+[data="crowd"] {
+    text-shadow: 1px 2px 5px #111;
+    background: url("http://www.retiremove.co.uk/wp-content/uploads/2014/06/Crowd11.jpg");
+    background-size: cover
+}
+[data="city"] {
+    text-shadow: 1px 2px 5px #111;
+    background: url("https://newevolutiondesigns.com/images/freebies/city-wallpaper-47.jpg");
+    background-size: cover;
+}
 .note_name {
     float: left;
     padding-left: 13px;
@@ -132,17 +177,41 @@ body {
 }
 .sample_name {
     text-align: left;
-    font-size: 1.4em;
+    font-size: 1.2em;
+    font-family: Roboto;
     font-weight: 400;
     padding-top: 10px;
-    margin-left: 10px;
+    padding-left: 10px;
+    padding-right: 10px;
+}
+.drum_sequences {
+    position: fixed;
+    left: 0;
+    width: 16%;
+    height: 30%;
+    bottom: 0;
+    z-index: 100000;
+    overflow-y: scroll;
+}
+.sequence_button {
+    margin-left: 30px;
+    font-family: "Roboto";
+    width: 90%;
+    height: 10%;
+    padding-top: 10px;
+    padding-left: 0px;
+    color: black;
+    border-bottom: 1px dotted #666;
+    margin-bottom: 1px;
+    margin-top: 1px;
+}
+.sequence_button:hover {
+    background: #ddd;
+    cursor: pointer;
 }
 .sample:hover {
     -webkit-filter: brightness(1.0);
     cursor: pointer;
-}
-.samples {
-    margin-top: 100px;
 }
 .inactive_dir {
     color: #555;
@@ -159,6 +228,77 @@ body {
 }
 .active:hover {
     background: #0CB7DB;
+}
+.looper_creator {
+    position: fixed;
+    top: 40px;
+    left: 20px;
+    width: 70%;
+    height: 50%;
+    font-family: "Roboto";
+    background: #eee;
+}
+.kick_line {
+    width: 100%;
+    height: 25%;
+    border-bottom: 1px dotted #eee;
+    margin-top: 10px;
+}
+.s_box {
+    float: left;
+    width: 6.15%;
+    height: 60%;
+    background: #444;
+    margin-right: 1px;
+}
+.s_box:hover {
+    background: #333;
+    cursor: pointer;
+}
+.active_box_kick {
+    background: #0CA7DB;
+}
+.active_box_snare {
+    background: ivory;
+}
+.active_box_hat {
+    background: orange;
+}
+.tap_tempo_button {
+    border: 1px dotted #444;
+    width: 10%;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    padding-left: 10px;
+    padding-right: 10px;
+    margin-right: 20px;
+    text-align: center;
+    float: left;
+}
+.tap_tempo_button:hover {
+    background: #ddd;
+    cursor: pointer;
+}
+.options {
+    width: 100%;
+    height: 20%;
+    margin-top: 20px;
+    margin-left: 10px;
+}
+.name {
+    color: black;
+    font-size: 1.4em;
+    font-weight: 100;
+    margin-left: 10px;
+    margin-bottom: 10px;
+}
+.tempoField {
+    float: left;
+    padding-top: 10px;
+    padding-left: 10px;
+    padding-bottom: 10px;
+    width: 10%;
+    font-size: 1.4em;
 }
 .help_screen {
     width: 97%;
@@ -216,7 +356,7 @@ body {
 }
 .knob_container {
     float: left;
-    margin-right: 5%;
+    margin-right: 10px;
     margin-top: 25px;
     margin-bottom: 25px;
 }
@@ -224,6 +364,8 @@ body {
     text-align: center;
     color: black;
     font-family: "Roboto";
+    width: 120px;
+    overflow: ellipsis;
 }
 .button {
     width: 24%;
@@ -280,19 +422,19 @@ body {
     bottom: 20px;
     font-family: "AvenirNext-Medium";
     line-height: 1.5em;
+    display: none;
 }
 .editor:focus {
     outline: none;
 }
-.mini_bar{
+.mini_bar {
     position: fixed;
     bottom: 272px;
-    height:12px;
+    height: 12px;
     width: 100%;
     background: none;
-
 }
-.mini_performer_space{
+.mini_performer_space {
     height: 100%;
     width: Calc(99.5%/6);
     float: left;
@@ -301,16 +443,11 @@ body {
     position: fixed;
     display: none;
     right: 0;
-    bottom: 32px;
-    width: 100%;
-    height: Calc(240px);
+    bottom: 0;
+    width: 25%;
+    height: 50%;
     z-index: 10000;
-    background: rgba(255,255,255,0.8);
-    border-top: 1px dotted #666;
     overflow-x: scroll;
-}
-.parsed_knobs {
-    margin-left: 40px;
 }
 #csound_module {
     width: 0;
@@ -339,11 +476,18 @@ body {
     margin-top: 20px;
 }
 .instruments_container {
-    width: 9%;
+    position: fixed;
+    bottom: -35%;
+    height: 70%;
+    width: 100%;
     margin-top: 20px;
     margin-left: 20px;
     color: black;
-    display: none;
+    display: block;
+}
+svg {
+    width: 100%;
+    height: 100%;
 }
 .instrument_button {
     float: left;
@@ -375,22 +519,6 @@ body {
     overflow-x: scroll;
     overflow-y: scroll;
 }
-.seq_container {
-    width: 100%;
-    margin-left: 10%;
-    margin-top: 40px;
-}
-.seq_button {
-    background: #2a2a2a;
-    float: left;
-    width: 120;
-    height: 120;
-    margin-left: 10px;
-    margin-right: 40px;
-    padding-left: 10px;
-    padding-top: 10px;
-    padding-bottom: 10px;
-}
 .keyboard_float {
     clear: both;
     padding: 0 7% 0;
@@ -419,13 +547,7 @@ body {
     font-weight: 100;
     font-size: 1.2em;
 }
-.options {
-    margin-top: 20px;
-    margin-bottom: 20px;
-    margin-left: 40px;
-    color: black;
-    font-family: "Lato";
-}
+
 .option {
     background: #444;
     display: inline-block;
@@ -439,7 +561,7 @@ body {
     margin-left: 20px;
 }
 .SocketField {
-    width: 78%;
+    width: 30%;
     height: 60px;
     background: none;
     border-top: none;
@@ -554,9 +676,8 @@ body {
     line-height: 1.2em;
     color: white;
 }
-
-.my_color{
-    position:fixed;
+.my_color {
+    position: fixed;
     background-color: #333;
     width: 20px;
     height: 20px;
@@ -564,85 +685,4 @@ body {
     border: 1px dotted #aaa;
     right: 10;
     bottom: 4px;
-
-}
-@media only screen and (min-device-width: 375px) and (max-device-width: 667px) {
-    .button {
-        width: 20%;
-        height: 21%;
-        font-size: 0.9em;
-    }
-    body {
-        background: #111;
-    }
-    .bottom_bar {
-        display: block;
-        z-index: 10002;
-    }
-    .screen_title {
-        display: none;
-    }
-    .topbar {
-        background: none;
-        border: none;
-        height: 8%;
-    }
-    .title {
-        max-width: 60%;
-        font-size: 1.2em;
-        display: inline-block;
-        text-align: center;
-        clear: both;
-        font-weight: light;
-        font-family: "Avenir Next";
-    }
-    .send {
-        margin-top: 10px;
-    }
-    .action_container {
-        margin-top: 30px;
-        display: none;
-    }
-    .knobs_container {
-        display: block;
-    }
-    .knob_name {
-        font-weight: light;
-        font-family: "Avenir Next";
-    }
-    .keyboard {
-        width: 100%;
-        height: 55%;
-        position: absolute;
-        left: 0%;
-        top: 30%;
-    }
-    .key .white_key {
-        background: white;
-        width: 33px;
-        height: 100%;
-        float: left;
-        border: 1px solid grey;
-    }
-    .dir-left {
-        z-index: 400;
-    }
-    .dir-right {
-        z-index: 400;
-    }
-    .note_name {
-        font-size: 1.0em;
-        padding-left: 4px;
-    }
-    .parsed_elements_container {
-        position: absolute;
-        width: 100%;
-        right: 10px;
-        height: 100%;
-        top: 100%;
-        display: block;
-    }
-    .up {
-        display: block;
-    }
 }
