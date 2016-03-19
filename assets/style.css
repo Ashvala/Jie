@@ -1,8 +1,7 @@
 /* font imports */
+
 @import url(https://fonts.googleapis.com/css?family=Roboto:400,100,300,500,700,400italic,300italic,100italic,500italic,700italic,900,900italic);
-
 @import url(https://fonts.googleapis.com/css?family=Lato:400,100,100italic,300,300italic,400italic,700,700italic,900,900italic);
-
 * {
     margin: 0;
     padding: 0;
@@ -30,8 +29,6 @@ body {
     width: 100%;
     height: 100%;
 }
-
-
 .topbar {
     background: none;
     width: 100%;
@@ -42,7 +39,7 @@ body {
 }
 .title {
     padding-top: 3px;
-    padding-left: 20px;
+    padding-left: 30px;
     font-size: 1.2em;
     -webkit-touch-callout: none;
     -webkit-user-select: none;
@@ -52,7 +49,6 @@ body {
     user-select: none;
     max-width: 30%;
 }
-
 .send {
     float: right;
     text-align: right;
@@ -118,7 +114,7 @@ body {
     color: black;
     margin-left: 40px;
 }
-.samples{
+.samples {
     position: fixed;
     right: 0;
     width: 25%;
@@ -126,15 +122,14 @@ body {
     color: white;
     top: 32px;
 }
-.section_title{
+.section_title {
     color: black;
     font-family: Lato;
     font-size: 1.2em;
     margin-bottom: 10px;
-    margin-left: 5px;
+    margin-left: 10px;
 }
-
-.sample{
+.sample {
     width: 30%;
     height: 30%;
     float: left;
@@ -143,7 +138,7 @@ body {
     margin-right: 10px;
     margin-bottom: 10px;
 }
-[data="rural"]{
+[data="rural"] {
     text-shadow: 1px 2px 5px #111;
     background: url("http://i.telegraph.co.uk/multimedia/archive/02616/ruralEngland_2616380k.jpg");
     background-size: cover;
@@ -173,7 +168,6 @@ body {
     background: url("https://newevolutiondesigns.com/images/freebies/city-wallpaper-47.jpg");
     background-size: cover;
 }
-
 .note_name {
     float: left;
     padding-left: 13px;
@@ -190,37 +184,35 @@ body {
     padding-left: 10px;
     padding-right: 10px;
 }
-.drum_sequences{
+.drum_sequences {
     position: fixed;
     left: 0;
     width: 16%;
-    height: 50%;
+    height: 30%;
     bottom: 0;
     z-index: 100000;
     overflow-y: scroll;
 }
-
-.sequence_button{
-    margin-left: 10px;
-    background: #333;
+.sequence_button {
+    margin-left: 30px;
     font-family: "Roboto";
     width: 90%;
-    height: 8%;
+    height: 10%;
     padding-top: 10px;
-    padding-left: 10px;
-    color: white;
+    padding-left: 0px;
+    color: black;
     border-bottom: 1px dotted #666;
+    margin-bottom: 1px;
+    margin-top: 1px;
 }
-.sequence_button:hover{
-    background: #555;
+.sequence_button:hover {
+    background: #ddd;
     cursor: pointer;
 }
-
 .sample:hover {
     -webkit-filter: brightness(1.0);
     cursor: pointer;
 }
-
 .inactive_dir {
     color: #555;
 }
@@ -236,6 +228,77 @@ body {
 }
 .active:hover {
     background: #0CB7DB;
+}
+.looper_creator {
+    position: fixed;
+    top: 40px;
+    left: 20px;
+    width: 70%;
+    height: 50%;
+    font-family: "Roboto";
+    background: #eee;
+}
+.kick_line {
+    width: 100%;
+    height: 25%;
+    border-bottom: 1px dotted #eee;
+    margin-top: 10px;
+}
+.s_box {
+    float: left;
+    width: 6.15%;
+    height: 60%;
+    background: #444;
+    margin-right: 1px;
+}
+.s_box:hover {
+    background: #333;
+    cursor: pointer;
+}
+.active_box_kick {
+    background: #0CA7DB;
+}
+.active_box_snare {
+    background: ivory;
+}
+.active_box_hat {
+    background: orange;
+}
+.tap_tempo_button {
+    border: 1px dotted #444;
+    width: 10%;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    padding-left: 10px;
+    padding-right: 10px;
+    margin-right: 20px;
+    text-align: center;
+    float: left;
+}
+.tap_tempo_button:hover {
+    background: #ddd;
+    cursor: pointer;
+}
+.options {
+    width: 100%;
+    height: 20%;
+    margin-top: 20px;
+    margin-left: 10px;
+}
+.name {
+    color: black;
+    font-size: 1.4em;
+    font-weight: 100;
+    margin-left: 10px;
+    margin-bottom: 10px;
+}
+.tempoField {
+    float: left;
+    padding-top: 10px;
+    padding-left: 10px;
+    padding-bottom: 10px;
+    width: 10%;
+    font-size: 1.4em;
 }
 .help_screen {
     width: 97%;
@@ -364,15 +427,14 @@ body {
 .editor:focus {
     outline: none;
 }
-.mini_bar{
+.mini_bar {
     position: fixed;
     bottom: 272px;
-    height:12px;
+    height: 12px;
     width: 100%;
     background: none;
-
 }
-.mini_performer_space{
+.mini_performer_space {
     height: 100%;
     width: Calc(99.5%/6);
     float: left;
@@ -387,7 +449,6 @@ body {
     z-index: 10000;
     overflow-x: scroll;
 }
-
 #csound_module {
     width: 0;
 }
@@ -424,7 +485,7 @@ body {
     color: black;
     display: block;
 }
-svg{
+svg {
     width: 100%;
     height: 100%;
 }
@@ -458,12 +519,6 @@ svg{
     overflow-x: scroll;
     overflow-y: scroll;
 }
-/*.seq_container {
-    width: 100%;
-    margin-left: 10%;
-    margin-top: 40px;
-}*/
-
 .keyboard_float {
     clear: both;
     padding: 0 7% 0;
@@ -492,13 +547,7 @@ svg{
     font-weight: 100;
     font-size: 1.2em;
 }
-.options {
-    margin-top: 20px;
-    margin-bottom: 20px;
-    margin-left: 40px;
-    color: black;
-    font-family: "Lato";
-}
+
 .option {
     background: #444;
     display: inline-block;
@@ -627,9 +676,8 @@ svg{
     line-height: 1.2em;
     color: white;
 }
-
-.my_color{
-    position:fixed;
+.my_color {
+    position: fixed;
     background-color: #333;
     width: 20px;
     height: 20px;
@@ -637,5 +685,4 @@ svg{
     border: 1px dotted #aaa;
     right: 10;
     bottom: 4px;
-
 }
