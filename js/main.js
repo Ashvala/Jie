@@ -273,6 +273,8 @@ $(document).ready(function() {
             socket.emit("control_disable", me.id + " ::: " + sectionNumber);
             if (sectionNumber == 5) {
                 parseOrc(temp_sec_val, "seq_button");
+
+                $(".looper_creator").show();
             } else {
                 parseOrc(temp_sec_val, "default");
             }
@@ -340,7 +342,9 @@ $(document).ready(function() {
         $(this).css("stroke", "white")
         socket.emit("control_disable", me.id + " ::: " + sectionNumber);
         if (sectionNumber == 5) {
-            parseOrc(temp_sec_val, "seq_button");
+            parseOrc(temp_sec_val, "default");
+            console.log("EH?")
+            $(".looper_creator").fadeIn("fast");
         } else {
             parseOrc(temp_sec_val, "default");
         }

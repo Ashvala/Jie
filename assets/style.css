@@ -120,7 +120,7 @@ body {
     width: 25%;
     height: 40%;
     color: white;
-    top: 32px;
+    top: 40px;
 }
 .section_title {
     color: black;
@@ -139,32 +139,48 @@ body {
     margin-bottom: 10px;
 }
 [data="rural"] {
-    text-shadow: 1px 2px 5px #111;
+    /*text-shadow: 1px 2px 5px #111;*/
     background: url("http://i.telegraph.co.uk/multimedia/archive/02616/ruralEngland_2616380k.jpg");
     background-size: cover;
 }
 [data="rain"] {
-    text-shadow: 1px 2px 5px #111;
+    /*text-shadow: 1px 2px 5px #111;*/
     background: url("http://images4.alphacoders.com/235/235564.jpg");
     background-size: cover;
 }
 [data="wind"] {
-    text-shadow: 1px 2px 5px #111;
+    /*text-shadow: 1px 2px 5px #111;*/
     background: url("http://www.sturdyforcommonthings.com/wp-content/uploads/2013/03/wind_blowing.jpg");
     background-size: cover;
 }
 [data="fire"] {
-    text-shadow: 1px 2px 5px #111;
+    /*text-shadow: 1px 2px 5px #111;*/
     background: url("http://upload.wikimedia.org/wikipedia/commons/4/41/Fire.JPG");
     background-size: cover;
 }
 [data="crowd"] {
-    text-shadow: 1px 2px 5px #111;
+    /*text-shadow: 1px 2px 5px #111;*/
     background: url("http://www.retiremove.co.uk/wp-content/uploads/2014/06/Crowd11.jpg");
     background-size: cover
 }
+[data="subway"] {
+    /*text-shadow: 1px 2px 5px #111;*/
+    background: url("http://preview.turbosquid.com/Preview/2014/05/20__02_30_20/Subway_Station_V2_000.jpg762b0e1007f7457db37e9885f767ee44Original.jpge246cd26-a2cb-48d9-8865-f45bc7ec2b15Original.jpg");
+    background-size: cover
+}
+[data="airport"] {
+    /*text-shadow: 1px 2px 5px #111;*/
+    background: url("http://weknowyourdreamz.com/images/airport/airport-03.jpg");
+    background-size: cover
+}
+[data="bar"] {
+    /*text-shadow: 1px 2px 5px #111;*/
+    background: url("http://www.thompsonhotels.com/content/uploads/2014/11/LP_Bar-1200x667.jpg");
+    background-size: cover
+}
+
 [data="city"] {
-    text-shadow: 1px 2px 5px #111;
+    /*text-shadow: 1px 2px 5px #111;*/
     background: url("https://newevolutiondesigns.com/images/freebies/city-wallpaper-47.jpg");
     background-size: cover;
 }
@@ -188,7 +204,7 @@ body {
     position: fixed;
     left: 0;
     width: 16%;
-    height: 30%;
+    height: 40%;
     bottom: 0;
     z-index: 100000;
     overflow-y: scroll;
@@ -237,6 +253,7 @@ body {
     height: 50%;
     font-family: "Roboto";
     background: #eee;
+    display: none;
 }
 .kick_line {
     width: 100%;
@@ -445,7 +462,7 @@ body {
     right: 0;
     bottom: 0;
     width: 25%;
-    height: 50%;
+    height: 40%;
     z-index: 10000;
     overflow-x: scroll;
 }
@@ -642,6 +659,7 @@ svg {
     font-weight: 1em;
     font-weight: italic;
 }
+
 .performer_event {
     margin-left: 20px;
     margin-bottom: 10px;
