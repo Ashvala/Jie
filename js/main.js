@@ -146,6 +146,12 @@ function parseOrc(str, job) {
 
 }
 
+generate_lane_for_name = function(name){
+    for(var i = 0; i < 16; i++){
+        div_str = "<div class='s_box' data-beat='" + (i+1) + "' data-instr=" + name + "></div>"
+        $("[data-lane=" + name + "]").append(div_str)
+    }
+}
 
 generator = function(type){
     var options = $(".options")
@@ -154,27 +160,15 @@ generator = function(type){
         /** Generate kicks */
         $(".looper_creator").append("<div class='kick_line' data-lane='kick'>")
         $("[data-lane=kick]").append("<div class='name'> Kick </div>")
-        for(var i = 0; i < 16; i++){
-            div_str = "<div class='s_box' data-beat='" + (i+1) + "' data-instr='kick'></div>"
-            console.log(div_str);
-            $("[data-lane=kick]").append(div_str)
-        }
+        generate_lane_for_name("kick")
         /** Generate Snare */
         $(".looper_creator").append("<div class='kick_line' data-lane='snare'>")
         $("[data-lane=snare]").append("<div class='name'> Snare </div>")
-        for(var i = 0; i < 16; i++){
-            div_str = "<div class='s_box' data-beat='" + (i+1) + "' data-instr='snare'></div>"
-            console.log(div_str);
-            $("[data-lane=snare]").append(div_str)
-        }
+        generate_lane_for_name("snare")
         /** Generate Hat */
         $(".looper_creator").append("<div class='kick_line' data-lane='hat'>")
         $("[data-lane=hat]").append("<div class='name'> Hat </div>")
-        for(var i = 0; i < 16; i++){
-            div_str = "<div class='s_box' data-beat='" + (i+1) + "' data-instr='hat'></div>"
-            console.log(div_str);
-            $("[data-lane=hat]").append(div_str)
-        }
+        generate_lane_for_name("hat")
         $(".looper_creator").append(options);
     }
 }
@@ -346,6 +340,19 @@ $(document).ready(function() {
         $(".floating_keyboard").fadeToggle();
         $(this).toggleClass("rotate");
     });
+
+    $(document).on("click",".s_box",  function(){
+        if($(this).attr("data-instr") == "kick"){
+            $(this).toggleClass("active_box_kick");
+        }
+        if($(this).attr("data-instr") == "snare"){
+            $(this).toggleClass("active_box_snare");
+        }
+        if($(this).attr("data-instr") == "hat"){
+            $(this).toggleClass("active_box_hat");
+        }
+    });
+
 
     $(".SocketField").on("keypress", function(e) {
 
