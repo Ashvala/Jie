@@ -145,7 +145,45 @@ function parseOrc(str, job) {
     }
 
 }
+
+
+generator = function(type){
+    var options = $(".options")
+    if(type == "drums"){
+        $(".looper_creator").html(" ")
+        /** Generate kicks */
+        $(".looper_creator").append("<div class='kick_line' data-lane='kick'>")
+        $("[data-lane=kick]").append("<div class='name'> Kick </div>")
+        for(var i = 0; i < 16; i++){
+            div_str = "<div class='s_box' data-beat='" + (i+1) + "' data-instr='kick'></div>"
+            console.log(div_str);
+            $("[data-lane=kick]").append(div_str)
+        }
+        /** Generate Snare */
+        $(".looper_creator").append("<div class='kick_line' data-lane='snare'>")
+        $("[data-lane=snare]").append("<div class='name'> Snare </div>")
+        for(var i = 0; i < 16; i++){
+            div_str = "<div class='s_box' data-beat='" + (i+1) + "' data-instr='snare'></div>"
+            console.log(div_str);
+            $("[data-lane=snare]").append(div_str)
+        }
+        /** Generate Hat */
+        $(".looper_creator").append("<div class='kick_line' data-lane='hat'>")
+        $("[data-lane=hat]").append("<div class='name'> Hat </div>")
+        for(var i = 0; i < 16; i++){
+            div_str = "<div class='s_box' data-beat='" + (i+1) + "' data-instr='hat'></div>"
+            console.log(div_str);
+            $("[data-lane=hat]").append(div_str)
+        }
+        $(".looper_creator").append(options);
+    }
+}
+
+generator("drums")
+
 $(document).ready(function() {
+    /*** Generate! **/
+    generator("drums");
     /*** Work on WebMidi things here: */
 
     WebMidi.enable(onSuccess, onFailure);
