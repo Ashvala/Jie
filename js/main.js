@@ -241,23 +241,35 @@ $(document).ready(function() {
             scale: 1.0
         });
     }); //Button hover 2
-    $(".key").click(function() {
-        var final_mesg;
+    // $(".key").click(function() {
+    //     var final_mesg;
+    //     console.log($(this).attr("data"));
+    //     console.log(total_instrs);
+    //     if ($(".instrnum").val() <= total_instrs) {
+    //         console.log("sendable");
+    //         console.log($(".time").val());
+    //     }
+    //     final_mesg = "i " + $(".instrnum").val() + " 0 " + $(".time").val() + " " + $(this).attr("data");
+    //     console.log(final_mesg);
+    //     var ev_dets = {}
+    //     ev_dets.from = me
+    //     ev_dets.event_type = "note_message"
+    //     ev_dets.event_args = final_mesg
+    //     socket.emit('event', ev_dets);
+    //     //    socket.emit("sco", final_mesg)
+    // }); //Pressing the button
+    $(".key")
+    .mousedown(function(){
         console.log($(this).attr("data"));
-        console.log(total_instrs);
-        if ($(".instrnum").val() <= total_instrs) {
-            console.log("sendable");
-            console.log($(".time").val());
-        }
-        final_mesg = "i " + $(".instrnum").val() + " 0 " + $(".time").val() + " " + $(this).attr("data");
-        console.log(final_mesg);
-        var ev_dets = {}
-        ev_dets.from = me
-        ev_dets.event_type = "note_message"
-        ev_dets.event_args = final_mesg
-        socket.emit('event', ev_dets);
-        //    socket.emit("sco", final_mesg)
-    }); //Pressing the button
+        midi_byte = [(controlling_item + 143), parseInt($(this).attr("data")), 70]
+        socket.emit("MIDImessage", midi_byte)
+
+    })
+    .mouseup(function(){
+        console.log($(this).attr("data"));
+        midi_byte = [(controlling_item + 127), parseInt($(this).attr("data")), 70]
+        socket.emit("MIDImessage", midi_byte)
+    });
 
     $(".button").click(function() {
         $(this).transition({
@@ -391,6 +403,8 @@ $(document).ready(function() {
             console.log("EH?")
             $(".looper_creator").fadeIn("fast");
         } else {
+            $(".looper_creator").fadeOut("fast");
+            $(".floating_keyboard").fadeIn("fast");
             parseOrc(temp_sec_val, "default");
         }
 
@@ -417,7 +431,6 @@ $(document).ready(function() {
 
     });
     $(document).keydown(function(e) {
-        console.log(e.keyCode);
         var code = e.keyCode;
         if (field_visible == false){
         switch (code) {
@@ -478,7 +491,6 @@ $(document).ready(function() {
     }
     });
     $(document).keyup(function(e){
-        console.log(e.keyCode);
         var code = e.keyCode;
         if (field_visible == false){
 

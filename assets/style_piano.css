@@ -21,35 +21,34 @@
 }
 
 .keys_container{
-
-	width: 86.17%;
 	height: 90%;
-	margin-left: 47px;
 	overflow: hidden;
 }
-
+.key{
+    margin: 0px auto;
+    text-align: center;
+}
 .keys{
 	overflow: hidden;
 }
 
-.key{
-
-}
 
 .keys .black_key{
       background: black;
       width: 20px;
-      height: 47%;
+      height: 35%;
       margin-left: -11px;
       position: absolute;
       display: inline-block;
+      color: white;
 }
 .keys .white_key{
 	background: white;
 	width: 40px;
-	height: 100%;
+	height: 80%;
 	float: left;
-        border: 1px solid grey;
+    border: 1px solid grey;
+    color: black;
 }
 
 .black_key:hover{
@@ -58,13 +57,4 @@
 
 .white_key:hover{
 	background: #ddd;
-}
-.footer{
-	position: absolute;
-	bottom: 0px;
-	width: 100%;
-	height: 30px;
-	background: #333;
-	font-family: "Avenir-Light";
-	color: white;
 }

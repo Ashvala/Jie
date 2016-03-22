@@ -19,11 +19,13 @@ body {
 .floating_keyboard {
     display: none;
     position: fixed;
-    height: 30%;
-    bottom: 32px;
-    z-index: 10001;
-    width: 100%;
-    left: 0;
+    top: 40px;
+    left: 20px;
+    width: 70%;
+    height: 50%;
+    font-family: "Roboto";
+    background: #eee;
+
 }
 .content {
     width: 100%;
@@ -130,6 +132,7 @@ body {
     margin-left: 10px;
 }
 .sample {
+    transition: all 0.3s linear;
     width: 30%;
     height: 30%;
     float: left;
@@ -139,48 +142,48 @@ body {
     margin-bottom: 10px;
 }
 [data="rural"] {
-    /*text-shadow: 1px 2px 5px #111;*/
+    text-shadow: 1px 2px 5px #111;
     background: url("http://i.telegraph.co.uk/multimedia/archive/02616/ruralEngland_2616380k.jpg");
     background-size: cover;
 }
 [data="rain"] {
-    /*text-shadow: 1px 2px 5px #111;*/
+    text-shadow: 1px 2px 5px #111;
     background: url("http://images4.alphacoders.com/235/235564.jpg");
     background-size: cover;
 }
 [data="wind"] {
-    /*text-shadow: 1px 2px 5px #111;*/
+    text-shadow: 1px 2px 5px #111;
     background: url("http://www.sturdyforcommonthings.com/wp-content/uploads/2013/03/wind_blowing.jpg");
     background-size: cover;
 }
 [data="fire"] {
-    /*text-shadow: 1px 2px 5px #111;*/
+    text-shadow: 1px 2px 5px #111;
     background: url("http://upload.wikimedia.org/wikipedia/commons/4/41/Fire.JPG");
     background-size: cover;
 }
 [data="crowd"] {
-    /*text-shadow: 1px 2px 5px #111;*/
+    text-shadow: 1px 2px 5px #111;
     background: url("http://www.retiremove.co.uk/wp-content/uploads/2014/06/Crowd11.jpg");
     background-size: cover
 }
 [data="subway"] {
-    /*text-shadow: 1px 2px 5px #111;*/
+    text-shadow: 1px 2px 5px #111;
     background: url("http://preview.turbosquid.com/Preview/2014/05/20__02_30_20/Subway_Station_V2_000.jpg762b0e1007f7457db37e9885f767ee44Original.jpge246cd26-a2cb-48d9-8865-f45bc7ec2b15Original.jpg");
     background-size: cover
 }
 [data="airport"] {
-    /*text-shadow: 1px 2px 5px #111;*/
-    background: url("http://weknowyourdreamz.com/images/airport/airport-03.jpg");
+    text-shadow: 1px 2px 5px #111;
+    background: url("https://upload.wikimedia.org/wikipedia/commons/7/79/Mumbai_Airport.jpg");
     background-size: cover
 }
 [data="bar"] {
-    /*text-shadow: 1px 2px 5px #111;*/
+    text-shadow: 1px 2px 5px #111;
     background: url("http://www.thompsonhotels.com/content/uploads/2014/11/LP_Bar-1200x667.jpg");
     background-size: cover
 }
 
 [data="city"] {
-    /*text-shadow: 1px 2px 5px #111;*/
+    text-shadow: 1px 2px 5px #111;
     background: url("https://newevolutiondesigns.com/images/freebies/city-wallpaper-47.jpg");
     background-size: cover;
 }
@@ -262,7 +265,7 @@ body {
     margin-top: 10px;
 }
 .s_box {
-    transition: all 0.1s linear;
+    transition: all 0.3s linear;
     float: left;
     width: 6.15%;
     height: 60%;
@@ -284,7 +287,7 @@ body {
 }
 
 .active_box_kick {
-    transition: all 0.1s linear;
+    transition: all 0.3s linear;
     background: #0CA7DB;
 }
 .active_box_snare {
@@ -296,6 +299,7 @@ body {
     background: orange;
 }
 .options_button {
+    transition: all 0.3s linear;
     border: 1px dotted #444;
     width: 10%;
     padding-top: 10px;
@@ -552,9 +556,9 @@ svg {
 }
 .keyboard_float {
     clear: both;
-    padding: 0 7% 0;
-    height: 82%;
+    height: 80%;
     width: 100%;
+
 }
 .param_container {
     float: left;
@@ -563,6 +567,7 @@ svg {
     margin-right: 40px;
     font-family: Menlo;
     color: black;
+    display: none;
 }
 .param_container input {
     background: #333;

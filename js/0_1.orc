@@ -143,7 +143,7 @@ icps cpsmidi
 
 klforate chnget "lfo-rate" ; LFO
 klforate *= 0.001
-a1 oscili linseg(0,p3/2,0.8,p3/2,0), oscil(1,klforate) * icps
+a1 oscili ampmidi(1), oscil(1,klforate) * icps
 klev chnget "instr-2-level"
 klev *= 0.001
 gaoutL += (klev * a1)
