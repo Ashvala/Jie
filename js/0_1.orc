@@ -49,8 +49,9 @@ endin
 instr globalmix
 denorm gaoutL
 denorm gaoutR
-kmastMult chnget "Output-Level"
-kmastMult *= 0.001
+kmastMult chnget "Output-Level" ;local
+printk2 kmastMult
+kmastMult *= 0.01
 outs (gaoutL * kmastMult), (gaoutR * kmastMult)
 clear gaoutR
 clear gaoutL
@@ -60,8 +61,7 @@ endin
 instr percBus
 denorm gaPercBusL
 denorm gaPercBusR
-kmastLev chnget "Master-Send-2"
-kmastLev *= 0.001
+kmastLev = 1
 gaoutL += (kmastLev * gaPercBusL)
 gaoutR += (kmastLev * gaPercBusR)
 clear gaPercBusL

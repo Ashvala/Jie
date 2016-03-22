@@ -1,60 +1,52 @@
-.keyboard{
+.keyboard {
     width: 80%;
     height: 30%;
     position: absolute;
     left: 12%;
     top: 34%;
 }
-.pkeyboard{
+.pkeyboard {
     width: 80%;
     height: 30%;
     position: absolute;
     left: 12%;
     top: 64%;
 }
-
-
-
-.keys_button_container{
-	margin-top: 10px;
-	margin-left: 47px;
+.keys_button_container {
+    margin-top: 10px;
+    margin-left: 47px;
 }
-
-.keys_container{
-	height: 90%;
-	overflow: hidden;
+.keys_container {
+    height: 90%;
+    overflow: hidden;
 }
-.key{
+.key {
     margin: 0px auto;
     text-align: center;
 }
-.keys{
-	overflow: hidden;
+.keys {
+    overflow: hidden;
 }
-
-
-.keys .black_key{
-      background: black;
-      width: 20px;
-      height: 35%;
-      margin-left: -11px;
-      position: absolute;
-      display: inline-block;
-      color: white;
+.keys .black_key {
+    background: black;
+    width: 20px;
+    height: 35%;
+    margin-left: -11px;
+    position: absolute;
+    display: inline-block;
+    color: white;
 }
-.keys .white_key{
-	background: white;
-	width: 40px;
-	height: 80%;
-	float: left;
+.keys .white_key {
+    background: white;
+    width: 40px;
+    height: 80%;
+    float: left;
     border: 1px solid grey;
     color: black;
 }
-
-.black_key:hover{
-	background: #444;
+.black_key:hover {
+    background: #444;
 }
-
-.white_key:hover{
-	background: #ddd;
+.white_key:hover {
+    background: #ddd;
 }

@@ -114,7 +114,7 @@ io.on('connection', function(socket) {
                 console.log("not sending anything... yet", count_total_csoundable(clients))
             }
         }else{
-	    console.log(msg);
+	        console.log(msg);
             io.emit("event", msg);
         }
     });
@@ -122,7 +122,6 @@ io.on('connection', function(socket) {
     /** MIDI things */
 
     socket.on("MIDImessage", function(msg){
-        console.log("Client Side MIDI!");
         io.emit("MIDImessage",msg);
     })
 
