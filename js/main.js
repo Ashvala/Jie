@@ -176,7 +176,19 @@ generator = function(type) {
     }
 }
 
-generator("drums")
+generate_csound_score = function(instr,arr){
+    curr_time = 0
+    for(beat in arr){
+        //console.log(curr_time)
+        if (arr[beat] == 1){
+//            console.log("Beat found at: ", beat, " And current time is: ", curr_time)
+            csd_str = "i \"" +  instr + "\" " + curr_time + " 0.25"
+            console.log(csd_str)
+        }
+        curr_time += 0.25
+
+    }
+}
 
 $(document).ready(function() {
     /*** Generate! **/
@@ -397,7 +409,18 @@ $(document).ready(function() {
         }
     });
 
+    $(document).on("click", "[data-action=play]", function(){
+        var kick_arr, snare_arr, hat_arr = []
+        // generate kick sequence first:
+        var kick_line = $("[data-lane=kick]")
+        kick_line.children("[data-instr=kick]").each(function(){
+            
+            if($(this).hasClass("active_box_kick")){
 
+                console.log("Found 1! ", $(this).attr("data-beat"))
+            }
+        })
+    });
 
 
     $(document).on("input change", ".slide", function() {

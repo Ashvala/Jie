@@ -118,6 +118,12 @@ io.on('connection', function(socket) {
             }
         }else if (msg.event_type == "control_disable") {
             console.log("Control:: ", msg)
+            client_ind = get_client(msg.from.socket_id)
+            if(client_ind != -1){
+                clients[client_ind].controlling = msg.event_args
+                console.log("At this point, clients are: ",clients);
+                io.emit("client_list", clients)
+            }
 
         }else{
 	        console.log(msg);
