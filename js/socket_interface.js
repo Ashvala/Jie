@@ -34,7 +34,7 @@ var color_arr_orig = ["#e67e22", "#0CA7DB", "#2c3e50", "#e74c3c", "#f1c40f", "#1
 
 var color_arr = ["#afafaf", "#afafaf", "#afafaf", "#afafaf", "#afafaf", "#afafaf"]
 sequence_play = function(event_args) {
-    csonud.ReadScore(event_args);
+    csound.ReadScore(event_args);
 }
 
 glow_animate = function(div_obj){
@@ -100,7 +100,7 @@ parse_event = function(event_obj) {
         //console.log("This is a channel message")
         channel_message(event_obj.event_args)
     } else if (event_obj.event_type == "sequence") {
-        //console.log("Got a sequence");
+        console.log("Got a sequence", event_obj.event_args);
         sequence_play(event_obj.event_args)
     } else if (event_obj.event_type == "add_client_to_ensemble"){
 

@@ -178,16 +178,58 @@ generator = function(type) {
 
 generate_csound_score = function(instr,arr){
     curr_time = 0
+    string = ""
     for(beat in arr){
-        //console.log(curr_time)
         if (arr[beat] == 1){
-//            console.log("Beat found at: ", beat, " And current time is: ", curr_time)
-            csd_str = "i \"" +  instr + "\" " + curr_time + " 0.25"
-            console.log(csd_str)
+            csd_str = "i \"" +  instr + "\" " + curr_time + " 0.25" + "\n"
+            string += csd_str
         }
         curr_time += 0.25
-
     }
+    return(string)
+}
+
+parse_boxes = function(){
+    csd_str = ""
+    // generate kick sequence first:
+    var kick_arr = []
+    line = $("[data-lane=kick]")
+    line.children("[data-instr=kick]").each(function(){
+        if($(this).hasClass("active_box_kick")){
+            kick_arr.push(1)
+        }else{
+            kick_arr.push(0)
+        }
+    })
+    console.log(kick_arr);
+    csd_str += generate_csound_score("kick", kick_arr)
+    // generate snare sequence next:
+    var snare_arr = []
+    line = $("[data-lane=snare]")
+    line.children("[data-instr=snare]").each(function(){
+        if($(this).hasClass("active_box_snare")){
+            snare_arr.push(1)
+        }else{
+            snare_arr.push(0)
+        }
+    })
+    console.log(snare_arr);
+    csd_str += generate_csound_score("snare", snare_arr)
+
+    // generate hat sequence next:
+    var hat_arr = []
+    line = $("[data-lane=hat]")
+    line.children("[data-instr=hat]").each(function(){
+        if($(this).hasClass("active_box_hat")){
+            hat_arr.push(1)
+        }else{
+            hat_arr.push(0)
+        }
+    });
+
+    console.log(hat_arr);
+    csd_str += generate_csound_score("hat",hat_arr)
+    return csd_str
 }
 
 $(document).ready(function() {
@@ -408,18 +450,14 @@ $(document).ready(function() {
             socket.emit("request_orc")
         }
     });
-
     $(document).on("click", "[data-action=play]", function(){
-        var kick_arr, snare_arr, hat_arr = []
-        // generate kick sequence first:
-        var kick_line = $("[data-lane=kick]")
-        kick_line.children("[data-instr=kick]").each(function(){
-            
-            if($(this).hasClass("active_box_kick")){
-
-                console.log("Found 1! ", $(this).attr("data-beat"))
-            }
-        })
+        csd_str = parse_boxes()
+        console.log("total sequence now is: ", csd_str)
+        ev_dets = {}
+        ev_dets.from = me
+        ev_dets.event_type = "sequence"
+        ev_dets.event_args = csd_str
+        socket.emit("event", ev_dets)
     });
 
 
