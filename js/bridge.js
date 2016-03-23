@@ -93,9 +93,13 @@ io.on('connection', function(socket) {
             temp_ins_num = get_client_idArr(socket.id)
             temp_client_val = {}
             temp_client_val.name = msg.event_args.name
-            temp_client_val.role = msg.event_args.role
+            if(clients.length <= 6){
+                temp_client_val.role = "ensemble"
+            }else{
+                socket.emit("disable_all");
+            }
             temp_client_val.socket_id = socket.id
-
+            temp_client_val.controlling = NaN
             clients.push(temp_client_val);
             console.log(clients)
             console.log(get_client(socket.id))
@@ -103,7 +107,6 @@ io.on('connection', function(socket) {
             clients[ind].id = ind
             io.emit("client_add",clients[ind])
             io.to(socket.id).emit("you",clients[ind])
-
             if (count_total_csoundable(clients) == 6){
                 io.emit("serve_choices");
             }
@@ -114,8 +117,8 @@ io.on('connection', function(socket) {
                 console.log("not sending anything... yet", count_total_csoundable(clients))
             }
         }else if (msg.event_type == "control_disable") {
-            
-        }
+            console.log("Control:: ", msg)
+
         }else{
 	        console.log(msg);
             io.emit("event", msg);
@@ -134,30 +137,11 @@ io.on('connection', function(socket) {
         io.to(socket.id).emit('orc', orc_str);
     });
 
-    // if you get a note_message, throw the note_message through. Deprecated soon.
-    socket.on("note_message", function(msg) {
-        io.emit("note_message", msg);
-        //        console.log(msg);
-    });
-
-
-
     socket.on("orc", function(msg) {
         io.emit("orc", msg);
         //        console.log(msg);
     });
 
-    // if you get a note_message, throw the score through. Deprecated soon.
-    socket.on("sco", function(msg) {
-        io.emit("sco", msg);
-        //        console.log(msg);
-    });
-
-    // if you get a note_message, throw the channel through. Deprecated soon.
-    socket.on("chanmsg", function(msg) {
-        io.emit("chanmsg", msg);
-        //        console.log(msg);
-    });
 
     //Handle disconnects like the champ that you are.
 
@@ -180,7 +164,6 @@ io.on('connection', function(socket) {
     // If you click on something, you disable it here.
 
     socket.on("control_disable", function(msg) {
-        console.log(msg);
         io.emit("control_disable", msg)
     });
 

@@ -310,7 +310,35 @@ $(document).ready(function() {
             }
         }
     });
-
+    $(".item").click(function() {
+        var clicked_div = $(this);
+        if ($(this).attr("data-disabled") == "false" && controlling_bool == false) {
+            controlling_bool = true
+            sectionNumber = parseInt($(this).attr("data-section-number"))
+            temp_sec_val = split_orcs[sectionNumber]
+            controlling_item = sectionNumber
+            $(".content_instr_details").html(content_arr[sectionNumber])
+            $(this).children(".sector").css("fill", color_arr_orig[ins_num])
+            $(this).css("color", "white")
+            $(this).css("stroke", "white")
+            ev_args = {}
+            ev_args.from = me
+            ev_args.event_type = "control_disable"
+            ev_args.event_args = sectionNumber;
+            socket.emit("event", ev_args)
+//            socket.emit("control_disable", me.id + " ::: " + sectionNumber);
+            me.controlling = sectionNumber
+            if (sectionNumber == 5) {
+                parseOrc(temp_sec_val, "default");
+                console.log("EH?")
+                $(".looper_creator").fadeIn("fast");
+            } else {
+                $(".looper_creator").fadeOut("fast");
+                $(".floating_keyboard").fadeIn("fast");
+                parseOrc(temp_sec_val, "default");
+            }
+        }
+    });
     $(document).on("click", ".sample", function() {
 
         var uri_str = "./http/assets/samples/" + $(this).attr("data") + ".wav"
@@ -363,41 +391,15 @@ $(document).ready(function() {
             ev_dets.event_type = "add_client"
             ev_args = {}
             ev_args.name = $(this).val()
-            if (temp_ins_num <= 6) {
-                ev_args.role = "ensemble";
-            } else {
-                ev_args.role = "observer";
-            }
             ev_dets.event_args = ev_args
             socket.emit("event", ev_dets)
             socket.emit("request_orc")
         }
     });
 
-    $(".item").click(function() {
-        var clicked_div = $(this);
-        if ($(this).attr("data-disabled") == "false" && controlling_bool == false) {
-        controlling_bool = true
-        sectionNumber = parseInt($(this).attr("data-section-number"))
-        temp_sec_val = split_orcs[sectionNumber]
-        controlling_item = sectionNumber
-        $(".content_instr_details").html(content_arr[sectionNumber])
-        $(this).children(".sector").css("fill", color_arr_orig[ins_num])
-        $(this).css("color", "white")
-        $(this).css("stroke", "white")
-        socket.emit("control_disable", me.id + " ::: " + sectionNumber);
-        if (sectionNumber == 5) {
-            parseOrc(temp_sec_val, "default");
-            console.log("EH?")
-            $(".looper_creator").fadeIn("fast");
-        } else {
-            $(".looper_creator").fadeOut("fast");
-            $(".floating_keyboard").fadeIn("fast");
-            parseOrc(temp_sec_val, "default");
-        }
-    }
 
-    });
+
+
     $(document).on("input change", ".slide", function() {
         console.log($(this).attr("data-channel"))
         console.log($(this).val())
