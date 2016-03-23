@@ -160,56 +160,58 @@ generator = function(type) {
     var options = $(".options")
     if (type == "drums") {
         $(".looper_creator").html(" ")
-            /** Generate kicks */
-        $(".looper_creator").append("<div class='kick_line' data-lane='kick'>")
-        $("[data-lane=kick]").append("<div class='name'> Kick </div>")
-        generate_lane_for_name("kick")
-            /** Generate Snare */
-        $(".looper_creator").append("<div class='kick_line' data-lane='snare'>")
-        $("[data-lane=snare]").append("<div class='name'> Snare </div>")
-        generate_lane_for_name("snare")
             /** Generate Hat */
         $(".looper_creator").append("<div class='kick_line' data-lane='hat'>")
         $("[data-lane=hat]").append("<div class='name'> Hat </div>")
         generate_lane_for_name("hat")
+            /** Generate Snare */
+        $(".looper_creator").append("<div class='kick_line' data-lane='snare'>")
+        $("[data-lane=snare]").append("<div class='name'> Snare </div>")
+        generate_lane_for_name("snare")
+            /** Generate kicks */
+        $(".looper_creator").append("<div class='kick_line' data-lane='kick'>")
+        $("[data-lane=kick]").append("<div class='name'> Kick </div>")
+        generate_lane_for_name("kick")
+
+
         $(".looper_creator").append(options);
     }
 }
 
-generate_csound_score = function(instr,arr){
+generate_csound_score = function(instr, arr) {
     curr_time = 0
     string = ""
-    for(beat in arr){
-        if (arr[beat] == 1){
-            csd_str = "i \"" +  instr + "\" " + curr_time + " 0.25" + "\n"
+    for (beat in arr) {
+        if (arr[beat] == 1) {
+            csd_str = "i \"" + instr + "\" " + curr_time + " 0.25" + "\n"
             string += csd_str
         }
         curr_time += 0.25
     }
-    return(string)
+    return (string)
 }
 
-parse_boxes = function(){
+parse_boxes = function() {
     csd_str = ""
-    // generate kick sequence first:
+        // generate kick sequence first:
     var kick_arr = []
     line = $("[data-lane=kick]")
-    line.children("[data-instr=kick]").each(function(){
-        if($(this).hasClass("active_box_kick")){
+    line.children("[data-instr=kick]").each(function() {
+        if ($(this).hasClass("active_box_kick")) {
             kick_arr.push(1)
-        }else{
+        } else {
             kick_arr.push(0)
         }
     })
     console.log(kick_arr);
     csd_str += generate_csound_score("kick", kick_arr)
-    // generate snare sequence next:
+        // generate snare sequence next:
     var snare_arr = []
     line = $("[data-lane=snare]")
-    line.children("[data-instr=snare]").each(function(){
-        if($(this).hasClass("active_box_snare")){
+    line.children("[data-instr=snare]").each(function() {
+        if ($(this).hasClass("active_box_snare")) {
             snare_arr.push(1)
-        }else{
+        } else {
             snare_arr.push(0)
         }
     })
@@ -219,16 +221,16 @@ parse_boxes = function(){
     // generate hat sequence next:
     var hat_arr = []
     line = $("[data-lane=hat]")
-    line.children("[data-instr=hat]").each(function(){
-        if($(this).hasClass("active_box_hat")){
+    line.children("[data-instr=hat]").each(function() {
+        if ($(this).hasClass("active_box_hat")) {
             hat_arr.push(1)
-        }else{
+        } else {
             hat_arr.push(0)
         }
     });
 
     console.log(hat_arr);
-    csd_str += generate_csound_score("hat",hat_arr)
+    csd_str += generate_csound_score("hat", hat_arr)
     return csd_str
 }
 
@@ -380,7 +382,7 @@ $(document).ready(function() {
             ev_args.event_type = "control_disable"
             ev_args.event_args = sectionNumber;
             socket.emit("event", ev_args)
-//            socket.emit("control_disable", me.id + " ::: " + sectionNumber);
+                //            socket.emit("control_disable", me.id + " ::: " + sectionNumber);
             me.controlling = sectionNumber
             if (sectionNumber == 5) {
                 parseOrc(temp_sec_val, "default");
@@ -450,7 +452,7 @@ $(document).ready(function() {
             socket.emit("request_orc")
         }
     });
-    $(document).on("click", "[data-action=play]", function(){
+    $(document).on("click", "[data-action=play]", function() {
         csd_str = parse_boxes()
         console.log("total sequence now is: ", csd_str)
         ev_dets = {}
