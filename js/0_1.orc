@@ -229,7 +229,8 @@ endin
 ;Sampler. No one sees this
 
 instr sampler
+kenv = linseg(0, 1, 0.8, (p3-1), 0.8, 1, 0)
 a1,a2 diskin2 p4, 1
-gaSamplrL += a1
-gaSamplrR += a2
+gaSamplrL += a1 * kenv
+gaSamplrR += a2 * kenv
 endin

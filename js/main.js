@@ -381,7 +381,7 @@ $(document).ready(function() {
             ev_args.from = me
             ev_args.event_type = "control_disable"
             ev_args.event_args = sectionNumber;
-//            socket.emit("event", ev_args)
+            socket.emit("event", ev_args)
             socket.emit("control_disable", me.id + " ::: " + sectionNumber);
             me.controlling = sectionNumber
             if (sectionNumber == 5) {
@@ -460,6 +460,14 @@ $(document).ready(function() {
         ev_dets.event_type = "sequence"
         ev_dets.event_args = csd_str
         socket.emit("event", ev_dets)
+        setInterval(function(){
+            nev_dets = {}
+            nev_dets.from = me
+            nev_dets.event_type = "sequence"
+            nev_dets.event_args = parse_boxes()
+            socket.emit("event", nev_dets)
+        }, 4000);
+        glow_repeats();
     });
 
 

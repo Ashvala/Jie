@@ -206,7 +206,7 @@ body {
     width: Calc(100% - 20px);
     border-radius: 10px 10px 0 0;
     display: inline-block;
-    background: rgba(70,70,70,0.5);
+    background: rgba(0,0,0,0.4);
 }
 .faders{
     position: fixed;
