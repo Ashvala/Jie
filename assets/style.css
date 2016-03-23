@@ -299,7 +299,7 @@ input:focus {
     margin-top: 10px;
 }
 .s_box {
-    transition: all 0.3s linear;
+    transition: all 0.8s linear;
     float: left;
     width: 6.15%;
     height: 60%;

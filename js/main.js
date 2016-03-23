@@ -7,7 +7,22 @@ function arg(arg_name, argument_list) {
     this.arg_name = arg_name
     this.argument_list = argument_list
 }
+glow_repeats = function(){
+    n = 1
+    setInterval(function(){
+        beat_val = n%16
+        if (beat_val == 0){
+            beat_str = "[data-beat=" + 16 + "]"
+        }else{
+            beat_str = "[data-beat=" + beat_val + "]"
+        }
+        //$(beat_str).css("transition", "none");
+        $(beat_str).transition({"-webkit-filter": "brightness(0.8)"}).transition({"-webkit-filter": "brightness(1)"})
+        n += 1
+        console.log(n);
 
+    }, 250)
+}
 dial_init = function() {
     $(".dial").knob({
         'font': "AvenirNext-UltraLight",
@@ -453,12 +468,14 @@ $(document).ready(function() {
         }
     });
     $(document).on("click", "[data-action=play]", function() {
+        glow_repeats();
         csd_str = parse_boxes()
         console.log("total sequence now is: ", csd_str)
         ev_dets = {}
         ev_dets.from = me
         ev_dets.event_type = "sequence"
         ev_dets.event_args = csd_str
+
         socket.emit("event", ev_dets)
         setInterval(function(){
             nev_dets = {}
@@ -467,7 +484,7 @@ $(document).ready(function() {
             nev_dets.event_args = parse_boxes()
             socket.emit("event", nev_dets)
         }, 4000);
-        glow_repeats();
+
     });
 
 
