@@ -163,10 +163,20 @@ idetk = 0.1 ;time to stop
 kvibf chnget "vibrato-depth" ; vibrato depth
 kvibf *= 0.01 ; calc
 kngain = 0.5 ; gain
-asig wgclar 0.9, icps, kstiff, iatt, idetk, kngain, kvibf,0.1, 1
+asig wgclar 0.5, icps, kstiff, iatt, idetk, kngain, kvibf,0.1, 1
+iq1 = 3
+iq2 = iq1 * 3.4
+iq3 = iq1 * 2.1
+iq6 = iq1 * 1
+
+a1 mode asig, icps, iq1
+a2 mode asig, icps, iq2
+a3 mode asig, icps, iq6
+
+amix = (a1 + a2 + a3)/3
 klev chnget "instr-3-level"
-gaoutL += (klev * (asig/1000))
-gaoutR += (klev * (asig/1000))
+gaoutL += (klev * (amix/10000))
+gaoutR += (klev * (amix/10000))
 endin
 ;----------------------------------------;
 

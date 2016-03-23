@@ -375,6 +375,9 @@ $(document).ready(function() {
     });
 
     $(".item").click(function() {
+        var clicked_div = $(this);
+        if ($(this).attr("data-disabled") == "false" && controlling_bool == false) {
+        controlling_bool = true
         sectionNumber = parseInt($(this).attr("data-section-number"))
         temp_sec_val = split_orcs[sectionNumber]
         controlling_item = sectionNumber
@@ -392,6 +395,7 @@ $(document).ready(function() {
             $(".floating_keyboard").fadeIn("fast");
             parseOrc(temp_sec_val, "default");
         }
+    }
 
     });
     $(document).on("input change", ".slide", function() {

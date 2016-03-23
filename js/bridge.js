@@ -113,6 +113,9 @@ io.on('connection', function(socket) {
 	    if (count_total_csoundable(clients) < 6){
                 console.log("not sending anything... yet", count_total_csoundable(clients))
             }
+        }else if (msg.event_type == "control_disable") {
+            
+        }
         }else{
 	        console.log(msg);
             io.emit("event", msg);
