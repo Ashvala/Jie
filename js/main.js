@@ -381,8 +381,8 @@ $(document).ready(function() {
             ev_args.from = me
             ev_args.event_type = "control_disable"
             ev_args.event_args = sectionNumber;
-            socket.emit("event", ev_args)
-                //            socket.emit("control_disable", me.id + " ::: " + sectionNumber);
+//            socket.emit("event", ev_args)
+            socket.emit("control_disable", me.id + " ::: " + sectionNumber);
             me.controlling = sectionNumber
             if (sectionNumber == 5) {
                 parseOrc(temp_sec_val, "default");

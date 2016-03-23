@@ -106,13 +106,7 @@ io.on('connection', function(socket) {
             ind = get_client(socket.id)
             clients[ind].id = ind
             io.emit("client_add",clients[ind])
-            io.to(socket.id).emit("you",clients[ind])
-            if (count_total_csoundable(clients) == 6){
-                io.emit("serve_choices");
-            }
-            if (count_total_csoundable(clients) > 6){
-                console.log("not sending anything")
-            }
+            io.to(socket.id).emit("you",clients[ind])            
 	    if (count_total_csoundable(clients) < 6){
                 console.log("not sending anything... yet", count_total_csoundable(clients))
             }

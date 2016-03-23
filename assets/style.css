@@ -142,48 +142,48 @@ body {
     margin-bottom: 10px;
 }
 [data="rural"] {
-   text-shadow: 1px 2px 5px #111;
+   /*text-shadow: 1px 2px 5px #111;*/
     background: url("http://i.telegraph.co.uk/multimedia/archive/02616/ruralEngland_2616380k.jpg");
     background-size: cover;
 }
 [data="rain"] {
-    text-shadow: 1px 2px 5px #111;
+    /*text-shadow: 1px 2px 5px #111;*/
     background: url("http://images4.alphacoders.com/235/235564.jpg");
     background-size: cover;
 }
 [data="wind"] {
-    text-shadow: 1px 2px 5px #111;
+    /*text-shadow: 1px 2px 5px #111;*/
     background: url("http://www.sturdyforcommonthings.com/wp-content/uploads/2013/03/wind_blowing.jpg");
     background-size: cover;
 }
 [data="fire"] {
-    text-shadow: 1px 2px 5px #111;
+    /*text-shadow: 1px 2px 5px #111;*/
     background: url("http://upload.wikimedia.org/wikipedia/commons/4/41/Fire.JPG");
     background-size: cover;
 }
 [data="crowd"] {
-    text-shadow: 1px 2px 5px #111;
+    /*text-shadow: 1px 2px 5px #111;*/
     background: url("http://www.retiremove.co.uk/wp-content/uploads/2014/06/Crowd11.jpg");
     background-size: cover
 }
 [data="subway"] {
-    text-shadow: 1px 2px 5px #111;
+    /*text-shadow: 1px 2px 5px #111;*/
     background: url("http://preview.turbosquid.com/Preview/2014/05/20__02_30_20/Subway_Station_V2_000.jpg762b0e1007f7457db37e9885f767ee44Original.jpge246cd26-a2cb-48d9-8865-f45bc7ec2b15Original.jpg");
     background-size: cover
 }
 [data="airport"] {
-    text-shadow: 1px 2px 5px #111;
+    /*text-shadow: 1px 2px 5px #111;*/
     background: url("https://upload.wikimedia.org/wikipedia/commons/7/79/Mumbai_Airport.jpg");
     background-size: cover
 }
 [data="bar"] {
-    text-shadow: 1px 2px 5px #111;
+    /*text-shadow: 1px 2px 5px #111;*/
     background: url("http://www.thompsonhotels.com/content/uploads/2014/11/LP_Bar-1200x667.jpg");
     background-size: cover
 }
 
 [data="city"] {
-    text-shadow: 1px 2px 5px #111;
+    /*text-shadow: 1px 2px 5px #111;*/
     background: url("https://newevolutiondesigns.com/images/freebies/city-wallpaper-47.jpg");
     background-size: cover;
 }
@@ -202,6 +202,11 @@ body {
     padding-top: 10px;
     padding-left: 10px;
     padding-right: 10px;
+    padding-bottom: 10px;
+    width: Calc(100% - 20px);
+    border-radius: 10px 10px 0 0;
+    display: inline-block;
+    background: rgba(70,70,70,0.5);
 }
 .faders{
     position: fixed;
