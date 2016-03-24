@@ -310,6 +310,7 @@ socket.on("you", function(obj){
     $(".menu-trigger").css("fill", color_arr_orig[obj.id])
     $(".topbar").css("border-bottom", ("1px dotted " + color_arr_orig[obj.id]))
     ins_num = obj.id;
+    $(".my_name").html(obj.name);
     //console.log("Received data about me!")
 })
 

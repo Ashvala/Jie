@@ -16,12 +16,9 @@ glow_repeats = function(){
         }else{
             beat_str = "[data-beat=" + beat_val + "]"
         }
-        //$(beat_str).css("transition", "none");
-        $(beat_str).transition({"-webkit-filter": "brightness(0.8)"}).transition({"-webkit-filter": "brightness(1)"})
+        $(beat_str).transition({"-webkit-filter": "brightness(0.8)"}).delay(10).transition({"-webkit-filter": "brightness(1)"})
         n += 1
-        console.log(n);
-
-    }, 250)
+    }, 248)
 }
 dial_init = function() {
     $(".dial").knob({
@@ -175,6 +172,7 @@ generator = function(type) {
     var options = $(".options")
     if (type == "drums") {
         $(".looper_creator").html(" ")
+        $(".looper_creator").append("<div class='section-title' style='margin-left: 10px; font-size: 1.4em; font-weight: 100;'> Drum Looper </div>")
             /** Generate Hat */
         $(".looper_creator").append("<div class='kick_line' data-lane='hat'>")
         $("[data-lane=hat]").append("<div class='name'> Hat </div>")
@@ -465,10 +463,11 @@ $(document).ready(function() {
             ev_dets.event_args = ev_args
             socket.emit("event", ev_dets)
             socket.emit("request_orc")
+            $(".instruments_container").fadeIn("fast");
         }
     });
     $(document).on("click", "[data-action=play]", function() {
-        glow_repeats();
+
         csd_str = parse_boxes()
         console.log("total sequence now is: ", csd_str)
         ev_dets = {}
@@ -477,6 +476,7 @@ $(document).ready(function() {
         ev_dets.event_args = csd_str
 
         socket.emit("event", ev_dets)
+        glow_repeats();
         setInterval(function(){
             nev_dets = {}
             nev_dets.from = me
@@ -484,6 +484,10 @@ $(document).ready(function() {
             nev_dets.event_args = parse_boxes()
             socket.emit("event", nev_dets)
         }, 4000);
+
+    });
+    $(document).on("click", "[data-action=full_screen]", function() {
+        $(".looper_creator").transition({x:0}).transition({y:0}).transition({width:"98%"}).transition({height:"100%"});
 
     });
 
