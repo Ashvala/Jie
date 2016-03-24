@@ -38,17 +38,12 @@ sequence_play = function(event_args) {
 }
 
 parse_event = function(event_obj) {
-    //console.log("the event type specified was: ", event_obj.event_type)
     if (event_obj.event_type == "note_message") {
-        //console.log("This is a note event")
         if (verifyNote(event_obj.event_args) == true) {
-            //console.log("this can be sent");
-            //console.log(event_obj.event_args)
             notify("note_event", event_obj)
             $(".performer_space").each(function(){
                 if($(this).attr("data-id") == event_obj.from.id){
                     glow_animate($(this))
-                    glow_animate_color($(".topbar"))
                 }
             })
             $(".mini_performer_space").each(function(){
@@ -59,10 +54,8 @@ parse_event = function(event_obj) {
             csound.Event(event_obj.event_args);
         }
     } else if (event_obj.event_type == "channel_message") {
-        //console.log("This is a channel message")
         channel_message(event_obj.event_args)
     } else if (event_obj.event_type == "sequence") {
-        console.log("Got a sequence", event_obj.event_args);
         sequence_play(event_obj.event_args)
     } else if (event_obj.event_type == "add_client_to_ensemble"){
 
