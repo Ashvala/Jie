@@ -33,7 +33,7 @@ function parseOrcLineAndRender(str, context) {
     $(".parsed_elements_container").css("opacity", "1.0");
 }
 
-//orchestra stuff
+/* orchestra stuff */
 
 var split_orcs = [];
 var section_count = 0;

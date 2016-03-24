@@ -93,10 +93,25 @@ I can write a novel about this. I'm not P.G.Wodehouse, so, I may not be able to 
 Socket event (as in messages that come through the socket) handling  happens on `socket_interface.js`. We won't dissect the entire thing, but, hey, let's do as much as we can.
 
 
+- The `connect` function handles what happens after you connect. It asks for a client list.
 
+- `instrument_ctrl` has been deprecated.
 
+- `event` is basically, sent to the `parse_event` function.
 
+- `current_ind` is your current position in the client array.
 
+-  `you` is information about you, which you store in the "me" variable. Cute.
+
+- `MIDImessage` is a standard MIDI message broken up into 1 status byte and 2 data bytes.
+
+- `disconnect` prints "oh noes!"
+
+- `client_add` adds a client to the performers window.
+
+- `client_list'` basically handles client lists... How cool!
+
+- `control_disable` is deprecated. 
 # Credits:
 
 These are people who have contributed to this project in more than one way (significantly is a better way of phrasing it):

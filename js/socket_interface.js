@@ -8,17 +8,6 @@ var client_arr = [];
 
 //Temporary instrument number:
 var temp_ins_num
-    // Enable socket
-
-socket.on('connect', function(msg) {
-    //console.log('Socket is up');
-    if (!csound.module) {
-        //console.log("oh");
-    }
-    socket.emit("client_list_req")
-});
-
-
 
 verifyNote = function(event_args) {
     //console.log(event_args);
@@ -60,6 +49,40 @@ parse_event = function(event_obj) {
     }
 }
 
+//if I ever use the csound moduleDidLoad function, I'll handle some of that code here.
+function moduleDidLoad() {
+    csound.Play();
+    console.log("Csound loaded, perhaps!")
+    $(".SocketField").css("display", "block");
+    $(".obs_screen").fadeOut("slow");
+    //        $(".client_bar").fadeIn("slow");
+}
+
+function handleMessage(message) {
+    console.log(message.data)
+}
+
+function channel_message(obj) {
+    var new_str = obj.split(" ");
+    //console.log(new_str[0]);
+    var new_val = parseFloat(new_str[1]);
+    //console.log(new_val);
+    csound.SetChannel(new_str[0], new_val)
+    name = new_str[0];
+    divstr = ".dial[data-name=" + name + "]";
+    $(divstr).val(new_val);
+}
+
+
+// Enable socket
+socket.on('connect', function(msg) {
+    //console.log('Socket is up');
+    if (!csound.module) {
+        //console.log("oh");
+    }
+    socket.emit("client_list_req")
+});
+
 // You get your instrument number here.
 socket.on("instrument_ctrl", function(msg) {
     //console.log(msg);
@@ -74,8 +97,6 @@ socket.on("event", function(msg) {
 
 });
 var csound_msg; //use this in the future to develop stuff.
-
-
 // current id... never used this...
 
 socket.on('current_ind', function(msg) {
@@ -85,18 +106,7 @@ socket.on('current_ind', function(msg) {
 
 orc_str = ""
 
-//if I ever use the csound moduleDidLoad function, I'll handle some of that code here.
-function moduleDidLoad() {
-    csound.Play();
-    console.log("Csound loaded, perhaps!")
-    $(".SocketField").css("display", "block");
-    $(".obs_screen").fadeOut("slow");
-    //        $(".client_bar").fadeIn("slow");
-}
 
-function handleMessage(message) {
-    console.log(message.data)
-}
 
 //Handle Orchestra messages here
 
@@ -137,38 +147,6 @@ socket.on("control_disable", function(obj) {
     }
 });
 
-
-// chnset handler
-
-function channel_message(obj) {
-    var new_str = obj.split(" ");
-    //console.log(new_str[0]);
-    var new_val = parseFloat(new_str[1]);
-    //console.log(new_val);
-    csound.SetChannel(new_str[0], new_val)
-    name = new_str[0];
-    divstr = ".dial[data-name=" + name + "]";
-    $(divstr).val(new_val);
-}
-
-//Handle channel messages. Deprecated.
-
-socket.on('chanmsg', function(obj) {
-    //console.log("THIS IS DEPRECATED. USE socket.emit('event') INSTEAD ")
-    if (csound.module) {
-        //console.log("can do csound events");
-        var new_str = obj.split(" ");
-        //console.log(new_str[0]);
-        var new_val = parseFloat(new_str[1]);
-        //console.log(new_val);
-        csound.SetChannel(new_str[0], new_val)
-        name = new_str[0];
-        divstr = ".dial[data-name=" + name + "]";
-        $(divstr).val(new_val);
-    } else {
-        //console.log("Sends csound events.")
-    }
-});
 
 // Client List. This can use a bit of tweaking
 
@@ -220,11 +198,6 @@ socket.on("client_add", function(obj) {
     });
 });
 
-// When the server says "SERVE ORCHESTRAS", you serve the damn orchestras.
-
-socket.on("serve_choices", function() {
-    socket.emit("request_orc")
-});
 
 // aw, data about me? AWWWW
 socket.on("you", function(obj) {
