@@ -30,7 +30,7 @@ Installation instructions for these are widely available.
     ```    
 - Now, navigate to the directory you unarchiv ed this in with Google Chrome and enjoy.
 
-## Some of the bridge.js code:
+## Some of the `bridge.js` code:
 
 bridge.js is what you use to, well, bridge messages between two people. The architecture is very simple:
 
@@ -74,7 +74,7 @@ event_type is restricted to the following for the moment:
 
 - `add_client:` Server side only event that allows you to add clients to the client array.
 
-- `note_message:` A note message in the csound score syntax style. Example: i 1 0 4 60
+- `note_message:` A note message in the csound score syntax style. Example: `i 1 0 4 60`
 
 - `channel_message:` Handle real-time movement for knobs.
 
@@ -84,9 +84,22 @@ MIDI messages are handled independently.
 
 The only noteworthy(*giggles* <sup>Plz<sup>don't<sup>hurt<sup>me</sup></sup></sup></sup>) event handled on the server is the `add_client` event.
 
+Event args typically contain the arguments that are pertinent to the related event.
+
+## How things happen on the client:
+
+I can write a novel about this. I'm not P.G.Wodehouse, so, I may not be able to do the idea much justice. However, here goes.
+
+Socket event (as in messages that come through the socket) handling  happens on `socket_interface.js`. We won't dissect the entire thing, but, hey, let's do as much as we can.
+
+
+
+
+
+
 # Credits:
 
-These are people who have contributed to this project in more than one way:
+These are people who have contributed to this project in more than one way (significantly is a better way of phrasing it):
 
 - Ashvala Vinay
 - Dr. Richard Boulanger
