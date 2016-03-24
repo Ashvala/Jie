@@ -7,57 +7,7 @@ function arg(arg_name, argument_list) {
     this.arg_name = arg_name
     this.argument_list = argument_list
 }
-glow_animate = function(div_obj){
-    original_lightness = $.Color(div_obj, 'background').lightness()
-    new_lightness = original_lightness + 0.1;
-    original_hsla = $.Color(div_obj, 'background').hsla()
-    original_rgba = $.Color(div_obj, 'background').rgba()
-    new_hsla = {}
-    new_hsla.hue = original_hsla.hue
-    new_hsla.saturation = original_hsla.saturation
-    new_hsla.lightness = new_lightness
-    new_hsla.alpha = original_hsla.alpha
 
-
-    div_obj.animate({
-        backgroundColor: $.Color({lightness: new_lightness})
-    }, 1500).delay(1400);
-    div_obj.animate({
-        backgroundColor: $.Color({lightness: original_lightness})
-    }, 1500);
-}
-glow_animate_color = function(div_obj){
-    original_lightness = $.Color(div_obj, 'color').lightness()
-    new_lightness = original_lightness + 0.4;
-    original_hsla = $.Color(div_obj, 'color').hsla()
-    original_rgba = $.Color(div_obj, 'color').rgba()
-    new_hsla = {}
-    new_hsla.hue = original_hsla.hue
-    new_hsla.saturation = original_hsla.saturation
-    new_hsla.lightness = new_lightness
-    new_hsla.alpha = original_hsla.alpha
-    console.log(original_lightness)
-    div_obj.animate({
-        color: $.Color({lightness: new_lightness})
-    }, 200).delay(1400);
-    div_obj.animate({
-        color: $.Color({lightness: original_lightness})
-    }, 200);
-}
-
-glow_repeats = function(){
-    n = 1
-    setInterval(function(){
-        beat_val = n%16
-        if (beat_val == 0){
-            beat_str = "[data-beat=" + 16 + "]"
-        }else{
-            beat_str = "[data-beat=" + beat_val + "]"
-        }
-        $(beat_str).transition({"-webkit-filter": "brightness(0.8)"}).delay(10).transition({"-webkit-filter": "brightness(1)"})
-        n += 1
-    }, 248)
-}
 dial_init = function() {
     $(".dial").knob({
         'font': "AvenirNext-UltraLight",
@@ -75,215 +25,11 @@ dial_init = function() {
 
 }
 var section_names = ["Mix section", "modal synth", "LFOoo", "Clarinet", "FM synth", "Drums"]
-    //parse a line
-
-parseOrcLineAndRender = function(str, context) {
-    var new_str = str.split(" ");
-
-    var dial_str_head = '<div class="knob_container"><input type="text" value="0" class="dial" data-fgcolor="#0CA7DB" data-bgcolor="#333" data-angleOffset="-125" data-angleArc="256" data-min="0" data-max="1000" data-thickness="0.15" data-width="120" data-height="120" data-font-family="Roboto Light" data-name='
-    var dial_str_mid = '> <div class="knob_name"> '
-    var dial_str_tail = "</div> </div>"
-
-    if (context == "default") {
-        if (new_str[1] == "chnget") {
-            if (new_str[3] != ";local") {
-                console.log("Rendering Channel Controller for this");
-                var new_str = dial_str_head + new_str[2] + dial_str_mid + new_str[2] + dial_str_tail
-                $(".parsed_knobs").append(new_str);
-                dial_init();
-            }
-        }
-    }
-    if (context == "seq_button") {
-        if (new_str[1] == "chnget") {
-            var new_str = dial_str_head + new_str[2] + dial_str_mid + new_str[2] + dial_str_tail
-            $(".parsed_knobs").append(new_str);
-            dial_init();
-        }
-        if (new_str[0] == "instr") {
-            seq_str = "<div class='seq_button' data-name='" + new_str[1] + "'> <div class='name'>" + new_str[1] + "</div> </div>";
-            $(".seq_container").append(seq_str);
-            console.log(str.indexOf(";"));
-        }
-    }
-    $(".parsed_elements_container").fadeIn(100);
-    $(".parsed_elements_container").css("opacity", "1.0");
-}
-
-//orchestra stuff
-
-var split_orcs = [];
-var section_count = 0;
-
-
-split_orc = function(orc_str) {
-    var prev_index = 0;
-    temp_arr = orc_str.split("\n");
-    for (i = 0; i < temp_arr.length; i++) {
-        if (temp_arr[i].indexOf(";") == 0) {
-            temp_str = temp_arr[i];
-            if (temp_str[0] == ";" && temp_str[temp_str.length - 1] == ";") {
-                section_count += 1;
-                console.log("Section count: ", section_count);
-                var ret_str = orc_str.substring(prev_index, orc_str.indexOf(temp_str) - 1);
-                split_orcs.push(ret_str);
-                prev_index = orc_str.indexOf(temp_str) + temp_str.length + 1;
-                var remaining = orc_str.substring(prev_index, orc_str.length);
-                split_orc(remaining);
-            }
-        }
-    }
-}
 
 function moduleDidLoad() {
     csound.Play();
 }
 
-
-
-notify = function(type, obj) {
-    console.log("Notification!");
-    if (type == "new_client") {
-        $(".notification_title").html("New client added");
-        client_str = obj.name + " was added to the ensemble!"
-        $(".notification_content").html(client_str);
-    }
-    if (type == "note_event") {
-        $(".notification_title").html(obj.from.name + " played a note")
-        $(".notification_content").html(obj.event_args + " was sent")
-    }
-    $(".notification_area").fadeIn("fast").delay(1000);
-    $(".notification_area").fadeOut("fast");
-
-}
-
-function append_sections(split_orc_arr) {
-    for (i = 0; i < split_orc_arr.length; i++) {
-        var instr_button_header = "<div class='instrument_button' data-disabled='false' data-section-number='" + i + "'>" + section_names[i] + "</div>"
-        $(".instruments_container").append(instr_button_header);
-    }
-    $(".instruments_container").fadeIn("slow")
-}
-var total_instrs = 0
-
-function count_instrs(str) {
-    new_str = str.split(" ");
-    if (new_str[0] == "instr") {
-        total_instrs += 1;
-    }
-}
-
-function parseOrc(str, job) {
-    $(".parsed_knobs").html(" ");
-    $(".seq_container").html(" ");
-    str_arr = str.split("\n");
-    if (job == "init") {
-        split_orc(str);
-        for (var i = 0; i < str_arr.length; i++) {
-            count_instrs(str_arr[i]);
-        }
-    }
-    if (job == "init_solo") {
-        for (var i = 0; i < str_arr.length; i++) {
-            count_instrs(str_arr[i]);
-        }
-    } else if (job == "seq_button") {
-        for (var i = 0; i < str_arr.length; i++) {
-            parseOrcLineAndRender(str_arr[i], "seq_button")
-        }
-    } else if (job == "default") {
-        for (var i = 0; i < str_arr.length; i++) {
-            parseOrcLineAndRender(str_arr[i], "default")
-        }
-    }
-
-}
-
-generate_lane_for_name = function(name) {
-    for (var i = 0; i < 16; i++) {
-        div_str = "<div class='s_box' data-beat='" + (i + 1) + "' data-instr=" + name + "></div>"
-        $("[data-lane=" + name + "]").append(div_str)
-    }
-}
-
-generator = function(type) {
-    var options = $(".options")
-    if (type == "drums") {
-        $(".looper_creator").html(" ")
-        $(".looper_creator").append("<div class='section-title' style='margin-left: 10px; font-size: 1.4em; font-weight: 100;'> Drum Looper </div>")
-            /** Generate Hat */
-        $(".looper_creator").append("<div class='kick_line' data-lane='hat'>")
-        $("[data-lane=hat]").append("<div class='name'> Hat </div>")
-        generate_lane_for_name("hat")
-            /** Generate Snare */
-        $(".looper_creator").append("<div class='kick_line' data-lane='snare'>")
-        $("[data-lane=snare]").append("<div class='name'> Snare </div>")
-        generate_lane_for_name("snare")
-            /** Generate kicks */
-        $(".looper_creator").append("<div class='kick_line' data-lane='kick'>")
-        $("[data-lane=kick]").append("<div class='name'> Kick </div>")
-        generate_lane_for_name("kick")
-
-
-        $(".looper_creator").append(options);
-    }
-}
-
-generate_csound_score = function(instr, arr) {
-    curr_time = 0
-    string = ""
-    for (beat in arr) {
-        if (arr[beat] == 1) {
-            csd_str = "i \"" + instr + "\" " + curr_time + " 0.25" + "\n"
-            string += csd_str
-        }
-        curr_time += 0.25
-    }
-    return (string)
-}
-
-parse_boxes = function() {
-    csd_str = ""
-        // generate kick sequence first:
-    var kick_arr = []
-    line = $("[data-lane=kick]")
-    line.children("[data-instr=kick]").each(function() {
-        if ($(this).hasClass("active_box_kick")) {
-            kick_arr.push(1)
-        } else {
-            kick_arr.push(0)
-        }
-    })
-    console.log(kick_arr);
-    csd_str += generate_csound_score("kick", kick_arr)
-        // generate snare sequence next:
-    var snare_arr = []
-    line = $("[data-lane=snare]")
-    line.children("[data-instr=snare]").each(function() {
-        if ($(this).hasClass("active_box_snare")) {
-            snare_arr.push(1)
-        } else {
-            snare_arr.push(0)
-        }
-    })
-    console.log(snare_arr);
-    csd_str += generate_csound_score("snare", snare_arr)
-
-    // generate hat sequence next:
-    var hat_arr = []
-    line = $("[data-lane=hat]")
-    line.children("[data-instr=hat]").each(function() {
-        if ($(this).hasClass("active_box_hat")) {
-            hat_arr.push(1)
-        } else {
-            hat_arr.push(0)
-        }
-    });
-
-    console.log(hat_arr);
-    csd_str += generate_csound_score("hat", hat_arr)
-    return csd_str
-}
 
 $(document).ready(function() {
     /*** Generate! **/
@@ -397,26 +143,26 @@ $(document).ready(function() {
         "You have the percussion section!"
     ]
 
-    $(document).on("click", ".instrument_button", function() {
-        var clicked_div = $(this);
-        if ($(this).attr("data-disabled") == "false" && controlling_bool == false) {
-            controlling_bool = true
-            sectionNumber = parseInt($(this).attr("data-section-number"))
-            temp_sec_val = split_orcs[sectionNumber]
-            controlling_item = sectionNumber
-            $(".editor").val(temp_sec_val)
-            $(this).css("background", ins_num)
-            $(this).attr("data-disabled", "true")
-            socket.emit("control_disable", me.id + " ::: " + sectionNumber);
-            if (sectionNumber == 5) {
-                parseOrc(temp_sec_val, "seq_button");
-
-                $(".looper_creator").show();
-            } else {
-                parseOrc(temp_sec_val, "default");
-            }
-        }
-    });
+    // $(document).on("click", ".instrument_button", function() {
+    //     var clicked_div = $(this);
+    //     if ($(this).attr("data-disabled") == "false" && controlling_bool == false) {
+    //         controlling_bool = true
+    //         sectionNumber = parseInt($(this).attr("data-section-number"))
+    //         temp_sec_val = split_orcs[sectionNumber]
+    //         controlling_item = sectionNumber
+    //         $(".editor").val(temp_sec_val)
+    //         $(this).css("background", ins_num)
+    //         $(this).attr("data-disabled", "true")
+    //         socket.emit("control_disable", me.id + " ::: " + sectionNumber);
+    //         if (sectionNumber == 5) {
+    //             parseOrc(temp_sec_val, "seq_button");
+    //
+    //             $(".looper_creator").show();
+    //         } else {
+    //             parseOrc(temp_sec_val, "default");
+    //         }
+    //     }
+    // });
     $(".item").click(function() {
         var clicked_div = $(this);
         if ($(this).attr("data-disabled") == "false" && controlling_bool == false) {

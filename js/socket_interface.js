@@ -8,7 +8,7 @@ var client_arr = [];
 
 //Temporary instrument number:
 var temp_ins_num
-// Enable socket
+    // Enable socket
 
 socket.on('connect', function(msg) {
     //console.log('Socket is up');
@@ -32,22 +32,20 @@ verifyNote = function(event_args) {
 }
 var color_arr_orig = ["#e67e22", "#0CA7DB", "#2c3e50", "#e74c3c", "#f1c40f", "#1abc9c"]
 
-var color_arr = ["#afafaf", "#afafaf", "#afafaf", "#afafaf", "#afafaf", "#afafaf"]
 sequence_play = function(event_args) {
     csound.ReadScore(event_args);
 }
-
 parse_event = function(event_obj) {
     if (event_obj.event_type == "note_message") {
         if (verifyNote(event_obj.event_args) == true) {
             notify("note_event", event_obj)
-            $(".performer_space").each(function(){
-                if($(this).attr("data-id") == event_obj.from.id){
+            $(".performer_space").each(function() {
+                if ($(this).attr("data-id") == event_obj.from.id) {
                     glow_animate($(this))
                 }
             })
-            $(".mini_performer_space").each(function(){
-                if($(this).attr("data-id") == event_obj.from.id){
+            $(".mini_performer_space").each(function() {
+                if ($(this).attr("data-id") == event_obj.from.id) {
                     glow_animate($(this))
                 }
             })
@@ -57,7 +55,7 @@ parse_event = function(event_obj) {
         channel_message(event_obj.event_args)
     } else if (event_obj.event_type == "sequence") {
         sequence_play(event_obj.event_args)
-    } else if (event_obj.event_type == "add_client_to_ensemble"){
+    } else if (event_obj.event_type == "add_client_to_ensemble") {
 
     }
 }
@@ -66,7 +64,7 @@ parse_event = function(event_obj) {
 socket.on("instrument_ctrl", function(msg) {
     //console.log(msg);
     ins_num = msg;
-    $("body").css("background", "#eee" );
+    $("body").css("background", "#eee");
     $(".title").css("color", "black");
 });
 
@@ -76,22 +74,6 @@ socket.on("event", function(msg) {
 
 });
 var csound_msg; //use this in the future to develop stuff.
-
-//Solitary note messages. Deprecated.
-socket.on('note_message', function(obj) {
-    //console.log("THIS IS DEPRECATED. USE socket.emit('event') INSTEAD ")
-    //console.log(obj);
-    if (csound.module) {
-        //console.log("can do csound events");
-        var new_str = obj.split(" ");
-        //console.log(new_str[1]);
-        var event_str = "i 1 0 4 " + new_str[1];
-        //console.log(event_str);
-        csound.Event(event_str);
-    } else {
-        //console.log("Sends csound events.");
-    }
-});
 
 
 // current id... never used this...
@@ -109,7 +91,7 @@ function moduleDidLoad() {
     console.log("Csound loaded, perhaps!")
     $(".SocketField").css("display", "block");
     $(".obs_screen").fadeOut("slow");
-//        $(".client_bar").fadeIn("slow");
+    //        $(".client_bar").fadeIn("slow");
 }
 
 function handleMessage(message) {
@@ -131,19 +113,6 @@ socket.on('orc', function(obj) {
 
 //Handle Score messages here
 
-socket.on('sco', function(obj) {
-    //console.log("THIS IS DEPRECATED. USE socket.emit('event') INSTEAD ")
-    //console.log(obj);
-    if (csound.module) {
-        var new_str = obj.split(" ");
-        //console.log(new_str[1]);
-        csound.Event(obj);
-    } else {
-        //console.log("Sends csound events.")
-    }
-});
-
-
 //needs a rewrite. Can I tie this in with the new Event API?
 
 socket.on("control_disable", function(obj) {
@@ -154,8 +123,8 @@ socket.on("control_disable", function(obj) {
             //console.log($(this).attr("data-section-number"))
             if ($(this).attr("data-section-number") == parseInt(args[1])) {
                 $(this).children(".sector").css("fill", color_arr_orig[parseInt(args[0])])
-                $(this).children(".sector").css("color","white")
-                $(this).children(".sector").css("stroke","white")
+                $(this).children(".sector").css("color", "white")
+                $(this).children(".sector").css("stroke", "white")
             }
 
         });
@@ -209,9 +178,9 @@ socket.on('client_list', function(obj) {
     for (i = 0; i <= obj.length - 1; i++) {
         //console.log(obj[i].name);
         var div_str = "<div class='client_button' style='background:" +
-        "white"+ "'> " + obj[i].name + "</div>"
+            "white" + "'> " + obj[i].name + "</div>"
         $(".client_bar").append(div_str)
-        // //console.log(obj[i].id)
+            // //console.log(obj[i].id)
         $(".performer_space").each(function() {
             if (parseInt($(this).attr("data-id")) == i) {
                 //console.log("from client_list");
@@ -258,7 +227,7 @@ socket.on("serve_choices", function() {
 });
 
 // aw, data about me? AWWWW
-socket.on("you", function(obj){
+socket.on("you", function(obj) {
     me = obj;
     console.log(obj);
     $(".my_color").css("background", color_arr_orig[obj.id])
@@ -269,11 +238,11 @@ socket.on("you", function(obj){
     //console.log("Received data about me!")
 })
 
-socket.on("disconnect", function(obj){
+socket.on("disconnect", function(obj) {
     console.log("Oh noes!");
 })
 
-socket.on("MIDImessage", function(obj){
+socket.on("MIDImessage", function(obj) {
     decompiledObj = obj
     console.log("MIDIMessage: Got message: ", obj)
     csound.MIDIin(decompiledObj[0], decompiledObj[1], decompiledObj[2])
@@ -281,11 +250,11 @@ socket.on("MIDImessage", function(obj){
 var startTime;
 
 setInterval(function() {
-  startTime = Date.now();
-  socket.emit('ping');
+    startTime = Date.now();
+    socket.emit('ping');
 }, 2000);
 
 socket.on('pong', function() {
-  latency = Date.now() - startTime;
-  console.log(latency);
+    latency = Date.now() - startTime;
+    console.log(latency);
 });
