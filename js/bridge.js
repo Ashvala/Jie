@@ -1,7 +1,4 @@
 var express = require('express');
-var mongoose = require('mongoose');
-//var midi = require('midi');
-
 var app = express();
 app.use(function(req, res, next) {
     res.header("Access-Control-Allow-Origin", "*");
@@ -89,6 +86,7 @@ io.on('connection', function(socket) {
     // Basically, a event handler for event handling... Much ayy lmao
     socket.on("event", function(msg) {
         console.log("Event message coming through:\n")
+        console.log(msg);
         if (msg.event_type == "add_client"){
             temp_ins_num = get_client_idArr(socket.id)
             temp_client_val = {}
@@ -126,7 +124,7 @@ io.on('connection', function(socket) {
             }
 
         }else{
-	        console.log(msg);
+
             io.emit("event", msg);
         }
     });
