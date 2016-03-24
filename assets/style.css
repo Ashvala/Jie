@@ -123,6 +123,7 @@ body {
     height: 40%;
     color: white;
     top: 40px;
+    display: none;
 }
 .section_title {
     color: black;
@@ -214,7 +215,7 @@ body {
     width: 16%;
     height: 40%;
     bottom: 0;
-    z-index: 100000;
+    z-index: 1000;
     overflow-y: scroll;
 }
 .fader_container{
@@ -336,7 +337,7 @@ input:focus {
 .options_button {
     transition: all 0.3s linear;
     border: 1px dotted #444;
-    width: 10%;
+    width: 12.5%;
     padding-top: 10px;
     padding-bottom: 10px;
     padding-left: 10px;
@@ -687,7 +688,7 @@ svg {
 .obs_screen {
     background: none;
     width: 100%;
-    height: Calc(100% - 64px);
+    height: Calc(100%);
     position: fixed;
     top: 32px;
     display: none;

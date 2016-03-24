@@ -401,7 +401,11 @@ $(document).ready(function() {
                 parseOrc(temp_sec_val, "default");
                 console.log("EH?")
                 $(".looper_creator").fadeIn("fast");
-            } else {
+            } else if(sectionNumber == 0) {
+                $(".looper_creator").fadeOut("fast");
+                $(".samples").fadeIn("fast");
+                parseOrc(temp_sec_val, "default");
+            } else{
                 $(".looper_creator").fadeOut("fast");
                 $(".floating_keyboard").fadeIn("fast");
                 parseOrc(temp_sec_val, "default");
@@ -469,7 +473,6 @@ $(document).ready(function() {
     $(document).on("click", "[data-action=play]", function() {
 
         csd_str = parse_boxes()
-        console.log("total sequence now is: ", csd_str)
         ev_dets = {}
         ev_dets.from = me
         ev_dets.event_type = "sequence"
@@ -488,7 +491,6 @@ $(document).ready(function() {
     });
     $(document).on("click", "[data-action=full_screen]", function() {
         $(".looper_creator").transition({x:0}).transition({y:0}).transition({width:"98%"}).transition({height:"100%"});
-
     });
 
 
