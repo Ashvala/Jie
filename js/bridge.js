@@ -132,6 +132,7 @@ io.on('connection', function(socket) {
     /** MIDI things */
 
     socket.on("MIDImessage", function(msg){
+        console.log("MIDImessage");
         io.emit("MIDImessage",msg);
     })
 
