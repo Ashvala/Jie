@@ -164,11 +164,11 @@ $(document).ready(function() {
                 parseOrc(temp_sec_val, "default");
                 console.log("EH?")
                 $(".looper_creator").fadeIn("fast");
-            } else if(sectionNumber == 0) {
+            } else if (sectionNumber == 0) {
                 $(".looper_creator").fadeOut("fast");
                 $(".samples").fadeIn("fast");
                 parseOrc(temp_sec_val, "default");
-            } else{
+            } else {
                 $(".looper_creator").fadeOut("fast");
                 $(".floating_keyboard").fadeIn("fast");
                 parseOrc(temp_sec_val, "default");
@@ -242,7 +242,7 @@ $(document).ready(function() {
         ev_dets.event_args = csd_str
         socket.emit("event", ev_dets)
         glow_repeats();
-        setInterval(function(){
+        setInterval(function() {
             nev_dets = {}
             nev_dets.from = me
             nev_dets.event_type = "sequence"
@@ -252,7 +252,22 @@ $(document).ready(function() {
     });
 
     $(document).on("click", "[data-action=full_screen]", function() {
-        $(".looper_creator").transition({x:0}).transition({y:0}).transition({width:"98%"}).transition({height:"100%"});
+        $(".looper_creator").transition({
+            width: "98%"
+        }).transition({
+            height: "100%"
+        });
+        $(this).attr("data-action", "contract");
+        $(this).html("Condense")
+    });
+    $(document).on("click", "[data-action=contract]", function() {
+        $(".looper_creator").transition({
+            width: "70%"
+        }).transition({
+            height: "50%"
+        });
+        $(this).attr("data-action", "full_screen");
+        $(this).html("Expand")
     });
 
 

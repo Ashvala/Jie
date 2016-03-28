@@ -201,22 +201,6 @@ input:focus {
     outline: none;
 }
 
-.sequence_button {
-    margin-left: 30px;
-    font-family: "Roboto";
-    width: 90%;
-    height: 10%;
-    padding-top: 10px;
-    padding-left: 0px;
-    color: black;
-    border-bottom: 1px dotted #666;
-    margin-bottom: 1px;
-    margin-top: 1px;
-}
-.sequence_button:hover {
-    background: #ddd;
-    cursor: pointer;
-}
 .sample:hover {
     -webkit-filter: brightness(1.0);
     cursor: pointer;
@@ -392,7 +376,7 @@ input:focus {
     bottom: 0;
     width: 25%;
     height: 40%;
-    z-index: 10000;
+    z-index: 1000;
     overflow-x: scroll;
 }
 #csound_module {
