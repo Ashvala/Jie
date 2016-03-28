@@ -165,13 +165,6 @@ io.on('connection', function(socket) {
             io.to(clients[i].id).emit("instrument_ctrl", (get_client(socket.id) % 6))
         }
     });
-
-    // If you click on something, you disable it here.
-
-    socket.on("control_disable", function(msg) {
-        io.emit("control_disable", msg)
-    });
-
     // If you request a client list, you get it here.
 
     socket.on("client_list_req", function() {
