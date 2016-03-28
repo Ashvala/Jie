@@ -245,7 +245,7 @@ input:focus {
     height: 50%;
     font-family: "Roboto";
     background: #eee;
-    z-index: 1000000;
+    z-index: 10000;
     display: none;
 }
 .kick_line {
@@ -569,6 +569,7 @@ svg {
     font-weight: 300;
     color: white;
 }
+
 .notification_area {
     background: rgba(43, 43, 43, 0.92);
     border: 1px dotted #666;

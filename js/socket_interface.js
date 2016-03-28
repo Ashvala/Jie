@@ -30,7 +30,7 @@ parse_event = function(event_obj) {
             notify("note_event", event_obj)
             $(".performer_space").each(function() {
                 if ($(this).attr("data-id") == event_obj.from.id) {
-                    glow_animate($(this))
+//                    glow_animate($(this))
                 }
             })
             $(".mini_performer_space").each(function() {
@@ -62,6 +62,9 @@ function handleMessage(message) {
     console.log(message.data)
     if (message.data == "hat"){
         glow_animate_svg($(".menu-trigger"))
+    }
+    if (message.data == "kick"){
+        scale_svg("#item-6")
     }
 }
 
@@ -201,6 +204,7 @@ socket.on("disconnect", function(obj) {
 socket.on("MIDImessage", function(obj) {
     decompiledObj = obj
     console.log("MIDIMessage: Got message: ", obj)
+
     csound.MIDIin(decompiledObj[0], decompiledObj[1], decompiledObj[2])
 })
 var startTime;

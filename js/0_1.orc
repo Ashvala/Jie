@@ -200,6 +200,7 @@ endin
 ;Section 6
 
 instr kick
+prints "kick"
 a1,a2 diskin2 "./http/assets/kick.wav", 1
 kperclev chnget "kick-send"
 kperclev *= 0.001

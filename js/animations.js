@@ -93,7 +93,30 @@ glow_repeats = function() {
 }
 
 scale_svg = function(item) {
-    console.log($this)
     var scaler = Snap(item);
-    
+    var s = scaler.select("path")
+    console.log(s)
+    var mat_scaler_lower = new Snap.Matrix()
+    mat_scaler_lower.scale(0.99, 1.0)
+    var mat_scaler_higher = new Snap.Matrix()
+    mat_scaler_higher.scale(1.01, 1.0)
+    var animate_1 = function(){
+        s.animate({transform: mat_scaler_higher}, 100, mina.linear, animate_2)
+    }
+    var animate_2 = function(){
+        s.animate({transform: mat_scaler_lower}, 100, mina.linear)
+    }
+    animate_1()
+}
+
+scale_svg_release = function(item, scale_val){
+    var scaler = Snap(item);
+    var s = scaler.select("path")
+    console.log(s)
+    var mat_scaler_lower = new Snap.Matrix()
+    mat_scaler_lower.scale(scale_val, 1.0)
+    var animate_1 = function(){
+        s.animate({transform: mat_scaler_higher}, 100, mina.linear)
+    }
+    animate_1()
 }
