@@ -84,7 +84,7 @@ glow_repeats = function() {
         curr_beat_on_animate = beat_val
         $(beat_str).transition({
             "-webkit-filter": "brightness(0.8)"
-        }).delay(10).transition({
+        }).delay(5).transition({
             "-webkit-filter": "brightness(1)"
         })
         n += 1

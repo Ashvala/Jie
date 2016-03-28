@@ -151,16 +151,12 @@ io.on('connection', function(socket) {
         console.log("Disconnected");
         var outgoing_client = socket;
         var index = get_client(outgoing_client.id);
-
         console.log(index);
         clients.splice(index, 1);
         client_id_arr.splice(index,1)
         console.log(clients);
         total_clients = total_clients - 1;
-
-        for (i in clients) {
-            io.to(clients[i].id).emit("instrument_ctrl", (get_client(socket.id) % 6))
-        }
+        io.emit("client_list", clients);
     });
 
     // If you request a client list, you get it here.
