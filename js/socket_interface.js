@@ -133,13 +133,11 @@ socket.on("control_disable", function(obj) {
     var args = obj.split(":::")
     if (args[0] != ins_num) {
         $(".item").each(function() {
-            //console.log($(this).attr("data-section-number"))
             if ($(this).attr("data-section-number") == parseInt(args[1])) {
                 $(this).children(".sector").css("fill", color_arr_orig[parseInt(args[0])])
                 $(this).children(".sector").css("color", "white")
                 $(this).children(".sector").css("stroke", "white")
             }
-
         });
         $(".item").each(function() {
             if (parseInt($(this).attr("data-id")) == parseInt(args[0])) {
@@ -156,25 +154,28 @@ socket.on("control_disable", function(obj) {
 socket.on('client_list', function(obj) {
     //console.log(obj)
     client_arr = obj;
+
     for (i = 0; i <= obj.length - 1; i++) {
-        //console.log(obj[i].name);
         var div_str = "<div class='client_button' style='background:" +
             "white" + "'> " + obj[i].name + "</div>"
         $(".client_bar").append(div_str)
-            // //console.log(obj[i].id)
+        //performer space details
         $(".performer_space").each(function() {
             if (parseInt($(this).attr("data-id")) == i) {
                 //console.log("from client_list");
                 $(this).css("background", color_arr_orig[i]);
                 $(this).children(".performer_name").html(obj[i].name)
+                $(this).children(".performer_controlling").html(section_names[parseInt(obj[i].controlling)])
             }
         });
-        $(".mini_performer_space").each(function() {
-            if (parseInt($(this).attr("data-id")) == i) {
-                //console.log("from client_list");
-                $(this).css("background", color_arr_orig[i]);
+        // semi circle sectors:
+        $(".item").each(function(){
+            if (parseInt($(this).attr("data-section-number")) == parseInt(obj[i].controlling)){
+                console.log("controlling: ", obj[i].controlling)
+                $(this).children(".sector").css("fill", color_arr_orig[i])
+                $(this).attr("data-disabled", true)
             }
-        });
+        })
     }
 });
 
