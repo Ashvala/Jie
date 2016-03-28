@@ -232,5 +232,5 @@ setInterval(function() {
 
 socket.on('pong', function() {
     latency = Date.now() - startTime;
-    console.log(latency);
+    //    console.log(latency);
 });
