@@ -142,27 +142,6 @@ $(document).ready(function() {
         "This is an FM Synth <br/><br/> Usage: Use the bottom bar to manipulate LFO values... When you click the drawer icon on the bottom right, change instrument number to 2 and set your duration to your desire.",
         "You have the percussion section!"
     ]
-
-    // $(document).on("click", ".instrument_button", function() {
-    //     var clicked_div = $(this);
-    //     if ($(this).attr("data-disabled") == "false" && controlling_bool == false) {
-    //         controlling_bool = true
-    //         sectionNumber = parseInt($(this).attr("data-section-number"))
-    //         temp_sec_val = split_orcs[sectionNumber]
-    //         controlling_item = sectionNumber
-    //         $(".editor").val(temp_sec_val)
-    //         $(this).css("background", ins_num)
-    //         $(this).attr("data-disabled", "true")
-    //         socket.emit("control_disable", me.id + " ::: " + sectionNumber);
-    //         if (sectionNumber == 5) {
-    //             parseOrc(temp_sec_val, "seq_button");
-    //
-    //             $(".looper_creator").show();
-    //         } else {
-    //             parseOrc(temp_sec_val, "default");
-    //         }
-    //     }
-    // });
     $(".item").click(function() {
         var clicked_div = $(this);
         if ($(this).attr("data-disabled") == "false" && controlling_bool == false) {
