@@ -115,16 +115,13 @@ io.on('connection', function(socket) {
                 console.log("not sending anything... yet", count_total_csoundable(clients))
             }
         }else if (msg.event_type == "control_disable") {
-            console.log("Control:: ", msg)
             client_ind = get_client(msg.from.socket_id)
             if(client_ind != -1){
                 clients[client_ind].controlling = msg.event_args
-                console.log("At this point, clients are: ",clients);
+                console.log("Updated client list to reflect control change!")
                 io.emit("client_list", clients)
             }
-
         }else{
-
             io.emit("event", msg);
         }
     });
@@ -165,6 +162,7 @@ io.on('connection', function(socket) {
             io.to(clients[i].id).emit("instrument_ctrl", (get_client(socket.id) % 6))
         }
     });
+
     // If you request a client list, you get it here.
 
     socket.on("client_list_req", function() {

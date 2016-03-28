@@ -128,27 +128,6 @@ socket.on('orc', function(obj) {
 
 //needs a rewrite. Can I tie this in with the new Event API?
 
-// socket.on("control_disable", function(obj) {
-//
-//     var args = obj.split(":::")
-//     if (args[0] != ins_num) {
-//         $(".item").each(function() {
-//             if ($(this).attr("data-section-number") == parseInt(args[1])) {
-//                 $(this).children(".sector").css("fill", color_arr_orig[parseInt(args[0])])
-//                 $(this).children(".sector").css("color", "white")
-//                 $(this).children(".sector").css("stroke", "white")
-//             }
-//         });
-//         $(".item").each(function() {
-//             if (parseInt($(this).attr("data-id")) == parseInt(args[0])) {
-//                 $(this).css("background", color_arr_orig[parseInt(args[0])]);
-//                 $(this).children(".performer_controlling").html(section_names[parseInt(args[1])])
-//             }
-//         });
-//     }
-// });
-
-
 // Client List. This can use a bit of tweaking
 
 socket.on('client_list', function(obj) {

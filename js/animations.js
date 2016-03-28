@@ -95,5 +95,5 @@ glow_repeats = function() {
 scale_svg = function(item) {
     console.log($this)
     var scaler = Snap(item);
-
+    
 }

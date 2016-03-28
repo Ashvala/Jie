@@ -252,6 +252,7 @@ $(document).ready(function() {
         }, 4000);
 
     });
+    
     $(document).on("click", "[data-action=full_screen]", function() {
         $(".looper_creator").transition({x:0}).transition({y:0}).transition({width:"98%"}).transition({height:"100%"});
     });
