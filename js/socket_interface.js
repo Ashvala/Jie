@@ -138,26 +138,27 @@ socket.on('orc', function(obj) {
 // Client List. This can use a bit of tweaking
 
 socket.on('client_list', function(obj) {
-    //console.log(obj)
+    // set semi-circle back to a more default state.
+    $(".item").children(".sector").css("fill", "#222");
+    $(".item").each(function(){
+        $(this).attr("data-disabled", false)
+    });
     client_arr = obj;
 
+    // iterate through an array
     for (i = 0; i <= obj.length - 1; i++) {
-        var div_str = "<div class='client_button' style='background:" +
-            "white" + "'> " + obj[i].name + "</div>"
-        $(".client_bar").append(div_str)
         //performer space details
         $(".performer_space").each(function() {
             if (parseInt($(this).attr("data-id")) == i) {
-                //console.log("from client_list");
                 $(this).css("background", color_arr_orig[i]);
                 $(this).children(".performer_name").html(obj[i].name)
                 $(this).children(".performer_controlling").html(section_names[parseInt(obj[i].controlling)])
             }
         });
+
         // semi circle sectors:
         $(".item").each(function(){
             if (parseInt($(this).attr("data-section-number")) == parseInt(obj[i].controlling)){
-                console.log("controlling: ", obj[i].controlling)
                 $(this).children(".sector").css("fill", color_arr_orig[i])
                 $(this).attr("data-disabled", true)
             }

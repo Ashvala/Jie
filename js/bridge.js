@@ -151,10 +151,14 @@ io.on('connection', function(socket) {
         console.log("Disconnected");
         var outgoing_client = socket;
         var index = get_client(outgoing_client.id);
-        console.log(index);
+
+        console.log("Outgoing client was Controlling: ", clients[index].controlling)
         clients.splice(index, 1);
-        client_id_arr.splice(index,1)
-        console.log(clients);
+        for(i in clients){
+            clients[i].id = i
+            io.to(clients[i].socket_id).emit("you", clients[i])
+        }
+        console.log("Clients list post disconnect: ", clients);
         total_clients = total_clients - 1;
         io.emit("client_list", clients);
     });
