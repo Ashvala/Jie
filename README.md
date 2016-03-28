@@ -111,7 +111,7 @@ Socket event (as in messages that come through the socket) handling  happens on 
 
 - `client_list'` basically handles client lists... How cool!
 
-- `control_disable` is deprecated. 
+- `control_disable` is deprecated.
 # Credits:
 
 These are people who have contributed to this project in more than one way (significantly is a better way of phrasing it):

@@ -12,11 +12,27 @@ glow_animate = function(div_obj){
 
     div_obj.animate({
         backgroundColor: $.Color({lightness: new_lightness})
-    }, 1500).delay(1400);
+    }, 250).delay(250);
     div_obj.animate({
         backgroundColor: $.Color({lightness: original_lightness})
-    }, 1500);
+    }, 500);
 }
+glow_animate_svg = function(div_obj){
+    var main_circle = Snap("#trigger")
+    original_lightness = $.Color(div_obj, 'fill').lightness()
+    new_lightness = original_lightness + 0.1;
+    original_hsla = $.Color(div_obj, 'fill').hsla()
+    original_rgba = $.Color(div_obj, 'fill').rgba()
+    new_hsla = {}
+    new_hsla.h = original_hsla.hue
+    new_hsla.s = original_hsla.saturation
+    new_hsla.l = new_lightness
+    var g = main_circle.select()
+    console.log(g)
+//    main_circle.animate({fill: }, 250);
+
+}
+
 glow_animate_color = function(div_obj){
     original_lightness = $.Color(div_obj, 'color').lightness()
     new_lightness = original_lightness + 0.4;

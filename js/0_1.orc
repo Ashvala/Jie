@@ -50,7 +50,6 @@ instr globalmix
 denorm gaoutL
 denorm gaoutR
 kmastMult chnget "Output-Level" ;local
-printk2 kmastMult
 kmastMult *= 0.01
 outs (gaoutL * kmastMult), (gaoutR * kmastMult)
 clear gaoutR
@@ -217,6 +216,7 @@ gaPercBusR += (kperclev * a2)
 endin
 
 instr hat
+prints "hat"
 a1,a2 diskin2 "./http/assets/hat.wav", 1
 kperclev chnget "hat-send"
 kperclev *= 0.001

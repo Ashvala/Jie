@@ -60,6 +60,9 @@ function moduleDidLoad() {
 
 function handleMessage(message) {
     console.log(message.data)
+    if (message.data == "hat"){
+        glow_animate_svg($(".menu-trigger"))
+    }
 }
 
 function channel_message(obj) {

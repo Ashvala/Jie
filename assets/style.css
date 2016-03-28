@@ -373,7 +373,8 @@ input:focus {
     text-align: center;
     color: black;
     font-family: "Roboto";
-    width: 120px;
+    font-size: 0.8em;
+    width: 100px;
     overflow: ellipsis;
 }
 
