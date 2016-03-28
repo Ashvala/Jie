@@ -151,8 +151,6 @@ io.on('connection', function(socket) {
         console.log("Disconnected");
         var outgoing_client = socket;
         var index = get_client(outgoing_client.id);
-
-        console.log("Outgoing client was Controlling: ", clients[index].controlling)
         clients.splice(index, 1);
         for(i in clients){
             clients[i].id = i

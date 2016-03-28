@@ -22,7 +22,7 @@ verifyNote = function(event_args) {
 var color_arr_orig = ["#e67e22", "#0CA7DB", "#2c3e50", "#e74c3c", "#f1c40f", "#1abc9c"]
 
 sequence_play = function(event_args) {
-    if (sequence_triggered == 0){
+    if (sequence_triggered == 0) {
         sequence_triggered = 1
         glow_repeats()
     }
@@ -34,7 +34,7 @@ parse_event = function(event_obj) {
             notify("note_event", event_obj)
             $(".performer_space").each(function() {
                 if ($(this).attr("data-id") == event_obj.from.id) {
-//                    glow_animate($(this))
+                    //                    glow_animate($(this))
                 }
             })
             $(".mini_performer_space").each(function() {
@@ -48,7 +48,8 @@ parse_event = function(event_obj) {
         channel_message(event_obj.event_args)
     } else if (event_obj.event_type == "sequence") {
         sequence_play(event_obj.event_args)
-    } else if (event_obj.event_type == "add_client_to_ensemble") {
+    } else if (event_obj.event_type == "MIDImessage") {
+        handle_midi_message(event_obj.event_args)
 
     }
 }
@@ -64,19 +65,17 @@ function moduleDidLoad() {
 
 function handleMessage(message) {
     console.log(message.data)
-    if (message.data == "hat"){
+    if (message.data == "hat") {
         glow_animate_svg($(".menu-trigger"))
     }
-    if (message.data == "kick"){
+    if (message.data == "kick") {
         scale_svg("#item-6")
     }
 }
 
 function channel_message(obj) {
     var new_str = obj.split(" ");
-    //console.log(new_str[0]);
     var new_val = parseFloat(new_str[1]);
-    //console.log(new_val);
     csound.SetChannel(new_str[0], new_val)
     name = new_str[0];
     divstr = ".dial[data-name=" + name + "]";
@@ -109,14 +108,12 @@ socket.on("event", function(msg) {
 var csound_msg; //use this in the future to develop stuff.
 // current id... never used this...
 
-socket.on('current_ind', function(msg) {
-    //console.log(msg);
-    temp_ins_num = msg
-});
+// socket.on('current_ind', function(msg) {
+//     //console.log(msg);
+//     temp_ins_num = msg
+// });
 
 orc_str = ""
-
-
 
 //Handle Orchestra messages here
 
@@ -125,22 +122,15 @@ socket.on('orc', function(obj) {
     if (csound.module) {
         csound.CompileOrc(obj);
     } else {
-        //console.log("Huh");
+        console.log("Huh");
     }
     parseOrc(obj, "init");
 });
 
-
-//Handle Score messages here
-
-//needs a rewrite. Can I tie this in with the new Event API?
-
-// Client List. This can use a bit of tweaking
-
 socket.on('client_list', function(obj) {
     // set semi-circle back to a more default state.
     $(".item").children(".sector").css("fill", "#222");
-    $(".item").each(function(){
+    $(".item").each(function() {
         $(this).attr("data-disabled", false)
     });
     client_arr = obj;
@@ -157,8 +147,8 @@ socket.on('client_list', function(obj) {
         });
 
         // semi circle sectors:
-        $(".item").each(function(){
-            if (parseInt($(this).attr("data-section-number")) == parseInt(obj[i].controlling)){
+        $(".item").each(function() {
+            if (parseInt($(this).attr("data-section-number")) == parseInt(obj[i].controlling)) {
                 $(this).children(".sector").css("fill", color_arr_orig[i])
                 $(this).attr("data-disabled", true)
             }
