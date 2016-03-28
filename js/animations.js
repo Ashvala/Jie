@@ -1,4 +1,5 @@
 var curr_beat_on_animate = 0
+var sequence_triggered = 0
 glow_animate = function(div_obj) {
     original_lightness = $.Color(div_obj, 'background').lightness()
     new_lightness = original_lightness + 0.1;
@@ -41,10 +42,10 @@ glow_animate_svg = function(div_obj) {
         }, 100, mina.linear, glow2);
     }
     var glow2 = function() {
-            g.animate({
-                fill: Snap.hsl((original_hsla[0]), (original_hsla[1] * 100), ((original_hsla[2]) * 100))
-            }, 100);
-        }
+        g.animate({
+            fill: Snap.hsl((original_hsla[0]), (original_hsla[1] * 100), ((original_hsla[2]) * 100))
+        }, 100);
+    }
 
     glow1()
 }
@@ -73,22 +74,24 @@ glow_animate_color = function(div_obj) {
 }
 
 glow_repeats = function() {
-    n = 1
-    setInterval(function() {
-        beat_val = n % 16
-        if (beat_val == 0) {
-            beat_str = "[data-beat=" + 16 + "]"
-        } else {
-            beat_str = "[data-beat=" + beat_val + "]"
-        }
-        curr_beat_on_animate = beat_val
-        $(beat_str).transition({
-            "-webkit-filter": "brightness(0.8)"
-        }).delay(5).transition({
-            "-webkit-filter": "brightness(1)"
-        })
-        n += 1
-    }, 250)
+    if (sequence_triggered == 1) {
+        n = 1
+        setInterval(function() {
+            beat_val = n % 16
+            if (beat_val == 0) {
+                beat_str = "[data-beat=" + 16 + "]"
+            } else {
+                beat_str = "[data-beat=" + beat_val + "]"
+            }
+            curr_beat_on_animate = beat_val
+            $(beat_str).transition({
+                "-webkit-filter": "brightness(0.8)"
+            }).transition({
+                "-webkit-filter": "brightness(1)"
+            })
+            n += 1
+        }, 250)
+    }
 }
 
 scale_svg = function(item) {
@@ -99,23 +102,29 @@ scale_svg = function(item) {
     mat_scaler_lower.scale(0.99, 1.0)
     var mat_scaler_higher = new Snap.Matrix()
     mat_scaler_higher.scale(1.01, 1.0)
-    var animate_1 = function(){
-        s.animate({transform: mat_scaler_higher}, 100, mina.linear, animate_2)
+    var animate_1 = function() {
+        s.animate({
+            transform: mat_scaler_higher
+        }, 100, mina.linear, animate_2)
     }
-    var animate_2 = function(){
-        s.animate({transform: mat_scaler_lower}, 100, mina.linear)
+    var animate_2 = function() {
+        s.animate({
+            transform: mat_scaler_lower
+        }, 100, mina.linear)
     }
     animate_1()
 }
 
-scale_svg_release = function(item, scale_val){
+scale_svg_release = function(item, scale_val) {
     var scaler = Snap(item);
     var s = scaler.select("path")
 
     var mat_scaler_lower = new Snap.Matrix()
     mat_scaler_lower.scale(scale_val, 1.0)
-    var animate_1 = function(){
-        s.animate({transform: mat_scaler_higher}, 100, mina.linear)
+    var animate_1 = function() {
+        s.animate({
+            transform: mat_scaler_higher
+        }, 100, mina.linear)
     }
     animate_1()
 }

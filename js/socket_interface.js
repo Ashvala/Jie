@@ -22,6 +22,10 @@ verifyNote = function(event_args) {
 var color_arr_orig = ["#e67e22", "#0CA7DB", "#2c3e50", "#e74c3c", "#f1c40f", "#1abc9c"]
 
 sequence_play = function(event_args) {
+    if (sequence_triggered == 0){
+        sequence_triggered = 1
+        glow_repeats()
+    }
     csound.ReadScore(event_args);
 }
 parse_event = function(event_obj) {

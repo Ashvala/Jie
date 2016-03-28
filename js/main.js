@@ -234,14 +234,12 @@ $(document).ready(function() {
         }
     });
     $(document).on("click", "[data-action=play]", function() {
-
         csd_str = parse_boxes()
         ev_dets = {}
         ev_dets.from = me
         ev_dets.event_type = "sequence"
         ev_dets.event_args = csd_str
         socket.emit("event", ev_dets)
-        glow_repeats();
         setInterval(function() {
             nev_dets = {}
             nev_dets.from = me

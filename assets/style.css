@@ -235,7 +235,7 @@ input:focus {
 .kick_line {
     width: 100%;
     height: 25%;
-    border-bottom: 1px dotted #eee;
+    border-bottom: 1px dotted #ddd;
     margin-top: 10px;
 }
 .s_box {
