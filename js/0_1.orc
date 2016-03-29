@@ -229,9 +229,65 @@ endin
 
 ;Sampler. No one sees this
 
-instr sampler
-kenv = linseg(0, 1, 0.8, (p3-1), 0.8, 1, 0)
-a1,a2 diskin2 p4, 1
+instr rural
+kenv = linseg(0, 1, 0.8, (60-1), 0.8, 1, 0)
+a1,a2 diskin2 "./http/assets/samples/rural.wav", 1,0,1
+gaSamplrL += a1 * kenv
+gaSamplrR += a2 * kenv
+endin
+
+instr subway
+kenv = linseg(0, 1, 0.8, (60-1), 0.8, 1, 0)
+a1,a2 diskin2 "./http/assets/samples/subway.wav", 1,0,1
+gaSamplrL += a1 * kenv
+gaSamplrR += a2 * kenv
+endin
+
+instr airport
+kenv = linseg(0, 1, 0.8, (60-1), 0.8, 1, 0)
+a1,a2 diskin2 "./http/assets/samples/airport.wav", 1,0,1
+gaSamplrL += a1 * kenv
+gaSamplrR += a2 * kenv
+endin
+
+instr bar
+kenv = linseg(0, 1, 0.8, (60-1), 0.8, 1, 0)
+a1,a2 diskin2 "./http/assets/samples/bar.wav", 1,0,1
+gaSamplrL += a1 * kenv
+gaSamplrR += a2 * kenv
+endin
+
+instr city
+kenv = linseg(0, 1, 0.8, (60-1), 0.8, 1, 0)
+a1,a2 diskin2 "./http/assets/samples/city.wav", 1,0,1
+gaSamplrL += a1 * kenv
+gaSamplrR += a2 * kenv
+endin
+
+instr crowd
+kenv = linseg(0, 1, 0.8, (60-1), 0.8, 1, 0)
+a1,a2 diskin2 "./http/assets/samples/crowd.wav", 1,0,1
+gaSamplrL += a1 * kenv
+gaSamplrR += a2 * kenv
+endin
+
+instr rain
+kenv = linseg(0, 1, 0.8, (60-1), 0.8, 1, 0)
+a1,a2 diskin2 "./http/assets/samples/rain.wav", 1,0,1
+gaSamplrL += a1 * kenv
+gaSamplrR += a2 * kenv
+endin
+
+instr wind
+kenv = linseg(0, 1, 0.8, (60-1), 0.8, 1, 0)
+a1,a2 diskin2 "./http/assets/samples/wind.wav", 1,0,1
+gaSamplrL += a1 * kenv
+gaSamplrR += a2 * kenv
+endin
+
+instr fire
+kenv = linseg(0, 1, 0.8, (60-1), 0.8, 1, 0)
+a1,a2 diskin2 "./http/assets/samples/fire.wav", 1,0,1
 gaSamplrL += a1 * kenv
 gaSamplrR += a2 * kenv
 endin

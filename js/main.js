@@ -176,16 +176,23 @@ $(document).ready(function() {
         }
     });
     $(document).on("click", ".sample", function() {
+        if($(this).attr('data-triggered') == "false"){
 
-        var uri_str = "./http/assets/samples/" + $(this).attr("data") + ".wav"
-        console.log(uri_str);
-        str_for_ev = 'i \"sampler\" 0 60 \"' + uri_str + "\"";
-        ev_dets = {}
-        ev_dets.from = me
-        ev_dets.event_type = "note_message"
-        ev_dets.event_args = str_for_ev
-        socket.emit('event', ev_dets)
-
+            str_for_ev = 'i "'+$(this).attr("data")+'" 0 -1'
+            ev_dets = {}
+            ev_dets.from = me
+            ev_dets.event_type = "note_message"
+            ev_dets.event_args = str_for_ev
+            socket.emit('event', ev_dets)
+            $(this).attr('data-triggered', 'true') 
+        }else{
+            str_for_ev = 'i "-'+$(this).attr("data")+'" 4 1'
+            ev_dets = {}
+            ev_dets.from = me
+            ev_dets.event_type = "note_message"
+            ev_dets.event_args = str_for_ev
+            socket.emit('event', ev_dets)
+        }
     });
 
     $(".help_button").click(function() {

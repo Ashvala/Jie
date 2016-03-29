@@ -16,6 +16,7 @@ body {
     -moz-user-select: none;
     -ms-user-select: none;
     user-select: none;
+    overflow-y: hidden;
 }
 .floating_keyboard {
     display: none;
@@ -30,7 +31,6 @@ body {
 }
 .content {
     width: 100%;
-    height: 100%;
 }
 .topbar {
     background: none;
@@ -61,6 +61,10 @@ body {
     margin-left: 20%;
     margin-top: 10px;
 }
+.screen{
+    overflow-y: hidden;
+}
+
 
 .sample {
     -webkit-touch-callout: none;
@@ -221,23 +225,30 @@ input:focus {
 .active:hover {
     background: #0CB7DB;
 }
-.looper_creator {
+.main_tab_windows{
     position: fixed;
-    top: 40px;
-    left: 20px;
     width: 70%;
     height: 50%;
+    left: 20px;
+
+}
+.looper_creator {
+    position: ahsolute;
+    top: 40px;
+    left: 20px;
+    width: 100%;
+    height: 70%;
     font-family: "Roboto";
-    background: #eee;
+    background: #ddd;
     z-index: 10000;
     display: none;
 }
 .kick_line {
     width: 100%;
     height: 25%;
-    border-bottom: 1px dotted #ddd;
     margin-top: 10px;
 }
+
 .s_box {
     float: left;
     width: 6.15%;
@@ -289,10 +300,11 @@ input:focus {
 }
 .options {
     width: 100%;
-    height: 20%;
-    margin-top: 20px;
+    height: 10%;
+    margin-top: 30px;
     margin-left: 10px;
 }
+
 .name {
     color: black;
     font-size: 1.4em;
@@ -590,4 +602,30 @@ svg {
     border: 1px dotted #aaa;
     right: 10;
     bottom: 4px;
+}
+.tab_box{
+    width: 100%;
+    height: 10%;
+    background: #222;
+    margin-top: 8%;
+
+}
+.tab_button{
+    width: 12.5%;
+    margin-left: 10px;
+    color: white;
+    font-family: Roboto;
+    float: left;
+    background: #444;
+    font-size: 1.2em;
+    text-align: center;
+    padding-left: 10px;
+    padding-right: 10px;
+    padding-top: 10px;
+    padding-bottom: 7px;
+    margin-right: 13px;
+}
+
+.active_tab_button{
+    background: #777;
 }
