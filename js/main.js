@@ -35,7 +35,7 @@ $(document).ready(function() {
     /*** Generate! **/
     generator("drums");
     /*** Work on WebMidi things here: */
-
+    $(".help_section").delay(6000).fadeOut("slow");
     WebMidi.enable(onSuccess, onFailure);
 
     function onSuccess() {
@@ -184,7 +184,7 @@ $(document).ready(function() {
             ev_dets.event_type = "note_message"
             ev_dets.event_args = str_for_ev
             socket.emit('event', ev_dets)
-            $(this).attr('data-triggered', 'true') 
+            $(this).attr('data-triggered', 'true')
         }else{
             str_for_ev = 'i "-'+$(this).attr("data")+'" 4 1'
             ev_dets = {}
