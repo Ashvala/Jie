@@ -5,6 +5,15 @@ nchnls = 2
 0dbfs = 1.0
 
 
+;Max voice Allocs
+
+maxalloc 1, 5
+maxalloc 2, 3
+maxalloc 3, 1
+maxalloc 4, 1
+maxalloc "rural", 1
+maxalloc "rural", 1
+maxalloc "rural", 1
 
 ; create midi assignments here:
 massign 1, 1
@@ -232,63 +241,63 @@ endin
 ;Sampler. No one sees this
 
 instr rural
-kenv = linseg(0, 1, 0.8, (60-1), 0.8, 1, 0)
+kenv = linseg(0, 1, 0.8, (10-1), 0.8, 1, 0)
 a1,a2 diskin2 "./http/assets/samples/rural.wav", 1,0,1
 gaSamplrL += a1 * kenv
 gaSamplrR += a2 * kenv
 endin
 
 instr subway
-kenv = linseg(0, 1, 0.8, (60-1), 0.8, 1, 0)
+kenv = linseg(0, 1, 0.8, (10-1), 0.8, 1, 0)
 a1,a2 diskin2 "./http/assets/samples/subway.wav", 1,0,1
 gaSamplrL += a1 * kenv
 gaSamplrR += a2 * kenv
 endin
 
 instr airport
-kenv = linseg(0, 1, 0.8, (60-1), 0.8, 1, 0)
+kenv = linseg(0, 1, 0.8, (10-1), 0.8, 1, 0)
 a1,a2 diskin2 "./http/assets/samples/airport.wav", 1,0,1
 gaSamplrL += a1 * kenv
 gaSamplrR += a2 * kenv
 endin
 
 instr bar
-kenv = linseg(0, 1, 0.8, (60-1), 0.8, 1, 0)
+kenv = linseg(0, 1, 0.8, (10-1), 0.8, 1, 0)
 a1,a2 diskin2 "./http/assets/samples/bar.wav", 1,0,1
 gaSamplrL += a1 * kenv
 gaSamplrR += a2 * kenv
 endin
 
 instr city
-kenv = linseg(0, 1, 0.8, (60-1), 0.8, 1, 0)
+kenv = linseg(0, 1, 0.8, (10-1), 0.8, 1, 0)
 a1,a2 diskin2 "./http/assets/samples/city.wav", 1,0,1
 gaSamplrL += a1 * kenv
 gaSamplrR += a2 * kenv
 endin
 
 instr crowd
-kenv = linseg(0, 1, 0.8, (60-1), 0.8, 1, 0)
+kenv = linseg(0, 1, 0.8, (10-1), 0.8, 1, 0)
 a1,a2 diskin2 "./http/assets/samples/crowd.wav", 1,0,1
 gaSamplrL += a1 * kenv
 gaSamplrR += a2 * kenv
 endin
 
 instr rain
-kenv = linseg(0, 1, 0.8, (60-1), 0.8, 1, 0)
+kenv = linseg(0, 1, 0.8, (10-1), 0.8, 1, 0)
 a1,a2 diskin2 "./http/assets/samples/rain.wav", 1,0,1
 gaSamplrL += a1 * kenv
 gaSamplrR += a2 * kenv
 endin
 
 instr wind
-kenv = linseg(0, 1, 0.8, (60-1), 0.8, 1, 0)
+kenv = linseg(0, 1, 0.8, (10-1), 0.8, 1, 0)
 a1,a2 diskin2 "./http/assets/samples/wind.wav", 1,0,1
 gaSamplrL += a1 * kenv
 gaSamplrR += a2 * kenv
 endin
 
 instr fire
-kenv = linseg(0, 1, 0.8, (60-1), 0.8, 1, 0)
+kenv = linseg(0, 1, 0.8, (10-1), 0.8, 1, 0)
 a1,a2 diskin2 "./http/assets/samples/fire.wav", 1,0,1
 gaSamplrL += a1 * kenv
 gaSamplrR += a2 * kenv
