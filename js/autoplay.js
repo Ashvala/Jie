@@ -52,4 +52,4 @@ setInterval(function(){
 },2000);
 setInterval(function(){
     playNoteOff(1, curr_note)
-},3000)
+},4000)
