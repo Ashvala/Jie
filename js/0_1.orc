@@ -12,8 +12,14 @@ maxalloc 2, 3
 maxalloc 3, 1
 maxalloc 4, 1
 maxalloc "rural", 1
-maxalloc "rural", 1
-maxalloc "rural", 1
+maxalloc "city", 1
+maxalloc "bar", 1
+maxalloc "subway", 1
+maxalloc "airport", 1
+maxalloc "crowd", 1
+maxalloc "rain", 1
+maxalloc "wind", 1
+maxalloc "fire", 1
 
 ; create midi assignments here:
 massign 1, 1
