@@ -2,7 +2,7 @@
 
 This is all the code for Jie!
 
-Jie is my final thesis project at Berklee and part of my research into how to create music over the internet in a slightly brute-force way! This is based on my work that was shown at the Third International Csound Conference. 
+Jie is my final thesis project at Berklee and part of my research into how to create music over the internet in a slightly brute-force way! This is based on my work that was shown at the Third International Csound Conference. The code for that is available [here](http://github.com/ashvala/ICSC2015)
 
 # Bug reports, fixes and feature requests:
 
@@ -122,8 +122,6 @@ Feel free to look at these programs and add to them as you wish:
 - CsoundStringHandler.js
 - parser.js
 - KeyboardMIDIPlayer.js
-
-
 
 # Credits:
 
