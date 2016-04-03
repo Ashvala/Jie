@@ -27,20 +27,28 @@ socket.on("connect", function(){
 });
 
 note_arr = [60,62,63,67,68,72]
+
 get_note = function(){
     return note_arr[Math.floor(Math.random()*note_arr.length)];
 }
-var note = note_arr[Math.floor(Math.random()*note_arr.length)];
-var playNoteOn = function(instr_num){
+//var note = note_arr[Math.floor(Math.random()*note_arr.length)];
+var curr_note = get_note()
+var playNoteOn = function(instr_num, note){
+    console.log("sent note on")
     MIDIByte1 = [(143 + instr_num), note, 72]
     socket.emit("MIDImessage", MIDIByte1)
-    // setInterval(function(){
-    //     MIDIByte2 = [(127 + instr_num), note, 72]
-    //     socket.emit("MIDImessage", MIDIByte)
-    // }, 2500)
+    curr_note = get_note()
 }
 
-var playNoteOff = function(instr_num){
-
+var playNoteOff = function(instr_num, note){
+    console.log("sent note off")
+    MIDIByte1 = [(127 + instr_num), note, 72]
+    socket.emit("MIDImessage", MIDIByte1)
 }
-playNoteOn(1)
+
+setInterval(function(){
+    playNoteOn(1, curr_note)
+},2000);
+setInterval(function(){
+    playNoteOff(1, curr_note)
+},3000)
