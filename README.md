@@ -2,6 +2,10 @@
 
 This is the repository for CsSocket development. CsSocket (AKA Jie, for now) is my original research that allows for people to jam over the internet.
 
+# Bug reports, fixes and feature requests:
+
+For this, please use the GitHub Issue Tracking system and report any bugs that you find. If you have a bug fix that you would like to add, please put in a pull request!
+
 # A bit of documentation:
 
 ## Prerequisites:
@@ -47,8 +51,6 @@ Callbacks that are used:
 
 - `orc:` set orchestras (useful if you're doing live-coding)
 
-- `control_disable:` Soon to be deprecated, but, just handles disable of buttons on clients.
-
 - `client_list_req:` respond to requests about who are connected.
 
 - `ping:` pong.
@@ -82,13 +84,11 @@ event_type is restricted to the following for the moment:
 
 MIDI messages are handled independently.
 
-The only noteworthy(*giggles* <sup>Plz<sup>don't<sup>hurt<sup>me</sup></sup></sup></sup>) event handled on the server is the `add_client` event.
+The noteworthy events handled on the server are the `add_client` and the `control_disable` events.
 
-Event args typically contain the arguments that are pertinent to the related event.
+Event args typically contain the arguments that are pertinent to the related event. Future updates will most certainly make sure that these arguments are parsed as opposed to being sent out-right.
 
 ## How things happen on the client:
-
-I can write a novel about this. I'm not P.G.Wodehouse, so, I may not be able to do the idea much justice. However, here goes.
 
 Socket event (as in messages that come through the socket) handling  happens on `socket_interface.js`. We won't dissect the entire thing, but, hey, let's do as much as we can.
 
@@ -109,9 +109,20 @@ Socket event (as in messages that come through the socket) handling  happens on 
 
 - `client_add` adds a client to the performers window.
 
-- `client_list'` basically handles client lists... How cool!
+- `client_list` basically handles client lists... How cool!
 
-- `control_disable` is deprecated.
+
+# Experimental programs that are still in the js folder:
+
+Feel free to look at these programs and add to them as you wish:
+
+- autoplay.js
+- CsoundStringHandler.js
+- parser.js
+- KeyboardMIDIPlayer.js
+
+
+
 # Credits:
 
 These are people who have contributed to this project in more than one way (significantly is a better way of phrasing it):
