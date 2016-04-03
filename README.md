@@ -1,10 +1,12 @@
-# CsSocket
+# Jie
 
-This is the repository for CsSocket development. CsSocket (AKA Jie, for now) is my original research that allows for people to jam over the internet.
+This is all the code for Jie!
+
+Jie is my final thesis project at Berklee and part of my research into how to create music over the internet in a slightly brute-force way! This is based on my work that was shown at the Third International Csound Conference. 
 
 # Bug reports, fixes and feature requests:
 
-For this, please use the GitHub Issue Tracking system and report any bugs that you find. If you have a bug fix that you would like to add, please put in a pull request!
+For this, please use the GitHub Issue Tracking system and report any bugs that you find. If you have a bug fix that you would like to add, please put in a pull request. Let's make jamming fun again.
 
 # A bit of documentation:
 
