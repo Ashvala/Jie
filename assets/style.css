@@ -22,12 +22,17 @@ body {
     display: none;
     position: fixed;
     top: 40px;
-    left: 20px;
+    left: 30px;
     width: 70%;
     height: 50%;
     font-family: "Roboto";
     background: #eee;
 
+}
+.instrument_name_float{
+    margin-bottom: 10px;
+    font-size: 1.2em;
+    font-weight: 300;
 }
 .content {
     width: 100%;

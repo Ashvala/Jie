@@ -24,7 +24,7 @@ dial_init = function() {
     }); //Dial handled here
 
 }
-var section_names = ["Mix section", "modal synth", "LFOoo", "Clarinet", "FM synth", "Drums"]
+var section_names = ["Ambience", "Bells", "Bass", "Clarinet", "Guitar", "Drums"]
 
 function moduleDidLoad() {
     csound.Play();
@@ -158,7 +158,6 @@ $(document).ready(function() {
             ev_args.event_type = "control_disable"
             ev_args.event_args = sectionNumber;
             socket.emit("event", ev_args)
-            socket.emit("control_disable", me.id + " ::: " + sectionNumber);
             me.controlling = sectionNumber
             if (sectionNumber == 5) {
                 parseOrc(temp_sec_val, "default");
@@ -170,6 +169,7 @@ $(document).ready(function() {
                 parseOrc(temp_sec_val, "default");
             } else {
                 $(".looper_creator").fadeOut("fast");
+                $(".instrument_name_float").html(section_names[sectionNumber])
                 $(".floating_keyboard").fadeIn("fast");
                 parseOrc(temp_sec_val, "default");
             }
