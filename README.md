@@ -133,7 +133,7 @@ These are people who have contributed to this project in more than one way (sign
 
 Shout-out to the students from Dr. Boulanger's EP-491 section for Spring 2016 for helping me test things and continually suggesting things for me to fix and add. They are:
 
-- Peder Barett-Due
+- Peder Barratt-Due
 - Stian Hansen
 - Cordelia Vizcaino Leal
 - Andrew Perrin
