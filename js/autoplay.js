@@ -35,6 +35,7 @@ get_note = function(){
 var curr_note = get_note()
 var playNoteOn = function(instr_num, note){
     console.log("sent note on")
+    console.log(curr_note)
     MIDIByte1 = [(143 + instr_num), note, 72]
     socket.emit("MIDImessage", MIDIByte1)
     curr_note = get_note()
