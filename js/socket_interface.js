@@ -58,7 +58,6 @@ parse_event = function(event_obj) {
         sequence_play(event_obj.event_args)
     } else if (event_obj.event_type == "MIDImessage") {
         handle_midi_message(event_obj.event_args)
-
     }
 }
 
@@ -77,7 +76,7 @@ Module['noExitRuntime'] = true;
 Module['_main'] = function() {
     csoundObj = new CsoundObj();
     csoundObj.start();
-
+    csoundObj.testMidi();
     $(".obs_screen").fadeOut("slow");
     $('.SocketField').css("display", "block");
 
@@ -131,13 +130,6 @@ socket.on("event", function(msg) {
 
 });
 var csound_msg; //use this in the future to develop stuff.
-// current id... never used this...
-
-// socket.on('current_ind', function(msg) {
-//     //console.log(msg);
-//     temp_ins_num = msg
-// });
-
 orc_str = ""
 
 //Handle Orchestra messages here
