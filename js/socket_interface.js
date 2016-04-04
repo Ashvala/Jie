@@ -79,7 +79,6 @@ Module['_main'] = function() {
     csoundObj.testMidi();
     $(".obs_screen").fadeOut("slow");
     $('.SocketField').css("display", "block");
-
 };
 
 function handleMessage(message){
@@ -139,8 +138,11 @@ socket.on('orc', function(obj) {
     if (csound.module) {
         csound.CompileOrc(obj);
     } else {
+
         csoundObj.evaluateCode(obj);
+        csoundObj.start();
     }
+
     parseOrc(obj, "init");
 });
 

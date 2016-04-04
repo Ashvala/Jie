@@ -88,8 +88,6 @@ var CsoundObj = function() {
         _pushMidiMessage(_self, data1, data2. data3)
 
     }
-
-
     this.testMidi = function(){
         _pushMidiMessage(_self, 144,67,72)
     }

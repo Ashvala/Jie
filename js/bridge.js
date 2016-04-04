@@ -141,7 +141,6 @@ io.on('connection', function(socket) {
 
     socket.on("orc", function(msg) {
         io.emit("orc", msg);
-        //        console.log(msg);
     });
 
 

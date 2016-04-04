@@ -283,7 +283,7 @@ $(document).ready(function() {
         if (csound.module){
             csound.SetChannel($(this).attr("data-channel"), parseInt($(this).val()))
         }else{
-            csound.setControlChannel($(this).attr("data-channel"), parseInt($(this).val()))
+            csoundObj.setControlChannel($(this).attr("data-channel"), parseInt($(this).val()))
         }
     });
 });
