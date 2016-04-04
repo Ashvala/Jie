@@ -84,7 +84,9 @@ var CsoundObj = function() {
 		}
 
 	};
-
+    midiin = function(data1, data2, data3){
+        _pushMidiMessage(_self, data1, data2. data3)
+    }
 	this.enableMidiInput = function(midiInputCallback) {
 
 		var handleMidiInput = function(event) {

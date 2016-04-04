@@ -62,6 +62,9 @@ parse_event = function(event_obj) {
     }
 }
 
+function handle_midi_message(args){
+    console.log(args);
+}
 //if I ever use the csound moduleDidLoad function, I'll handle some of that code here.
 function moduleDidLoad() {
     csound.Play();
@@ -74,7 +77,7 @@ Module['noExitRuntime'] = true;
 Module['_main'] = function() {
     csoundObj = new CsoundObj();
     csoundObj.start();
-    csoundObj.pushMidiMessage();
+
     $(".obs_screen").fadeOut("slow");
     $('.SocketField').css("display", "block");
 
@@ -221,8 +224,11 @@ socket.on("disconnect", function(obj) {
 socket.on("MIDImessage", function(obj) {
     decompiledObj = obj
     console.log("MIDIMessage: Got message: ", obj)
-
-    csound.MIDIin(decompiledObj[0], decompiledObj[1], decompiledObj[2])
+    if(csound.module){
+        csound.MIDIin(decompiledObj[0], decompiledObj[1], decompiledObj[2])
+    }else{
+        csoundObj.midiin(decompiledObj[0], decompiledObj[1], decompiledObj[2])
+    }
 })
 var startTime;
 
