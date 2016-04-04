@@ -8,10 +8,8 @@ var client_arr = [];
 
 //Temporary instrument number:
 var temp_ins_num
-
+var csoundObj;
 verifyNote = function(event_args) {
-    //console.log(event_args);
-    //console.log("here?")
     var split = event_args.split(" ");
     if (split[0] == "i") {
         return true
@@ -26,7 +24,12 @@ sequence_play = function(event_args) {
         sequence_triggered = 1
         glow_repeats()
     }
-    csound.ReadScore(event_args);
+    if (csound.module){
+        csound.ReadScore(event_args);
+    }else{
+        csoundObj.readScore(event_args);
+    }
+
 }
 parse_event = function(event_obj) {
     if (event_obj.event_type == "note_message") {
@@ -42,7 +45,12 @@ parse_event = function(event_obj) {
                     glow_animate($(this))
                 }
             })
-            csound.Event(event_obj.event_args);
+            if (csound.module) {
+                csound.Event(event_obj.event_args);
+            } else {
+                csound.ReadScore(event_)
+            }
+
         }
     } else if (event_obj.event_type == "channel_message") {
         channel_message(event_obj.event_args)
@@ -60,8 +68,15 @@ function moduleDidLoad() {
     console.log("Csound loaded, perhaps!")
     $(".SocketField").css("display", "block");
     $(".obs_screen").fadeOut("slow");
-    //        $(".client_bar").fadeIn("slow");
 }
+
+Module['noExitRuntime'] = true;
+Module['_main'] = function() {
+    csoundObj = new CsoundObj();
+    $(".obs_screen").fadeOut("slow");
+    $('.SocketField').css("display", "block");
+
+};
 
 function handleMessage(message) {
     console.log(message.data)
@@ -76,7 +91,12 @@ function handleMessage(message) {
 function channel_message(obj) {
     var new_str = obj.split(" ");
     var new_val = parseFloat(new_str[1]);
-    csound.SetChannel(new_str[0], new_val)
+    if (csound.module){
+        csound.SetChannel(new_str[0], new_val)
+    }else{
+        csoundObj.setControlChannel(new_str[0], new_val)
+    }
+
     name = new_str[0];
     divstr = ".dial[data-name=" + name + "]";
     $(divstr).val(new_val);
@@ -122,7 +142,7 @@ socket.on('orc', function(obj) {
     if (csound.module) {
         csound.CompileOrc(obj);
     } else {
-        console.log("Huh");
+        csoundObj.evaluateCode(obj);
     }
     parseOrc(obj, "init");
 });
