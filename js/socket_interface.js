@@ -74,12 +74,13 @@ Module['noExitRuntime'] = true;
 Module['_main'] = function() {
     csoundObj = new CsoundObj();
     csoundObj.start();
+    csoundObj.pushMidiMessage();
     $(".obs_screen").fadeOut("slow");
     $('.SocketField').css("display", "block");
 
 };
 
-function handleMessage(message) {
+function handleMessage(message){
     console.log(message.data)
     if (message.data == "hat") {
         glow_animate_svg($(".menu-trigger"))
