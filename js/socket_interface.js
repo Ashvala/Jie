@@ -73,6 +73,7 @@ function moduleDidLoad() {
 Module['noExitRuntime'] = true;
 Module['_main'] = function() {
     csoundObj = new CsoundObj();
+    csoundObj.start();
     $(".obs_screen").fadeOut("slow");
     $('.SocketField').css("display", "block");
 

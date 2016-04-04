@@ -237,6 +237,7 @@ $(document).ready(function() {
             ev_dets.event_args = ev_args
             socket.emit("event", ev_dets)
             socket.emit("request_orc")
+
             $(".instruments_container").fadeIn("fast");
         }
     });
@@ -279,6 +280,10 @@ $(document).ready(function() {
     $(document).on("input change", ".slide", function() {
         console.log($(this).attr("data-channel"))
         console.log($(this).val())
-        csound.SetChannel($(this).attr("data-channel"), parseInt($(this).val()))
+        if (csound.module){
+            csound.SetChannel($(this).attr("data-channel"), parseInt($(this).val()))
+        }else{
+            csound.setControlChannelValue($(this).attr("data-channel"), parseInt($(this).val()))
+        }
     });
 });
