@@ -1,4 +1,4 @@
-var performance_mode;
+    var performance_mode;
 var controlling_bool = false;
 var controlling_item = NaN;
 var field_visible = true;
@@ -29,6 +29,15 @@ var section_names = ["Ambience", "Bells", "Bass", "Clarinet", "Guitar", "Drums"]
 function moduleDidLoad() {
     csound.Play();
 }
+
+function createCSD(string){
+     var csd = "<CsoundSynthesizer>\n<CsInstruments>\n"
+     csd += string
+     csd += "\n</CsInstruments>\n<CsScore>\n"
+     csd += "\n</CsScore>\n</CsoundSynthesizer>\n"
+     return csd
+}
+
 
 
 $(document).ready(function() {
@@ -79,11 +88,11 @@ $(document).ready(function() {
     }
 
 
-    if (!csound.module) {
-        $(".SocketField").css("display", "none");
-        $(".client_bar").css("display", "none");
-        $(".obs_screen").fadeIn("slow");
-    }
+    // if (!csound.module) {
+    //     $(".SocketField").css("display", "none");
+    //     $(".client_bar").css("display", "none");
+    //     $(".obs_screen").fadeIn("slow");
+    // }
     var active = 0;
     var seq_list = [];
     dial_init();

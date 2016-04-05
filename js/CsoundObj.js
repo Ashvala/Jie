@@ -85,6 +85,7 @@ var CsoundObj = function() {
 
 	};
     this.midiin = function(data1, data2, data3){
+		console.log("MIDI in called?")
         _pushMidiMessage(_self, data1, data2. data3)
 
     }
@@ -92,7 +93,7 @@ var CsoundObj = function() {
         _pushMidiMessage(_self, 144,67,72)
     }
 	this.enableMidiInput = function(midiInputCallback) {
-
+		midiInputCallback(true);
 		var handleMidiInput = function(event) {
 
 			_pushMidiMessage(_self, event.data[0], event.data[1], event.data[2]);
@@ -114,7 +115,8 @@ var CsoundObj = function() {
 		var midiFail = function(error) {
 
 			Module['print']("MIDI failed to start, error:" + error);
-			midiInputCallback(false);
+			_setMidiCallbacks(_self);
+			midiInputCallback(true);
 		};
 		if (navigator.requestMIDIAccess) {
 
@@ -123,7 +125,8 @@ var CsoundObj = function() {
 		else {
 
 			Module['print']("MIDI not supported in this browser");
-			midiInputCallback(false);
+			_setMidiCallbacks(_self);
+			midiInputCallback(true);
 		}
 	};
 
@@ -157,7 +160,7 @@ var CsoundObj = function() {
 	};
 
 	this.setControlChannel = function(channelName, value) {
-
+		console.log("channel_name:: ", channelName, " with value: ", value)
 		_setControlChannel(_self, channelName, value);
 	};
 

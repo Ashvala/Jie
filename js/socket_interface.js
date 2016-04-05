@@ -75,8 +75,7 @@ function moduleDidLoad() {
 Module['noExitRuntime'] = true;
 Module['_main'] = function() {
     csoundObj = new CsoundObj();
-    csoundObj.start();
-    csoundObj.testMidi();
+
     $(".obs_screen").fadeOut("slow");
     $('.SocketField').css("display", "block");
 };
@@ -138,9 +137,23 @@ socket.on('orc', function(obj) {
     if (csound.module) {
         csound.CompileOrc(obj);
     } else {
-
-        csoundObj.evaluateCode(obj);
+        console.log(createCSD(obj));
+        FS.writeFile("/temp.csd", createCSD(obj), {encoding: 'utf8'});
+        csoundObj.compileCSD("/temp.csd");
         csoundObj.start();
+        var midiInputCallback = function(status) {
+
+            if (status === true) {
+
+                console.log("true")
+            }
+            else {
+
+                console.log('false')
+            }
+        }
+        csoundObj.enableMidiInput(midiInputCallback);
+
     }
 
     parseOrc(obj, "init");
