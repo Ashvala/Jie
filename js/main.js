@@ -31,7 +31,7 @@ function moduleDidLoad() {
 }
 
 function createCSD(string){
-     var csd = "<CsoundSynthesizer>\n<CsInstruments>\n"
+     var csd = "<CsoundSynthesizer>\n<CsOptions>\n-o dac -M0\n</CsOptions>\n<CsInstruments>\n"
      csd += string
      csd += "\n</CsInstruments>\n<CsScore>\n"
      csd += "\n</CsScore>\n</CsoundSynthesizer>\n"
@@ -88,11 +88,11 @@ $(document).ready(function() {
     }
 
 
-    // if (!csound.module) {
-    //     $(".SocketField").css("display", "none");
-    //     $(".client_bar").css("display", "none");
-    //     $(".obs_screen").fadeIn("slow");
-    // }
+    if (!csound.module) {
+        $(".SocketField").css("display", "none");
+        $(".client_bar").css("display", "none");
+        $(".obs_screen").fadeIn("slow");
+    }
     var active = 0;
     var seq_list = [];
     dial_init();
@@ -296,10 +296,10 @@ $(document).ready(function() {
     $(document).on("input change", ".slide", function() {
         console.log($(this).attr("data-channel"))
         console.log($(this).val())
-        // if (csound.module){
-        //     csound.SetChannel($(this).attr("data-channel"), parseInt($(this).val()))
-        // }else{
+        if (csound.module){
+            csound.SetChannel($(this).attr("data-channel"), parseInt($(this).val()))
+        }else{
             csoundObj.setControlChannel($(this).attr("data-channel"), parseInt($(this).val()))
-//        }
+        }
     });
 });

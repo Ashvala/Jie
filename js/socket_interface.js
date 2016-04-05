@@ -131,20 +131,16 @@ var csound_msg; //use this in the future to develop stuff.
 orc_str = ""
 
 //Handle Orchestra messages here
-
+var midiFunc;
 socket.on('orc', function(obj) {
     //    //console.log(obj);
     if (csound.module) {
         csound.CompileOrc(obj);
     } else {
-        console.log(createCSD(obj));
-        FS.writeFile("/temp.csd", createCSD(obj), {encoding: 'utf8'});
-        csoundObj.compileCSD("/temp.csd");
-        csoundObj.start();
-        var midiInputCallback = function(status) {
-
+        var midiInputCallback = function(status, event) {
+            console.log(event)
             if (status === true) {
-
+                console.log("MIDI enabled here: ")
                 console.log("true")
             }
             else {
@@ -152,8 +148,13 @@ socket.on('orc', function(obj) {
                 console.log('false')
             }
         }
-        csoundObj.enableMidiInput(midiInputCallback);
 
+
+        console.log(createCSD(obj));
+        FS.writeFile("/temp.csd", createCSD(obj), {encoding: 'utf8'});
+        csoundObj.enableMidiInput(midiInputCallback);
+        csoundObj.compileCSD("/temp.csd");
+        csoundObj.start();
     }
 
     parseOrc(obj, "init");
@@ -234,7 +235,11 @@ socket.on("MIDImessage", function(obj) {
     if(csound.module){
         csound.MIDIin(decompiledObj[0], decompiledObj[1], decompiledObj[2])
     }else{
-        csoundObj.midiin(decompiledObj[0], decompiledObj[1], decompiledObj[2])
+        //csoundObj.midiin(decompiledObj[0], decompiledObj[1], decompiledObj[2])
+        console.log("emscripten midi");
+
+//        csoundObj.pushMidiMessage(decompiledObj[0], decompiledObj[1], decompiledObj[2])
+
     }
 })
 var startTime;
