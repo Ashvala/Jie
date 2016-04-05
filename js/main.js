@@ -118,8 +118,15 @@ $(document).ready(function() {
             console.log($(this).attr("data"));
             midi_byte = [(controlling_item + 127), parseInt($(this).attr("data")), 70]
             socket.emit("MIDImessage", midi_byte)
+        }).bind("touchstart", function(e){
+            console.log($(this).attr("data"));
+            midi_byte = [(controlling_item + 143), parseInt($(this).attr("data")), 70]
+            socket.emit("MIDImessage", midi_byte)
+        }).bind('touchend',function(e){
+            console.log($(this).attr("data"));
+            midi_byte = [(controlling_item + 127), parseInt($(this).attr("data")), 70]
+            socket.emit("MIDImessage", midi_byte)
         });
-
     $(".button").click(function() {
         $(this).transition({
             scale: 0.98
@@ -289,10 +296,10 @@ $(document).ready(function() {
     $(document).on("input change", ".slide", function() {
         console.log($(this).attr("data-channel"))
         console.log($(this).val())
-        if (csound.module){
-            csound.SetChannel($(this).attr("data-channel"), parseInt($(this).val()))
-        }else{
+        // if (csound.module){
+        //     csound.SetChannel($(this).attr("data-channel"), parseInt($(this).val()))
+        // }else{
             csoundObj.setControlChannel($(this).attr("data-channel"), parseInt($(this).val()))
-        }
+//        }
     });
 });

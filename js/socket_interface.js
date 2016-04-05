@@ -48,7 +48,7 @@ parse_event = function(event_obj) {
             if (csound.module) {
                 csound.Event(event_obj.event_args);
             } else {
-                csound.ReadScore(event_)
+                csoundObj.ReadScore(event_obj.event_args);
             }
 
         }
