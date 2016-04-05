@@ -141,8 +141,9 @@ garvbR += (ares * kreverbLevel)
 klev init 0.5
 klev chnget "instr-1-level"
 klev *= 0.001
-gaoutL += (klev * ares)
-gaoutR += (klev * ares)
+aadsr = madsr(0.2, 1, 0.9, 1)
+gaoutL += (klev * aadsr)
+gaoutR += (klev * aadsr)
 endin
 
 ;-----------------------------------------;

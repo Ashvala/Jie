@@ -1,4 +1,4 @@
-var performance_mode;
+    var performance_mode;
 var controlling_bool = false;
 var controlling_item = NaN;
 var field_visible = true;
@@ -29,6 +29,15 @@ var section_names = ["Ambience", "Bells", "Bass", "Clarinet", "Guitar", "Drums"]
 function moduleDidLoad() {
     csound.Play();
 }
+
+function createCSD(string){
+     var csd = "<CsoundSynthesizer>\n<CsInstruments>\n"
+     csd += string
+     csd += "\n</CsInstruments>\n<CsScore>\n"
+     csd += "\n</CsScore>\n</CsoundSynthesizer>\n"
+     return csd
+}
+
 
 
 $(document).ready(function() {
@@ -79,11 +88,11 @@ $(document).ready(function() {
     }
 
 
-    if (!csound.module) {
-        $(".SocketField").css("display", "none");
-        $(".client_bar").css("display", "none");
-        $(".obs_screen").fadeIn("slow");
-    }
+    // if (!csound.module) {
+    //     $(".SocketField").css("display", "none");
+    //     $(".client_bar").css("display", "none");
+    //     $(".obs_screen").fadeIn("slow");
+    // }
     var active = 0;
     var seq_list = [];
     dial_init();
@@ -109,8 +118,15 @@ $(document).ready(function() {
             console.log($(this).attr("data"));
             midi_byte = [(controlling_item + 127), parseInt($(this).attr("data")), 70]
             socket.emit("MIDImessage", midi_byte)
+        }).bind("touchstart", function(e){
+            console.log($(this).attr("data"));
+            midi_byte = [(controlling_item + 143), parseInt($(this).attr("data")), 70]
+            socket.emit("MIDImessage", midi_byte)
+        }).bind('touchend',function(e){
+            console.log($(this).attr("data"));
+            midi_byte = [(controlling_item + 127), parseInt($(this).attr("data")), 70]
+            socket.emit("MIDImessage", midi_byte)
         });
-
     $(".button").click(function() {
         $(this).transition({
             scale: 0.98
@@ -237,6 +253,7 @@ $(document).ready(function() {
             ev_dets.event_args = ev_args
             socket.emit("event", ev_dets)
             socket.emit("request_orc")
+
             $(".instruments_container").fadeIn("fast");
         }
     });
@@ -279,6 +296,10 @@ $(document).ready(function() {
     $(document).on("input change", ".slide", function() {
         console.log($(this).attr("data-channel"))
         console.log($(this).val())
-        csound.SetChannel($(this).attr("data-channel"), parseInt($(this).val()))
+        // if (csound.module){
+        //     csound.SetChannel($(this).attr("data-channel"), parseInt($(this).val()))
+        // }else{
+            csoundObj.setControlChannel($(this).attr("data-channel"), parseInt($(this).val()))
+//        }
     });
 });

@@ -8,10 +8,8 @@ var client_arr = [];
 
 //Temporary instrument number:
 var temp_ins_num
-
+var csoundObj;
 verifyNote = function(event_args) {
-    //console.log(event_args);
-    //console.log("here?")
     var split = event_args.split(" ");
     if (split[0] == "i") {
         return true
@@ -26,7 +24,12 @@ sequence_play = function(event_args) {
         sequence_triggered = 1
         glow_repeats()
     }
-    csound.ReadScore(event_args);
+    if (csound.module){
+        csound.ReadScore(event_args);
+    }else{
+        csoundObj.readScore(event_args);
+    }
+
 }
 parse_event = function(event_obj) {
     if (event_obj.event_type == "note_message") {
@@ -42,7 +45,12 @@ parse_event = function(event_obj) {
                     glow_animate($(this))
                 }
             })
-            csound.Event(event_obj.event_args);
+            if (csound.module) {
+                csound.Event(event_obj.event_args);
+            } else {
+                csoundObj.ReadScore(event_obj.event_args);
+            }
+
         }
     } else if (event_obj.event_type == "channel_message") {
         channel_message(event_obj.event_args)
@@ -50,20 +58,29 @@ parse_event = function(event_obj) {
         sequence_play(event_obj.event_args)
     } else if (event_obj.event_type == "MIDImessage") {
         handle_midi_message(event_obj.event_args)
-
     }
 }
 
+function handle_midi_message(args){
+    console.log(args);
+}
 //if I ever use the csound moduleDidLoad function, I'll handle some of that code here.
 function moduleDidLoad() {
     csound.Play();
     console.log("Csound loaded, perhaps!")
     $(".SocketField").css("display", "block");
     $(".obs_screen").fadeOut("slow");
-    //        $(".client_bar").fadeIn("slow");
 }
 
-function handleMessage(message) {
+Module['noExitRuntime'] = true;
+Module['_main'] = function() {
+    csoundObj = new CsoundObj();
+
+    $(".obs_screen").fadeOut("slow");
+    $('.SocketField').css("display", "block");
+};
+
+function handleMessage(message){
     console.log(message.data)
     if (message.data == "hat") {
         glow_animate_svg($(".menu-trigger"))
@@ -76,7 +93,12 @@ function handleMessage(message) {
 function channel_message(obj) {
     var new_str = obj.split(" ");
     var new_val = parseFloat(new_str[1]);
-    csound.SetChannel(new_str[0], new_val)
+    if (csound.module){
+        csound.SetChannel(new_str[0], new_val)
+    }else{
+        csoundObj.setControlChannel(new_str[0], new_val)
+    }
+
     name = new_str[0];
     divstr = ".dial[data-name=" + name + "]";
     $(divstr).val(new_val);
@@ -106,13 +128,6 @@ socket.on("event", function(msg) {
 
 });
 var csound_msg; //use this in the future to develop stuff.
-// current id... never used this...
-
-// socket.on('current_ind', function(msg) {
-//     //console.log(msg);
-//     temp_ins_num = msg
-// });
-
 orc_str = ""
 
 //Handle Orchestra messages here
@@ -122,8 +137,25 @@ socket.on('orc', function(obj) {
     if (csound.module) {
         csound.CompileOrc(obj);
     } else {
-        console.log("Huh");
+        console.log(createCSD(obj));
+        FS.writeFile("/temp.csd", createCSD(obj), {encoding: 'utf8'});
+        csoundObj.compileCSD("/temp.csd");
+        csoundObj.start();
+        var midiInputCallback = function(status) {
+
+            if (status === true) {
+
+                console.log("true")
+            }
+            else {
+
+                console.log('false')
+            }
+        }
+        csoundObj.enableMidiInput(midiInputCallback);
+
     }
+
     parseOrc(obj, "init");
 });
 
@@ -199,8 +231,11 @@ socket.on("disconnect", function(obj) {
 socket.on("MIDImessage", function(obj) {
     decompiledObj = obj
     console.log("MIDIMessage: Got message: ", obj)
-
-    csound.MIDIin(decompiledObj[0], decompiledObj[1], decompiledObj[2])
+    if(csound.module){
+        csound.MIDIin(decompiledObj[0], decompiledObj[1], decompiledObj[2])
+    }else{
+        csoundObj.midiin(decompiledObj[0], decompiledObj[1], decompiledObj[2])
+    }
 })
 var startTime;
 
