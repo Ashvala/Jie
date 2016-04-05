@@ -9,8 +9,8 @@ nchnls = 2
 
 maxalloc 1, 5
 maxalloc 2, 3
-maxalloc 3, 1
-maxalloc 4, 1
+maxalloc 3, 4
+maxalloc 4, 4
 maxalloc "rural", 1
 maxalloc "city", 1
 maxalloc "bar", 1
@@ -136,14 +136,14 @@ ares sum ares1, ares2, ares3, ares4
 ares balance ares, aexc
 kreverbLevel chnget "ReverbSend"
 kreverbLevel = kreverbLevel/1000
-garvbL += (ares * kreverbLevel)
+
 garvbR += (ares * kreverbLevel)
 klev init 0.5
 klev chnget "instr-1-level"
 klev *= 0.001
 aadsr = madsr(0.2, 1, 0.9, 1)
-gaoutL += (klev * aadsr)
-gaoutR += (klev * aadsr)
+gaoutL += (klev * ares * aadsr)
+gaoutR += (klev * ares * aadsr)
 endin
 
 ;-----------------------------------------;
@@ -161,8 +161,9 @@ klforate *= 0.001
 a1 oscili ampmidi(1), oscil(1,klforate) * icps
 klev chnget "instr-2-level"
 klev *= 0.001
-gaoutL += (klev * a1)
-gaoutR += (klev * a1)
+aadsr = madsr(0.1, 1, 0.9, 1)
+gaoutL += (klev * a1 * aadsr)
+gaoutR += (klev * a1 * aadsr)
 endin
 
 ;-----------------------------------------;
@@ -189,14 +190,15 @@ a2 mode asig, icps, iq2
 a3 mode asig, icps, iq6
 
 amix = (a1 + a2 + a3)/3
+aadsr = madsr(0.1, 1, 0.9, 2)
 klev chnget "instr-3-level"
-gaoutL += (klev * (amix/10000))
-gaoutR += (klev * (amix/10000))
+gaoutL += (klev * (amix/10000) * aadsr)
+gaoutR += (klev * (amix/10000) * aadsr)
 endin
 ;----------------------------------------;
 
 ; Section 5
-
+;guitar
 instr 4
 icps cpsmidi
 iamp = ampmidi(1)
@@ -209,8 +211,9 @@ axcite oscil 0.3, 1, 1
 apluck wgpluck icps, iamp, kpick, iplk, idamp, ifiltFreq, axcite
 klev chnget "instr-4-level"
 klev *= 0.001
-gaoutL += (klev * apluck)
-gaoutR += (klev * apluck)
+aadsr = madsr(0.1, 1, 0.9, 1)
+gaoutL += (klev * apluck * aadsr)
+gaoutR += (klev * apluck * aadsr)
 endin
 
 ;----------------------------------------;

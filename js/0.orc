@@ -10,6 +10,9 @@ garvbR init 0
 gaoutL init 0
 gaoutR init 0
 
+gaPercBusL init 0
+gaPercBusR init 0
+
 schedule "revsc", 0, -1
 schedule "globalmix",0, -1
 schedule "percBus", 0, -1
@@ -36,6 +39,17 @@ clear gaoutR
 clear gaoutL
 endin
 
+instr percBus
+denorm gaPercBusL
+denorm gaPercBusR
+kmastLev chnget "PercBus-Master-Send-2"
+kmastLev *= 0.001
+gaoutL += (kmastLev * gaPercBusL)
+gaoutR += (kmastLev * gaPercBusR)
+clear gaPercBusL
+clear gaPercBusR
+endin
+
 
 
 ;-------------------------------------------;
@@ -49,37 +63,33 @@ instr 1
 
 idur = p3
 ifreq11 = cpsmidinn(p4)
-ifreq12 = cpsmidinn(p4) * 8
-kq1 chnget "Q11"
-kq2 chnget "Q12"
+
 
 iamp = 0.01
-ifreq21 = cpsmidinn(p4) * 5
-ifreq22 = cpsmidinn(p4) * 1.5
-kq21 chnget "Q21"
-kq22 chnget "Q22"
-irep chnget "repeat"
-irep = irep/1000
+iamp = ampmidi(0.1)
+irep = 0.5
 ashock  mpulse  3,irep
-aexc1  mode ashock,ifreq11,kq1
+aexc1  mode ashock,ifreq11,kq
 aexc1 = aexc1*iamp
-aexc2  mode ashock,ifreq12,kq2
+aexc2  mode ashock,ifreq11,kq
 aexc2 = aexc2*iamp
 aexc = (aexc1+aexc2)/2
 aexc limit aexc,0,3*iamp
-
-ares1  mode aexc,ifreq21,kq21
-ares2  mode aexc,ifreq22,kq22
-
-ares = (ares1+ares2)/2
-ares4 clip ares, 0, 0.9
+kfiltFreq chnget "filterFreq"
+kq2 = kQ * 2
+kq3 = kQ * 3.01
+kq4 = kQ * 4.69
+kq5 = kQ * 5.63
+ares1  mode aexc,kfiltFreq,kq2
+ares2  mode aexc,kfiltFreq,kq3
+ares3  mode aexc,kfiltFreq,kq4
+ares4  mode aexc,kfiltFreq,kq5
+ares sum ares1, ares2, ares3, ares4
+ares balance ares, aexc
 kreverbLevel chnget "ReverbSend"
 kreverbLevel = kreverbLevel/1000
-garvbL += (ares4 * kreverbLevel)
-garvbR += (ares4 * kreverbLevel)
-klev init 0.5
-klev chnget "instr-1-level"
-klev *= 0.001
+garvbL += (ares * kreverbLevel)
+garvbR += (ares * kreverbLevel)
 gaoutL += (klev * ares4)
 gaoutR += (klev * ares4)
 endin
@@ -122,27 +132,23 @@ endin
 ; Section 5
 
 instr 4
-kcar chnget "carrier-freq"
-kcar *= 0.001
-kmod chnget "mod-freq"
-kmod *= 0.001
-kndx chnget "index"
-kndx *= 0.001
-asig = foscil(0.8, cpsmidinn(p4), kcar, kmod, kndx, 1)
-klev chnget "instrument-4-lev"
+icps = cpsmidinn(p4)
+iamp = ampmidi(1)
+kpick = 0.7
+iplk = 0
+idamp = 10
+ifiltFreq chnget "WaveGuide-Filter-Freq"
+ifilt = 10000
+axcite oscil 0.3, 1, 1
+apluck wgpluck icps, iamp, kpick, iplk, idamp, ifiltFreq, axcite
+klev chnget "instr-4-level"
 klev *= 0.001
-gaoutR += (klev * asig)
-gaoutL += (klev * asig)
-krlev chnget "reverb_send"
-krlev *= 0.001
-garvbL += (krlev * asig)
-garvbR += (krlev * asig)
-endin
+gaoutL += (klev * apluck)
+gaoutR += (klev * apluck)endin
 ;----------------------------------------;
 
 ;Section 6
-gaPercBusL init 0
-gaPercBusR init 0
+
 instr kick
 a1,a2 diskin2 "./http/assets/kick.wav", 1
 kperclev chnget "kick-send"
@@ -167,14 +173,5 @@ gaPercBusL += (kperclev * a1)
 gaPercBusR += (kperclev * a2)
 endin
 
-instr percBus
-denorm gaPercBusL
-denorm gaPercBusR
-kmastLev chnget "Master-Send-2"
-kmastLev *= 0.001
-gaoutL += (kmastLev * gaPercBusL)
-gaoutR += (kmastLev * gaPercBusR)
-clear gaPercBusL
-clear gaPercBusR
-endin
+
 ;-----------------------------------------;
