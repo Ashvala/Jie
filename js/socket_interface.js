@@ -1,4 +1,4 @@
-var socket = io.connect("http://128.61.116.17:8181");
+var socket = io.connect("http://crimson.local:8181");
 //Me. Just me.
 var me = {};
 // Get instrument number
@@ -76,8 +76,8 @@ Module['noExitRuntime'] = true;
 Module['_main'] = function() {
     csoundObj = new CsoundObj();
 
-    $(".obs_screen").fadeOut("slow");
-    $('.SocketField').css("display", "block");
+    // $(".obs_screen").fadeOut("slow");
+    // $('.SocketField').css("display", "block");
 };
 
 function handleMessage(message){
@@ -107,7 +107,7 @@ function channel_message(obj) {
 
 // Enable socket
 socket.on('connect', function(msg) {
-    //console.log('Socket is up');
+    console.log('Socket is up');
     if (!csound.module) {
         //console.log("oh");
     }

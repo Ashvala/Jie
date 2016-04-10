@@ -32,24 +32,20 @@ get_note = function(){
     return note_arr[Math.floor(Math.random()*note_arr.length)];
 }
 //var note = note_arr[Math.floor(Math.random()*note_arr.length)];
-var curr_note = get_note()
-var playNoteOn = function(instr_num, note){
-    console.log("sent note on")
-    console.log(curr_note)
-    MIDIByte1 = [(143 + instr_num), note, 72]
-    socket.emit("MIDImessage", MIDIByte1)
-    curr_note = get_note()
-}
+var play_note = function(note_num, vel, duration){
+    console.log("Note number was: ", note_num)
+    midi_byte_note_on = [144, note_num,vel]
+    midi_byte_note_off = [128, note_num,vel]
+    console.log("note on message sent to channel 1")
+    socket.emit("MIDImessage", midi_byte_note_on)
+    setTimeout(function(){
+        console.log("note off message sent to channel 1")
+        socket.emit("MIDImessage", midi_byte_note_off)
+    },duration)
 
-var playNoteOff = function(instr_num, note){
-    console.log("sent note off")
-    MIDIByte1 = [(127 + instr_num), note, 72]
-    socket.emit("MIDImessage", MIDIByte1)
 }
+i = 0
 
-setInterval(function(){
-    playNoteOn(1, curr_note)
-},2000);
-setInterval(function(){
-    playNoteOff(1, curr_note)
-},4000)
+setInterval(play_note, 3000, get_note(),72, 1500)
+
+console.log("that was using a setTimeout")
