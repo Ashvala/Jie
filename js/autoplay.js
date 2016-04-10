@@ -1,16 +1,16 @@
 var socket = require("socket.io-client")("http://crimson.local:8181");
 
-function generate_client(){
-    client_deets = {}
-    name = Math.random();
-    role = "ensemble";
-    ev_dets = {}
-    ev_dets.event_type = "add_client"
-    ev_args = {}
-    ev_args.name = name
-    ev_dets.event_args = ev_args
-    return ev_dets
-}
+// function generate_client(){
+//     client_deets = {}
+//     name = Math.random();
+//     role = "ensemble";
+//     ev_dets = {}
+//     ev_dets.event_type = "add_client"
+//     ev_args = {}
+//     ev_args.name = name
+//     ev_dets.event_args = ev_args
+//     return ev_dets
+// }
 
 generate_ChannelMessage = function(name, val){
     var final_message = name + " " + parseInt(val);
@@ -24,13 +24,11 @@ socket.on("connect", function(){
     generate_ChannelMessage("Modal-Resonance", 800);
     generate_ChannelMessage("filterFreq", 800);
     generate_ChannelMessage("instr-1-level", 800);
+
 });
 
 note_arr = [60,62,63,67,68,72]
 
-get_note = function(){
-    return note_arr[Math.floor(Math.random()*note_arr.length)];
-}
 //var note = note_arr[Math.floor(Math.random()*note_arr.length)];
 var play_note = function(note_num, vel, duration){
     console.log("Note number was: ", note_num)
@@ -46,6 +44,6 @@ var play_note = function(note_num, vel, duration){
 }
 i = 0
 
-setInterval(play_note, 3000, get_note(),72, 1500)
+setInterval(play_note, 3000, note_arr[Math.floor(Math.random()*note_arr.length)],72, 1500)
 
 console.log("that was using a setTimeout")
