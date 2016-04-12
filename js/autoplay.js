@@ -24,6 +24,7 @@ socket.on("connect", function(){
     generate_ChannelMessage("Modal-Resonance", 800);
     generate_ChannelMessage("filterFreq", 800);
     generate_ChannelMessage("instr-1-level", 800);
+    generate_ChannelMessage("reverb-feedback", 800);
 
 });
 
@@ -45,7 +46,7 @@ var play_note = function(note_num, vel, duration){
 }
 
 var play_note_sequence = function(vel, dur){
-    arr_ind = (i % 5)
+    arr_ind = i
     console.log("Note number was: ", note_arr[arr_ind])
     midi_byte_note_on = [144, note_arr[arr_ind],vel]
     midi_byte_note_off = [128, note_arr[arr_ind],vel]
@@ -55,11 +56,15 @@ var play_note_sequence = function(vel, dur){
         console.log("note off message sent to channel 1")
         socket.emit("MIDImessage", midi_byte_note_off)
     },dur)
-    i += 1
+    if (i == 5){
+        i = 0
+    }else{
+        i +=1
+    }
 }
 
 
 //setInterval(play_note, 3000, note_arr[Math.floor(Math.random()*note_arr.length)],72, 1500)
-setInterval(play_note_sequence, 3000,72, 1500)
+setInterval(play_note_sequence, 500,72, 250)
 
 console.log("that was using a setTimeout")
