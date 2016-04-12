@@ -28,9 +28,10 @@ socket.on("connect", function(){
 });
 
 note_arr = [60,62,63,67,68,72]
-
+i = 0
 //var note = note_arr[Math.floor(Math.random()*note_arr.length)];
 var play_note = function(note_num, vel, duration){
+
     console.log("Note number was: ", note_num)
     midi_byte_note_on = [144, note_num,vel]
     midi_byte_note_off = [128, note_num,vel]
@@ -42,8 +43,23 @@ var play_note = function(note_num, vel, duration){
     },duration)
 
 }
-i = 0
 
-setInterval(play_note, 3000, note_arr[Math.floor(Math.random()*note_arr.length)],72, 1500)
+var play_note_sequence = function(vel, dur){
+    arr_ind = (i % 5)
+    console.log("Note number was: ", note_arr[arr_ind])
+    midi_byte_note_on = [144, note_arr[arr_ind],vel]
+    midi_byte_note_off = [128, note_arr[arr_ind],vel]
+    console.log("note on message sent to channel 1")
+    socket.emit("MIDImessage", midi_byte_note_on)
+    setTimeout(function(){
+        console.log("note off message sent to channel 1")
+        socket.emit("MIDImessage", midi_byte_note_off)
+    },dur)
+    i += 1
+}
+
+
+//setInterval(play_note, 3000, note_arr[Math.floor(Math.random()*note_arr.length)],72, 1500)
+setInterval(play_note_sequence, 3000,72, 1500)
 
 console.log("that was using a setTimeout")
