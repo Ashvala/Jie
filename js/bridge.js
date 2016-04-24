@@ -63,6 +63,37 @@ function count_total_csoundable(arr) {
     return total
 }
 
+i = 0;
+var play_sequence_object = function(obj_inp, vel, dur){
+    arr_ind = i
+    str = "beat" + arr_ind;
+
+
+
+    for (note in obj_inp[str]){
+        note_num = parseInt(obj_inp[str][note]);
+        midi_byte_note_on = [147, note_num,vel]
+        console.log("note on message sent: ",  midi_byte_note_on)
+        console.log("current arr_ind: ", note)
+        console.log("current note number: ", note_num)
+        socket.emit("MIDImessage", midi_byte_note_on)
+        setTimeout(function(){
+
+                midi_byte_note_off = [131, note_num, vel]
+                console.log("note off message sent: ", midi_byte_note_off)
+                console.log("---------");
+                socket.emit("MIDImessage", midi_byte_note_off)
+        },dur)
+    }
+
+    //reset counters
+
+    if (i == 9){
+        i = 1
+    }else{
+        i += 1
+    }
+}
 
 function handle_event(msg){
     console.log(msg);
@@ -120,7 +151,7 @@ io.on('connection', function(socket) {
                 clients[client_ind].controlling = msg.event_args
                 console.log("Updated client list to reflect control change!")
                 io.emit("client_list", clients)
-            }
+            }       
         }else{
             io.emit("event", msg);
         }

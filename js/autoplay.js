@@ -89,9 +89,7 @@ var play_sequence_object = function(obj_inp, vel, dur){
         console.log("current note number: ", note_num)
         socket.emit("MIDImessage", midi_byte_note_on)
         setTimeout(function(){
-                console.log("---------");
-                console.log("current arr_ind: ", note)
-                console.log("current note number: ", note_num)
+
                 midi_byte_note_off = [131, note_num, vel]
                 console.log("note off message sent: ", midi_byte_note_off)
                 console.log("---------");
