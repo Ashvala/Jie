@@ -7,7 +7,30 @@
         this.arg_name = arg_name
         this.argument_list = argument_list
     }
+    var play_sequence_object = function(obj_inp, vel, dur) {
+        arr_ind = i
+        str = "beat" + arr_ind;
 
+
+
+        for (note in obj_inp[str]) {
+            note_num = parseInt(obj_inp[str][note]);
+            midi_byte_note_on = [(143 + controlling_item), note_num, vel]
+            socket.emit("MIDImessage", midi_byte_note_on)
+            setTimeout(function() {
+                midi_byte_note_off = [(127 + controlling_item), note_num, vel]
+                socket.emit("MIDImessage", midi_byte_note_off)
+            }, dur)
+        }
+
+        //reset counters
+
+        if (i == 9) {
+            i = 1
+        } else {
+            i += 1
+        }
+    }
     dial_init = function() {
         $(".dial").knob({
             'font': "AvenirNext-UltraLight",
@@ -268,13 +291,14 @@
         $(document).on("click", "[data-action=play_midi]", function() {
             midi_str = parse_boxes_musical()
             console.log(midi_str);
+            setInterval(play_sequence_object, 3000, midi_str, 72, 1000)
 
         });
         $(document).on("click", "[data-action=show_piano]", function() {
-            midi_str = parse_boxes_musical()
-            console.log(midi_str);
+
 
         });
+
         $(".SocketField").on("keypress", function(e) {
             if (e.which == 13) {
                 console.log($(this).val());
