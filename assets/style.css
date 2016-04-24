@@ -660,7 +660,6 @@ ul{
 .m_looper_creator {
     position: absolute;
     top: 10px;
-    left: 20px;
     width: 100%;
     height: 70%;
     font-family: "Roboto";
@@ -704,4 +703,5 @@ ul{
     width: 70%;
     height: 50%;
     left: 20px;
+    display: none;
 }

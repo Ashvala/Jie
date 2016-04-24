@@ -62,7 +62,7 @@
         }
         return obj;
         beat_number = 1;
-}
+    }
 
     $(document).ready(function() {
         /*** Generate! **/
@@ -209,7 +209,7 @@
                 } else {
                     $(".looper_creator").fadeOut("fast");
                     $(".instrument_name_float").html(section_names[sectionNumber])
-                    $(".floating_keyboard").fadeIn("fast");
+                    $(".m_main_window").fadeIn("fast");
                     parseOrc(temp_sec_val, "default");
                 }
             }
@@ -261,7 +261,20 @@
             }
         });
 
+        $(document).on("click", ".m_s_box", function() {
+            $(this).toggleClass("active_m_s_box")
+        });
 
+        $(document).on("click", "[data-action=play_midi]", function() {
+            midi_str = parse_boxes_musical()
+            console.log(midi_str);
+
+        });
+        $(document).on("click", "[data-action=show_piano]", function() {
+            midi_str = parse_boxes_musical()
+            console.log(midi_str);
+
+        });
         $(".SocketField").on("keypress", function(e) {
             if (e.which == 13) {
                 console.log($(this).val());
