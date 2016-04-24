@@ -91,6 +91,7 @@ function handleMessage(message){
 }
 
 function channel_message(obj) {
+    console.log("got channel_message")
     var new_str = obj.split(" ");
     var new_val = parseFloat(new_str[1]);
     if (csound.module){

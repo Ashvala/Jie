@@ -26,6 +26,7 @@ fs.readFile("0_1.orc", "utf-8", function(err, data) {
         throw err;
     }
     orc_str = data;
+    generate_csd_channel_obj(orc_str)
 //    console.log(orc_str);
 
 });
@@ -63,51 +64,33 @@ function count_total_csoundable(arr) {
     return total
 }
 
-i = 0;
-var play_sequence_object = function(obj_inp, vel, dur){
-    arr_ind = i
-    str = "beat" + arr_ind;
-
-
-
-    for (note in obj_inp[str]){
-        note_num = parseInt(obj_inp[str][note]);
-        midi_byte_note_on = [147, note_num,vel]
-        console.log("note on message sent: ",  midi_byte_note_on)
-        console.log("current arr_ind: ", note)
-        console.log("current note number: ", note_num)
-        socket.emit("MIDImessage", midi_byte_note_on)
-        setTimeout(function(){
-
-                midi_byte_note_off = [131, note_num, vel]
-                console.log("note off message sent: ", midi_byte_note_off)
-                console.log("---------");
-                socket.emit("MIDImessage", midi_byte_note_off)
-        },dur)
-    }
-
-    //reset counters
-
-    if (i == 9){
-        i = 1
-    }else{
-        i += 1
+function generate_csd_channel_obj(orc_str1){
+    str_arr = orc_str1.split("\n");
+    for(var i = 0; i < str_arr.length; i++){
+        parse(str_arr[i])
     }
 }
 
-function handle_event(msg){
-    console.log(msg);
-    event = msg
+var csd_chn_obj = {}
+function parse(line){
+    tokens = line.split(" ");
+    if (tokens[1] == "chnget"){
+        csd_chn_obj[tokens[2].substring(1, ((tokens[2].length)-1))] = 0
+    }
 
 }
-
-
+generate_ChannelMessage = function(name, val){
+    var final_message = name + " " + parseInt(val);
+    ev_dets = {}
+    ev_dets.event_type = "channel_message"
+    ev_dets.event_args = final_message
+    io.emit('event', ev_dets);
+}
 //Connection event handlers.
 io.on('connection', function(socket) {
-
-
     //useful debug info
     console.log("Connected a client");
+
     //  clients.push(socket.id);
     // you get your ID
     client_id_arr.push(socket.id)
@@ -145,13 +128,21 @@ io.on('connection', function(socket) {
 	        if (count_total_csoundable(clients) < 6){
                 console.log("not sending anything... yet", count_total_csoundable(clients))
             }
+            for (var name in csd_chn_obj){
+                generate_ChannelMessage(name, csd_chn_obj[name])
+            }
         }else if (msg.event_type == "control_disable") {
             client_ind = get_client(msg.from.socket_id)
             if(client_ind != -1){
                 clients[client_ind].controlling = msg.event_args
                 console.log("Updated client list to reflect control change!")
                 io.emit("client_list", clients)
-            }       
+            }
+        }else if(msg.event_type == "channel_message"){
+            tokens = msg.event_args.split(" ");
+            csd_chn_obj[tokens[0]] = tokens[1]
+            io.emit("event", msg)
+
         }else{
             io.emit("event", msg);
         }
