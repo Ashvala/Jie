@@ -14,8 +14,8 @@ notify = function(type, obj) {
 
 }
 
-generate_lane_for_name = function(name, type, total) {
-    for (var i = 0; i < total; i++) {
+generate_lane_for_name = function(name) {
+    for (var i = 0; i < 16; i++) {
         div_str = "<div class='s_box' data-beat='" + (i + 1) + "' data-instr=" + name + "></div>"
         $("[data-lane=" + name + "]").append(div_str)
     }
@@ -38,11 +38,11 @@ generator = function(type) {
         $(".looper_creator").append("<div class='kick_line' data-lane='kick'>")
         $("[data-lane=kick]").append("<div class='name'> Kick </div>")
         generate_lane_for_name("kick")
+
+
         $(".looper_creator").append(options);
     }
-
 }
-
 
 generate_csound_score = function(instr, arr) {
     curr_time = 0
