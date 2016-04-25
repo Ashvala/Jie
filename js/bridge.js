@@ -151,8 +151,8 @@ io.on('connection', function(socket) {
     /** MIDI things */
 
     socket.on("MIDImessage", function(msg){
-        console.log("MIDImessage");
-        io.emit("MIDImessage",msg);
+	    console.log("MIDImessage: ", msg);
+	    io.emit("MIDImessage",msg);
     })
 
     /** Old code that actually works. */

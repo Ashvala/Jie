@@ -91,7 +91,7 @@
         /*** Generate! **/
         generator("drums");
         /*** Work on WebMidi things here: */
-        $(".help_section").delay(6000).fadeOut("slow");
+        $(".help_section").delay(2000).fadeOut("slow");
         WebMidi.enable(onSuccess, onFailure);
 
         function onSuccess() {
@@ -291,12 +291,11 @@
         $(document).on("click", "[data-action=play_midi]", function() {
             midi_str = parse_boxes_musical()
             console.log(midi_str);
-            setInterval(play_sequence_object, 3000, midi_str, 72, 1000)
+            setInterval(play_sequence_object, 500, midi_str, 72, 250)
 
         });
         $(document).on("click", "[data-action=show_piano]", function() {
-
-
+            $(".floating_keyboard").fadeToggle("fast");
         });
 
         $(".SocketField").on("keypress", function(e) {

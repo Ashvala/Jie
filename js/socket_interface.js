@@ -75,9 +75,6 @@ function moduleDidLoad() {
 Module['noExitRuntime'] = true;
 Module['_main'] = function() {
     csoundObj = new CsoundObj();
-
-    // $(".obs_screen").fadeOut("slow");
-    // $('.SocketField').css("display", "block");
 };
 
 function handleMessage(message){
@@ -102,7 +99,7 @@ function channel_message(obj) {
 
     name = new_str[0];
     divstr = ".dial[data-name=" + name + "]";
-    $(divstr).val(new_val);
+    $(divstr).val(new_val).trigger("change");
 }
 
 
@@ -223,7 +220,6 @@ socket.on("you", function(obj) {
     $(".topbar").css("border-bottom", ("1px dotted " + color_arr_orig[obj.id]))
     ins_num = obj.id;
     $(".my_name").html(obj.name);
-    //console.log("Received data about me!")
 })
 
 socket.on("disconnect", function(obj) {
