@@ -291,7 +291,7 @@
         $(document).on("click", "[data-action=play_midi]", function() {
             midi_str = parse_boxes_musical()
             console.log(midi_str);
-            setInterval(play_sequence_object, 500, midi_str, 72, 250)
+            requestAnimationFrame(setInterval(play_sequence_object, 500, midi_str, 72, 250))
 
         });
         $(document).on("click", "[data-action=show_piano]", function() {
