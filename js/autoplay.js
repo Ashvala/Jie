@@ -42,12 +42,13 @@ socket.on("connect", function(){
     generate_ChannelMessage("Modal-Resonance", 90);
     generate_ChannelMessage("filterFreq", 394);
     generate_ChannelMessage("instr-1-level", 800);
-    generate_ChannelMessage("instr-4-level", 300);
+    generate_ChannelMessage("instr-4-level", 100);
     generate_ChannelMessage("instr-3-level", 800);
     generate_ChannelMessage("instr-2-level", 100);
     generate_ChannelMessage("lfo-rate", 250);
+    generate_ChannelMessage("ReverbSend", 500);
     generate_ChannelMessage("reverb-feedback", 800);
-    generate_ChannelMessage("WaveGuide-Filter-Freq", 800)
+    generate_ChannelMessage("WaveGuide-Filter-Freq", 440)
     for (var k = 0; k < 5; k++){
         socket.emit("event", generate_ctrl_disable(k))
     }
@@ -93,9 +94,10 @@ var melody2 = {
 var delay_play = function(cb, actual_cb, list, channel, vel, delay, counter){
     setTimeout(cb, delay,actual_cb, list, channel, vel, counter)
 }
-function sequence(obj){
+function sequence(obj,name){
         this.obj = obj;
         this.counter = 1;
+        this.name = name
 }
 
 sequence.prototype.return_melody = function(){
@@ -105,16 +107,19 @@ sequence.prototype.get_counter = function(){
     return this.counter;
 }
 sequence.prototype.play_beat = function(channel, vel, dur){
+
     str = "beat" + (this.counter);
     for (note in this.obj[str]){
         note_num = parseInt(this.obj[str][note]);
-        console.log(this.counter, '::', note_num);
+
         midi_byte_note_on = [143 + channel, note_num,vel]
+        console.log("name: ", this.name, " sending midi: ", midi_byte_note_on)
         socket.emit("MIDImessage", midi_byte_note_on)
         setTimeout(function(){
                 midi_byte_note_off = [127 + channel, note_num, vel]
+                console.log("name: ", this.name, " sending midi: ", midi_byte_note_off)
                 socket.emit("MIDImessage", midi_byte_note_off)
-        },dur)
+        }.bind(this),dur)
     }
     if(this.counter == 8){
         this.counter = 1;
@@ -129,11 +134,15 @@ sequence.prototype.play = function(channel, vel, dur){
     }.bind(this),dur*2);
 }
 
-
+sequence.prototype.delay = function(channel, vel, delay_dur, dur){
+    setTimeout(function(){
+        this.play(channel, vel, dur);
+    }.bind(this), delay_dur);
+}
 /* main sequences */
-var melody_bell = new sequence(melody1)
-var bass_line = new sequence(bass_beats)
-var guitar_line = new sequence(melody2)
+var melody_bell = new sequence(melody1, "bell")
+var bass_line = new sequence(bass_beats, "bass")
+var guitar_line = new sequence(melody2, "guitar")
 melody_bell.play(1,72,500)
-bass_line.play(2, 72, 500)
-guitar_line.play(4, 72,500)
+bass_line.delay(2, 72, 8000, 500)
+guitar_line.delay(4, 127,12000, 500)

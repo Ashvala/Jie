@@ -8,9 +8,9 @@ nchnls = 2
 ;Max voice Allocs
 
 maxalloc 1, 5
-maxalloc 2, 3
-maxalloc 3, 4
-maxalloc 4, 4
+maxalloc 2, 5
+maxalloc 3, 5
+maxalloc 4, 5
 maxalloc "rural", 1
 maxalloc "city", 1
 maxalloc "bar", 1
