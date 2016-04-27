@@ -131,6 +131,24 @@ io.on('connection', function(socket) {
             for (var name in csd_chn_obj){
                 generate_ChannelMessage(name, csd_chn_obj[name])
             }
+        }else if (msg.event_type == "add_client_special"){
+//                temp_ins_num = get_client_idArr(socket.id)
+                temp_client_val = {}
+                temp_client_val.name = msg.event_args.name
+                if(clients.length <= 6){
+                    temp_client_val.role = "ensemble"
+                }else{
+                    socket.emit("disable_all");
+                }
+                temp_client_val.socket_id = msg.event_args.socket_id
+                temp_client_val.controlling = msg.event_args.socket_id
+                clients.push(temp_client_val);
+                console.log(clients)
+                console.log(get_client(msg.event_args.socket_id))
+                ind = get_client(msg.event_args.socket_id)
+                clients[ind].id = ind
+                io.emit("client_add",clients[ind])
+                io.emit("client_list", clients)
         }else if (msg.event_type == "control_disable") {
             client_ind = get_client(msg.from.socket_id)
             if(client_ind != -1){
