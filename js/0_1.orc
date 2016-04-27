@@ -115,7 +115,7 @@ kQ += 0.1
 
 ifreq11 = icps
 iamp = ampmidi(0.1)
-irep = 0.5
+irep = 1
 ashock  mpulse  3,irep
 aexc1  mode ashock,ifreq11,kq
 aexc1 = aexc1*iamp
@@ -222,11 +222,12 @@ endin
 
 instr kick
 prints "kick"
-a1,a2 diskin2 "./http/assets/kick.wav", 1
+aadsr = linseg(1, p3/2,1, p3/2, 0)
+a1,a2 diskin2 "./http/assets/kick2.wav", 1
 kperclev chnget "kick-send"
 kperclev *= 0.001
-gaPercBusL += (kperclev * a1)
-gaPercBusR += (kperclev * a2)
+gaPercBusL += (kperclev * a1 * aadsr)
+gaPercBusR += (kperclev * a2 * aadsr)
 endin
 
 instr snare
