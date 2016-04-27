@@ -6,9 +6,9 @@ generate_client = function(index){
     client_deets = {}
     name = Math.random();
     role = "ensemble";
-    ev_dets = {}
+    var ev_dets = {}
     ev_dets.event_type = "add_client_special"
-    ev_args = {}
+    var ev_args = {}
     ev_args.name = name
     ev_args.socket_id = index
     ev_dets.event_args = ev_args
@@ -18,7 +18,7 @@ generate_client = function(index){
 /* generate a channel message */
 generate_ChannelMessage = function(name, val){
     var final_message = name + " " + parseInt(val);
-    ev_dets = {}
+    var ev_dets = {}
     ev_dets.event_type = "channel_message"
     ev_dets.event_args = final_message
     socket.emit('event', ev_dets);
@@ -48,48 +48,13 @@ socket.on("connect", function(){
     generate_ChannelMessage("lfo-rate", 250);
     generate_ChannelMessage("reverb-feedback", 800);
     generate_ChannelMessage("WaveGuide-Filter-Freq", 800)
-    for (k = 0; k < 5; k++){
+    for (var k = 0; k < 5; k++){
         socket.emit("event", generate_ctrl_disable(k))
     }
 });
 
 note_arr = [60,62,63,67,68,72]
 i = 1
-
-/** simple play note example */
-var play_note = function(note_num, vel, duration){
-    console.log("Note number was: ", note_num)
-    midi_byte_note_on = [147, note_num,vel]
-    midi_byte_note_off = [131, note_num,vel]
-    console.log("note on message sent: ",  midi_byte_note_on)
-    socket.emit("MIDImessage", midi_byte_note_on)
-    setTimeout(function(){
-        console.log("note off message sent: ", midi_byte_note_off)
-        socket.emit("MIDImessage", midi_byte_note_off)
-    },duration)
-
-}
-
-/** play a sequence of notes from an array */
-
-var play_note_sequence = function(vel, dur){
-    arr_ind = i
-    console.log("Note number was: ", note_arr[arr_ind])
-    midi_byte_note_on = [144, note_arr[arr_ind],vel]
-    midi_byte_note_off = [128, note_arr[arr_ind],vel]
-    console.log("note on message sent to channel 1")
-    socket.emit("MIDImessage", midi_byte_note_on)
-    setTimeout(function(){
-        console.log("note off message sent to channel 1")
-        socket.emit("MIDImessage", midi_byte_note_off)
-    },dur)
-    if (i == 5){
-        i = 0
-    }else{
-        i +=1
-    }
-}
-
 
 var melody1 = {
     beat1: [60],
@@ -124,38 +89,51 @@ var melody2 = {
     beat8: [60]
 }
 
-var play_sequence_object = function(obj_inp,channel, vel, dur){
-    arr_ind = i
-    str = "beat" + arr_ind;
-    for (note in obj_inp[str]){
-        note_num = parseInt(obj_inp[str][note]);
+
+var delay_play = function(cb, actual_cb, list, channel, vel, delay, counter){
+    setTimeout(cb, delay,actual_cb, list, channel, vel, counter)
+}
+function sequence(obj){
+        this.obj = obj;
+        this.counter = 1;
+}
+
+sequence.prototype.return_melody = function(){
+    return this.obj;
+}
+sequence.prototype.get_counter = function(){
+    return this.counter;
+}
+sequence.prototype.play_beat = function(channel, vel, dur){
+    str = "beat" + (this.counter);
+    for (note in this.obj[str]){
+        note_num = parseInt(this.obj[str][note]);
+        console.log(this.counter, '::', note_num);
         midi_byte_note_on = [143 + channel, note_num,vel]
-        console.log("note on message sent: ",  midi_byte_note_on)
         socket.emit("MIDImessage", midi_byte_note_on)
         setTimeout(function(){
                 midi_byte_note_off = [127 + channel, note_num, vel]
-                console.log("note off message sent: ", midi_byte_note_off)
                 socket.emit("MIDImessage", midi_byte_note_off)
         },dur)
     }
-    //reset counters
-    if (i == 9){
-        i = 1
+    if(this.counter == 8){
+        this.counter = 1;
     }else{
-        i += 1
+        this.counter += 1
     }
 }
 
-var play_seq = function(cb, list, channel, vel){
-    setInterval(cb, 500, list, channel, vel, 250)
+sequence.prototype.play = function(channel, vel, dur){
+    setInterval(function(){
+        this.play_beat(channel, vel, dur)
+    }.bind(this),dur*2);
 }
 
-var delay_play = function(cb, actual_cb, list, channel, vel, delay){
-    setTimeout(cb, delay,actual_cb, list, channel, vel)
-}
 
 /* main sequences */
-
-play_seq(play_sequence_object, melody1, 1, 70)
-delay_play(play_seq, play_sequence_object, melody2, 4, 70, 4000)
-delay_play(play_seq, play_sequence_object, bass_beats, 2, 70, 12000)
+var melody_bell = new sequence(melody1)
+var bass_line = new sequence(bass_beats)
+var guitar_line = new sequence(melody2)
+melody_bell.play(1,72,500)
+bass_line.play(2, 72, 500)
+guitar_line.play(4, 72,500)
