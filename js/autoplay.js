@@ -42,16 +42,16 @@ socket.on("connect", function(){
     generate_ChannelMessage("Modal-Resonance", 90);
     generate_ChannelMessage("filterFreq", 394);
     generate_ChannelMessage("instr-1-level", 800);
-    generate_ChannelMessage("instr-4-level", 100);
-    generate_ChannelMessage("instr-3-level", 800);
-    generate_ChannelMessage("instr-2-level", 100);
+    generate_ChannelMessage("instr-4-level", 800);
+    generate_ChannelMessage("instr-3-level", 100);
+    generate_ChannelMessage("instr-2-level", 10);
     generate_ChannelMessage("lfo-rate", 250);
     generate_ChannelMessage("ReverbSend", 500);
-    generate_ChannelMessage("reverb-feedback", 800);
+    generate_ChannelMessage("reverb-feedback", 100);
     generate_ChannelMessage("WaveGuide-Filter-Freq", 440)
-    for (var k = 0; k < 5; k++){
-        socket.emit("event", generate_ctrl_disable(k))
-    }
+    // for (var k = 0; k < 5; k++){
+    //     socket.emit("event", generate_ctrl_disable(k))
+    // }
 });
 
 note_arr = [60,62,63,67,68,72]
@@ -69,14 +69,14 @@ var melody1 = {
 }
 
 var bass_beats = {
-    beat1: [60-24],
-    beat2: [63-24],
-    beat3: [65-24],
-    beat4: [63-24],
-    beat5: [67-24],
-    beat6: [60-24],
-    beat7: [70-24],
-    beat8: [72-24]
+    beat1: [60-12],
+    beat2: [63-12],
+    beat3: [65-12],
+    beat4: [63-12],
+    beat5: [67-12],
+    beat6: [60-12],
+    beat7: [70-12],
+    beat8: [72-12]
 }
 
 var melody2 = {
@@ -130,8 +130,8 @@ sequence.prototype.play_beat = function(channel, vel, dur){
 
 sequence.prototype.play = function(channel, vel, dur){
     setInterval(function(){
-        this.play_beat(channel, vel, dur)
-    }.bind(this),dur*2);
+        this.play_beat(channel, vel, dur/2)
+    }.bind(this),dur);
 }
 
 sequence.prototype.delay = function(channel, vel, delay_dur, dur){
@@ -143,6 +143,6 @@ sequence.prototype.delay = function(channel, vel, delay_dur, dur){
 var melody_bell = new sequence(melody1, "bell")
 var bass_line = new sequence(bass_beats, "bass")
 var guitar_line = new sequence(melody2, "guitar")
-melody_bell.play(1,72,500)
-bass_line.delay(2, 72, 8000, 500)
-guitar_line.delay(4, 127,12000, 500)
+bass_line.play(2, 72,500)
+melody_bell.delay(1,72,8000, 1000)
+guitar_line.delay(4, 10,12000, 1000)

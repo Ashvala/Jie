@@ -248,12 +248,6 @@
                 socket.emit('event', ev_dets)
                 $(this).attr('data-triggered', 'true')
             } else {
-                str_for_ev = 'i "-' + $(this).attr("data") + '" 4 1'
-                ev_dets = {}
-                ev_dets.from = me
-                ev_dets.event_type = "note_message"
-                ev_dets.event_args = str_for_ev
-                socket.emit('event', ev_dets)
             }
         });
 
