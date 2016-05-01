@@ -115,11 +115,11 @@ kQ += 0.1
 
 ifreq11 = icps
 iamp = ampmidi(0.1)
-irep = 1
+irep = 0.5
 ashock  mpulse  3,irep
-aexc1  mode ashock,ifreq11,kq
+aexc1  mode ashock,ifreq11,1000
 aexc1 = aexc1*iamp
-aexc2  mode ashock,ifreq11,kq
+aexc2  mode ashock,ifreq11,1000
 aexc2 = aexc2*iamp
 aexc = (aexc1+aexc2)/2
 aexc limit aexc,0,3*iamp
@@ -128,12 +128,12 @@ kq2 = kQ * 2
 kq3 = kQ * 3.01
 kq4 = kQ * 4.69
 kq5 = kQ * 5.63
-ares1  mode aexc,kfiltFreq,kq2
-ares2  mode aexc,kfiltFreq,kq3
-ares3  mode aexc,kfiltFreq,kq4
-ares4  mode aexc,kfiltFreq,kq5
+ares1  mode aexc,ifreq11,kq2
+ares2  mode aexc,ifreq11,kq3
+ares3  mode aexc,ifreq11,kq4
+ares4  mode aexc,ifreq11,kq5
 ares sum ares1, ares2, ares3, ares4
-ares balance ares, aexc
+ares balance ares, (aexc * 2)
 kreverbLevel chnget "ReverbSend"
 kreverbLevel = kreverbLevel/1000
 
@@ -141,7 +141,7 @@ garvbR += (ares * kreverbLevel)
 klev init 0.5
 klev chnget "instr-1-level"
 klev *= 0.001
-aadsr = madsr(0.2, 1, 0.9, 1)
+aadsr = madsr(0.1, 1, 0.9, 1)
 gaoutL += (klev * ares * aadsr)
 gaoutR += (klev * ares * aadsr)
 endin
@@ -211,7 +211,7 @@ axcite oscil 0.3, 1, 1
 apluck wgpluck icps, iamp, kpick, iplk, idamp, ifiltFreq, axcite
 klev chnget "instr-4-level"
 klev *= 0.001
-aadsr = madsr(0.1, 1, 0.9, 1)
+aadsr = madsr(0, 1, 0.9, 1)
 gaoutL += (klev * apluck * aadsr)
 gaoutR += (klev * apluck * aadsr)
 endin

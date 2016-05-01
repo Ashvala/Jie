@@ -75,6 +75,9 @@ function moduleDidLoad() {
 Module['noExitRuntime'] = true;
 Module['_main'] = function() {
     csoundObj = new CsoundObj();
+    $(".SocketField").css("display", "block");
+    $(".obs_screen").fadeOut("slow");
+
 };
 
 function handleMessage(message){
@@ -142,7 +145,6 @@ socket.on('orc', function(obj) {
                 console.log("true")
             }
             else {
-
                 console.log('false')
             }
         }

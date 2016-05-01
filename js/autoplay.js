@@ -48,9 +48,7 @@ socket.on("connect", function() {
     generate_ChannelMessage("ReverbSend", 500);
     generate_ChannelMessage("reverb-feedback", 100);
     generate_ChannelMessage("WaveGuide-Filter-Freq", 440)
-        // for (var k = 0; k < 5; k++){
-        //     socket.emit("event", generate_ctrl_disable(k))
-        // }
+
 });
 
 note_arr = [60, 63, 65, 67, 70, 72, 63, 72]
@@ -77,6 +75,17 @@ var bass_beats = {
     beat6: [60 - 12],
     beat7: [70 - 12],
     beat8: [72 - 12]
+}
+
+var bass_line = {
+    beat1: [60 - 12],
+    beat2: [60 - 12],
+    beat3: [60 - 12],
+    beat4: [60 - 12],
+    beat5: [67 - 12],
+    beat6: [67 - 12],
+    beat7: [67 - 12],
+    beat8: [67 - 12]
 }
 
 var melody2 = {
@@ -160,7 +169,6 @@ sequence.prototype.convert_to_obj = function(array) {
         "beat8": []
     }
     if (array.length == 8) {
-        console.log("this can be converted");
         for (i = 0; i < array.length; i++) {
             beat_str = "beat" + (i+1)
             console.log(array[i])
@@ -177,8 +185,8 @@ var bass_line = new sequence(bass_beats, "bass")
 var guitar_line = new sequence(melody2, "guitar")
 var clarinet_line = new sequence({}, "clarinet_line")
 clarinet_line.convert_to_obj(note_arr)
-/*
-bass_line.play(2, 72, 500)
-melody_bell.delay(1, 72, 8000, 1000)
-guitar_line.delay(4, 10, 12000, 1000)
-*/
+//bass_line.play(2, 72, 500)
+melody_bell.play(1, 72, 1000)
+guitar_line.delay(4, 10, 1000)
+
+//melody_bell.play(1, 50, 1000)

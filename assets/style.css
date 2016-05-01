@@ -706,3 +706,51 @@ ul{
     left: 20px;
     display: none;
 }
+
+@media only screen
+and (min-device-width : 375px)
+and (max-device-width : 667px) {
+    .Faders{
+        display: none;
+    }
+    .help_section{
+        display: none;
+    }
+    .name_field{
+        width: 100%;
+        diplay: block;
+    }
+    .SocketField{
+        width: 100%;
+    }
+    .obs_screen{
+        display: none;
+    }
+    .instruments_container{
+        margin-left: 0px;
+    }
+    .main_tab_windows{
+        width: 100%;
+        height: 100%;
+    }
+    .parsed_elements_container{
+        display: none;
+    }
+    .looper_creator .section-title{
+        display: none;
+    }
+    .kick_lane{
+        margin-top: 8px;
+    }
+    .s_box{
+        width: 5.9%;
+    }
+    .samples{
+        width: 100%;
+        left: 10px;
+        height: 80%;
+    }
+    .title{
+        padding-left: 20px;
+    }
+}
