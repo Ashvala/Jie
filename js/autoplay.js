@@ -40,13 +40,15 @@ socket.on("connect", function() {
     console.log("connected");
     generate_ChannelMessage("Modal-Resonance", 90);
     generate_ChannelMessage("filterFreq", 394);
-    generate_ChannelMessage("instr-1-level", 800);
+    generate_ChannelMessage("instr-1-level", 344);
     generate_ChannelMessage("instr-4-level", 800);
     generate_ChannelMessage("instr-3-level", 100);
-    generate_ChannelMessage("instr-2-level", 10);
+    generate_ChannelMessage("vibrato-depth", 1000);
+
+    generate_ChannelMessage("instr-2-level", 100);
     generate_ChannelMessage("lfo-rate", 250);
     generate_ChannelMessage("ReverbSend", 500);
-    generate_ChannelMessage("reverb-feedback", 100);
+    generate_ChannelMessage("reverb-feedback", 300);
     generate_ChannelMessage("WaveGuide-Filter-Freq", 440)
 
 });
@@ -170,7 +172,7 @@ sequence.prototype.convert_to_obj = function(array) {
     }
     if (array.length == 8) {
         for (i = 0; i < array.length; i++) {
-            beat_str = "beat" + (i+1)
+            beat_str = "beat" + (i + 1)
             console.log(array[i])
             obj_arr[beat_str].push(array[i])
         }
@@ -179,14 +181,19 @@ sequence.prototype.convert_to_obj = function(array) {
         return -1
     }
 }
+
+sequence.prototype.stop = function(int, time) {
+    setTimeout(clearInterval(int), time)
+}
 var empty_obj = {}
 var melody_bell = new sequence(melody1, "bell")
-var bass_line = new sequence(bass_beats, "bass")
+var bass_line = new sequence(bass_line, "bass")
 var guitar_line = new sequence(melody2, "guitar")
-var clarinet_line = new sequence({}, "clarinet_line")
-clarinet_line.convert_to_obj(note_arr)
-//bass_line.play(2, 72, 500)
+var clarinet_line = new sequence(melody3, "clarinet_line")
 melody_bell.play(1, 72, 1000)
-guitar_line.delay(4, 10, 1000)
+bass_line.delay(2, 72, 16000, 2000)
+clarinet_line.delay(3, 10, 32000, 1000)
+guitar_line.delay(4, 10, 64000, 500)
+
 
 //melody_bell.play(1, 50, 1000)
