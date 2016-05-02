@@ -7,10 +7,7 @@ nchnls = 2
 
 ;Max voice Allocs
 
-maxalloc 1, 5
-maxalloc 2, 5
-maxalloc 3, 5
-maxalloc 4, 5
+
 maxalloc "rural", 1
 maxalloc "city", 1
 maxalloc "bar", 1
@@ -243,7 +240,7 @@ endin
 ;Sampler. No one sees this
 
 instr rural
-kenv = linseg(0, 1, 0.8, (10-1), 0.8, 1, 0)
+kenv = linseg(0, p3/2, 1, p3/2, 0)
 a1,a2 diskin2 "./http/assets/samples/rural.wav", 1,0,1
 gaSamplrL += a1 * kenv
 gaSamplrR += a2 * kenv

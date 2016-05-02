@@ -38,13 +38,17 @@ generate_ctrl_disable = function(instr) {
 /** Main socket code */
 socket.on("connect", function() {
     console.log("connected");
-    generate_ChannelMessage("Modal-Resonance", 90);
+    generate_ChannelMessage("Modal-Resonance", 1000);
     generate_ChannelMessage("filterFreq", 394);
+    generate_ChannelMessage("Sampler-Out-Level", 400);
+    generate_ChannelMessage("Sampler-Reverb-Level", 400);
     generate_ChannelMessage("instr-1-level", 344);
     generate_ChannelMessage("instr-4-level", 800);
     generate_ChannelMessage("instr-3-level", 100);
+    generate_ChannelMessage("kick-send", 400);
+    generate_ChannelMessage("snare-send", 600);
+    generate_ChannelMessage("hat-send", 400);
     generate_ChannelMessage("vibrato-depth", 1000);
-
     generate_ChannelMessage("instr-2-level", 100);
     generate_ChannelMessage("lfo-rate", 250);
     generate_ChannelMessage("ReverbSend", 500);
@@ -112,54 +116,17 @@ var melody3 = {
     beat8: [67]
 }
 
-function sequence(obj, name) {
+function sequence(obj, name, type) {
     this.obj = obj;
     this.counter = 1;
-    this.name = name
-}
-
-sequence.prototype.return_melody = function() {
-    return this.obj;
-}
-sequence.prototype.get_counter = function() {
-    return this.counter;
-}
-sequence.prototype.play_beat = function(channel, vel, dur) {
-
-    str = "beat" + (this.counter);
-    for (note in this.obj[str]) {
-        note_num = parseInt(this.obj[str][note]);
-
-        midi_byte_note_on = [143 + channel, note_num, vel]
-        console.log("name: ", this.name, " sending midi note on: ", midi_byte_note_on)
-        socket.emit("MIDImessage", midi_byte_note_on)
-        setTimeout(function() {
-            midi_byte_note_off = [127 + channel, note_num, vel]
-            console.log("name: ", this.name, " sending midi note off: ", midi_byte_note_off)
-            console.log("---------")
-            socket.emit("MIDImessage", midi_byte_note_off)
-        }.bind(this), dur)
+    this.name = name;
+    if (type == undefined) {
+        this.type = "melodic"
     }
-    if (this.counter == 8) {
-        this.counter = 1;
-    } else {
-        this.counter += 1
-    }
+    this.repeat = 0;
 }
 
-sequence.prototype.play = function(channel, vel, dur) {
-    setInterval(function() {
-        this.play_beat(channel, vel, dur / 2)
-    }.bind(this), dur);
-}
-
-sequence.prototype.delay = function(channel, vel, delay_dur, dur) {
-    setTimeout(function() {
-        this.play(channel, vel, dur);
-    }.bind(this), delay_dur);
-}
-
-sequence.prototype.convert_to_obj = function(array) {
+sequence.prototype.arr_to_obj = function(array) {
     var obj_arr = {
         "beat1": [],
         "beat2": [],
@@ -182,18 +149,131 @@ sequence.prototype.convert_to_obj = function(array) {
     }
 }
 
+
+sequence.prototype.return_melody = function() {
+    return this.obj;
+}
+sequence.prototype.get_counter = function() {
+    return this.counter;
+}
+sequence.prototype.play_beat = function(channel, vel, dur) {
+
+    str = "beat" + (this.counter);
+    for (note in this.obj[str]) {
+        note_num = parseInt(this.obj[str][note]);
+
+        midi_byte_note_on = [143 + channel, note_num, vel]
+//        console.log("name: ", this.name, " sending midi note on: ", midi_byte_note_on[1], "beat number: ", this.counter)
+    console.log("beat number: ", this.counter)
+        socket.emit("MIDImessage", midi_byte_note_on)
+        setTimeout(function() {
+            midi_byte_note_off = [127 + channel, note_num, vel]
+//            console.log("name: ", this.name, " sending midi note off: ", midi_byte_note_off[1])
+//            console.log("---------")
+            socket.emit("MIDImessage", midi_byte_note_off)
+        }.bind(this), dur)
+    }
+    if (this.counter == 8) {
+        this.counter = 1;
+        this.repeat += 1;
+        this.check_repeat_update();
+    } else {
+        this.counter += 1;
+    }
+
+
+}
+sequence.prototype.generate_csound_score = function(instr, arr) {
+    curr_time = 0
+    string = ""
+    for (beat in arr) {
+        if (arr[beat] == 1) {
+            csd_str = "i \"" + instr + "\" " + curr_time + " 0.25" + "\n"
+            string += csd_str
+        }
+        curr_time += 0.25
+    }
+    return (string)
+}
+sequence.prototype.create_drum_str = function() {
+    csd_str = ""
+    csd_str += this.generate_csound_score("hat", this.obj["hat"])
+    csd_str += this.generate_csound_score("snare", this.obj["snare"])
+    csd_str += this.generate_csound_score("kick", this.obj["kick"])
+    console.log(csd_str)
+    return csd_str
+}
+
+sequence.prototype.check_repeat_update = function(){
+    console.log(this.repeat + " number of repeats")
+    if (this.repeat % 8 == 0){
+        if(this.name == "bell"){
+            console.log("Update bell melody")
+            this.set_melody(melody2);
+        }
+    }
+}
+
+sequence.prototype.play_drums = function() {
+    var ev_d = {}
+    ev_d.from = 5
+    ev_d.event_type = "sequence"
+    ev_d.event_args = this.create_drum_str()
+    socket.emit("event", ev_d)
+}
+trigger_sample= function() {
+    var ev_d = {}
+    ev_d.from = 0
+    ev_d.event_type = "note_message"
+    ev_d.event_args = "i \"rural\" 0 60"
+    socket.emit("event", ev_d)
+}
+sequence.prototype.play = function(channel, vel, dur) {
+    if (this.type == "melodic") {
+        setInterval(function() {
+            this.play_beat(channel, vel, dur / 2)
+        }.bind(this), dur);
+    } else {
+        setInterval(function() {
+            this.play_drums()
+        }.bind(this), dur)
+    }
+}
+
+sequence.prototype.delay = function(channel, vel, delay_dur, dur) {
+    setTimeout(function() {
+        this.play(channel, vel, dur);
+    }.bind(this), delay_dur);
+}
+
+
 sequence.prototype.stop = function(int, time) {
     setTimeout(clearInterval(int), time)
 }
-var empty_obj = {}
+
+sequence.prototype.set_melody = function(new_obj){
+    console.log("setting melody")
+    this.obj = new_obj
+}
+
+/** Main part of this app */
+var drum_obj = {
+    "kick": [1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0],
+    "hat": [1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 1, 1, 0, 1, 0],
+    "snare": [0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0]
+};
 var melody_bell = new sequence(melody1, "bell")
+var bass_bell = new sequence(bass_beats, "bell_bass")
 var bass_line = new sequence(bass_line, "bass")
 var guitar_line = new sequence(melody2, "guitar")
-var clarinet_line = new sequence(melody3, "clarinet_line")
-melody_bell.play(1, 72, 1000)
-bass_line.delay(2, 72, 16000, 2000)
-clarinet_line.delay(3, 10, 32000, 1000)
-guitar_line.delay(4, 10, 64000, 500)
+var clarinet_line = new sequence(melody1, "clarinet_line")
+var drum_line = new sequence(drum_obj, "drums", "drum")
+    //-----------//
+trigger_sample()
+melody_bell.delay(1, 72, 4000, 1000)
 
-
-//melody_bell.play(1, 50, 1000)
+//bass_bell.delay(1, 72, 12000, 1000)
+bass_line.delay(2, 72, 20000, 2000)
+guitar_line.delay(4, 10, 40000, 500)
+drum_line.delay(1, 0, 32000, 4000)
+    //-----------//

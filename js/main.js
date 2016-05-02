@@ -25,7 +25,7 @@
 
         //reset counters
 
-        if (i == 9) {
+        if (i == 8) {
             i = 1
         } else {
             i += 1
