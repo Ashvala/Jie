@@ -43,13 +43,13 @@ socket.on("connect", function() {
     generate_ChannelMessage("Sampler-Out-Level", 400);
     generate_ChannelMessage("Sampler-Reverb-Level", 400);
     generate_ChannelMessage("instr-1-level", 344);
-    generate_ChannelMessage("instr-4-level", 800);
+    generate_ChannelMessage("instr-4-level", 100);
     generate_ChannelMessage("instr-3-level", 100);
     generate_ChannelMessage("kick-send", 400);
     generate_ChannelMessage("snare-send", 600);
     generate_ChannelMessage("hat-send", 400);
     generate_ChannelMessage("vibrato-depth", 1000);
-    generate_ChannelMessage("instr-2-level", 100);
+    generate_ChannelMessage("instr-2-level", 10);
     generate_ChannelMessage("lfo-rate", 250);
     generate_ChannelMessage("ReverbSend", 500);
     generate_ChannelMessage("reverb-feedback", 300);
@@ -164,12 +164,10 @@ sequence.prototype.play_beat = function(channel, vel, dur) {
 
         midi_byte_note_on = [143 + channel, note_num, vel]
 //        console.log("name: ", this.name, " sending midi note on: ", midi_byte_note_on[1], "beat number: ", this.counter)
-    console.log("beat number: ", this.counter)
+    console.log("beat number: ", this.counter, " :: ", this.name)
         socket.emit("MIDImessage", midi_byte_note_on)
         setTimeout(function() {
             midi_byte_note_off = [127 + channel, note_num, vel]
-//            console.log("name: ", this.name, " sending midi note off: ", midi_byte_note_off[1])
-//            console.log("---------")
             socket.emit("MIDImessage", midi_byte_note_off)
         }.bind(this), dur)
     }
@@ -200,19 +198,43 @@ sequence.prototype.create_drum_str = function() {
     csd_str += this.generate_csound_score("hat", this.obj["hat"])
     csd_str += this.generate_csound_score("snare", this.obj["snare"])
     csd_str += this.generate_csound_score("kick", this.obj["kick"])
-    console.log(csd_str)
     return csd_str
 }
 
 sequence.prototype.check_repeat_update = function(){
-    console.log(this.repeat + " number of repeats")
-    if (this.repeat % 8 == 0){
+//    console.log(this.repeat + " number of repeats")
+    if (this.repeat == 4){
         if(this.name == "bell"){
             console.log("Update bell melody")
             this.set_melody(melody2);
         }
+        if(this.name == "guitar"){
+            this.set_melody(melody1);
+        }
+    }
+    if (this.repeat == 8){
+        if(this.name == "bell"){
+            console.log("Update bell melody back")
+            this.set_melody(melody1);
+        }
+
+    }
+    if (this.repeat == 6){
+        if(this.name == "bell"){
+            drum_line.play(10, 0, 4000);
+        }
+    }
+    if(this.repeat == 16){
+        if(this.name == "bell"){
+            generate_ChannelMessage("instr-1-level", 0)
+            generate_ChannelMessage("instr-2-level", 0)
+            generate_ChannelMessage("instr-3-level", 0)
+            generate_ChannelMessage("instr-4-level", 0)
+            generate_ChannelMessage("reverb-feedback", 0)
+        }
     }
 }
+
 
 sequence.prototype.play_drums = function() {
     var ev_d = {}
@@ -231,7 +253,7 @@ trigger_sample= function() {
 sequence.prototype.play = function(channel, vel, dur) {
     if (this.type == "melodic") {
         setInterval(function() {
-            this.play_beat(channel, vel, dur / 2)
+            this.play_beat(channel, vel, (dur/2))
         }.bind(this), dur);
     } else {
         setInterval(function() {
@@ -264,16 +286,14 @@ var drum_obj = {
 };
 var melody_bell = new sequence(melody1, "bell")
 var bass_bell = new sequence(bass_beats, "bell_bass")
-var bass_line = new sequence(bass_line, "bass")
+var bass_line = new sequence(bass_beats, "bass")
 var guitar_line = new sequence(melody2, "guitar")
 var clarinet_line = new sequence(melody1, "clarinet_line")
 var drum_line = new sequence(drum_obj, "drums", "drum")
-    //-----------//
+/**-------ALL THE MUSIC HAPPENS HERE--------*/
 trigger_sample()
-melody_bell.delay(1, 72, 4000, 1000)
-
-//bass_bell.delay(1, 72, 12000, 1000)
+melody_bell.play(1, 72,1000)
 bass_line.delay(2, 72, 20000, 2000)
-guitar_line.delay(4, 10, 40000, 500)
-drum_line.delay(1, 0, 32000, 4000)
-    //-----------//
+guitar_line.play(4, 50, 2000)
+
+/**-------ALL THE MUSIC HAPPENS HERE--------*/

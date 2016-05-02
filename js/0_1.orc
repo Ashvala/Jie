@@ -6,8 +6,9 @@ nchnls = 2
 
 
 ;Max voice Allocs
-
-
+maxalloc 1, 4
+maxalloc 2, 2
+maxalloc 4, 4
 maxalloc "rural", 1
 maxalloc "city", 1
 maxalloc "bar", 1
@@ -39,7 +40,12 @@ gaSamplrR init 0
 gaoutL init 0
 gaoutR init 0
 
+gadelL init 0
+gadelR init 0
+
+
 schedule "revsc", 0, -1
+schedule "del", 0, -1
 schedule "globalmix",0, -1
 schedule "percBus", 0, -1
 schedule "samplerBus", 0, -1
@@ -57,6 +63,21 @@ outs arvbL, arvbR
 garvbL = 0
 garvbR = 0
 endin
+
+instr del
+adelL init 0
+adelR init 0
+denorm gadelL
+denorm gadelR
+adelL delay gadelL + (adelL * 0.72), 4
+adelR delay gadelR + (adelR * 0.7), 4
+adelOutL moogvcf adelL, 4000, 0.6
+adelOutR moogvcf adelR, 4000, 0.6 
+outs adelOutL, adelOutR
+clear gadelL
+clear gadelR
+endin
+
 
 instr globalmix
 denorm gaoutL
@@ -133,7 +154,7 @@ ares sum ares1, ares2, ares3, ares4
 ares balance ares, (aexc * 2)
 kreverbLevel chnget "ReverbSend"
 kreverbLevel = kreverbLevel/1000
-
+garvbL += (ares * kreverbLevel)
 garvbR += (ares * kreverbLevel)
 klev init 0.5
 klev chnget "instr-1-level"
@@ -175,7 +196,7 @@ iatt = 0.1 ; attack
 idetk = 0.1 ;time to stop
 kvibf chnget "vibrato-depth" ; vibrato depth
 kvibf *= 0.01 ; calc
-kngain = 0.5 ; gain
+kngain = 0.4 ; gain
 asig wgclar 0.1, icps, kstiff, iatt, idetk, kngain, kvibf,0.1, 1
 asig = asig/500
 aadsr = madsr(0.1, 1, 0.9, 2)
@@ -195,13 +216,18 @@ iplk = 0
 idamp = 10
 ifiltFreq chnget "WaveGuide-Filter-Freq"
 ifilt = 10000
-axcite oscil 0.3, 1, 1
+axcite oscil iamp, 1, 1
 apluck wgpluck icps, iamp, kpick, iplk, idamp, ifiltFreq, axcite
 klev chnget "instr-4-level"
-klev *= 0.001
-aadsr = madsr(0, 1, 0.9, 1)
+klev = klev/400
+aadsr = madsr(0.01, 1, 0.9, 1)
 gaoutL += (klev * apluck * aadsr)
 gaoutR += (klev * apluck * aadsr)
+garvbL += (apluck * 0.6 * aadsr * klev)
+garvbR += (apluck * 0.6 * aadsr * klev)
+gadelL += (apluck * 0.8 * aadsr * klev)
+gadelR += (apluck * 0.8 * aadsr * klev)
+
 endin
 
 ;----------------------------------------;
