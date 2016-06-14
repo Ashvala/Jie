@@ -1,0 +1,34 @@
+@import samples
+
+=user-select($option)
+    -webkit-touch-callout: $option
+    -webkit-user-select: $option
+    -khtml-user-select: $option
+    -moz-user-select: $option
+    -ms-user-select: $option
+    user-select: $option
+
+.instruments_container
+    position: fixed
+    bottom: -35%
+    height: 70%
+    width: 100%
+    margin-top: 20px
+    margin-left: 20px
+    color: black
+    display: none
+
+.content
+    width: 100%
+
+.screen
+    overflow-y: hidden
+
+svg
+    width: 100%
+    height: 100%
+
+body
+    background: #eee
+    color: black
+    +user-select(none)
