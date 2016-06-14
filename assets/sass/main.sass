@@ -1,4 +1,11 @@
+@import fonts
+@import topbar
 @import samples
+
+*
+    margin: 0
+    padding: 0
+    
 
 =user-select($option)
     -webkit-touch-callout: $option
@@ -27,6 +34,18 @@
 svg
     width: 100%
     height: 100%
+
+.floating_keyboard
+    display: none
+    position: fixed
+    top: 40px
+    left: 30px
+    width: 70%
+    height: 38.1%
+    font-family: "Roboto"
+    background: #eee
+    z-index: 10001
+
 
 body
     background: #eee
