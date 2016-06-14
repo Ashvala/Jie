@@ -1,11 +1,11 @@
 @import fonts
 @import topbar
+@import observer_window
 @import samples
 
 *
     margin: 0
     padding: 0
-    
 
 =user-select($option)
     -webkit-touch-callout: $option
@@ -24,6 +24,9 @@
     margin-left: 20px
     color: black
     display: none
+
+.top_bar
+    +user-select(none)
 
 .content
     width: 100%
@@ -45,7 +48,6 @@ svg
     font-family: "Roboto"
     background: #eee
     z-index: 10001
-
 
 body
     background: #eee
