@@ -7,39 +7,35 @@
     display: none
     z-index: 100000
 
-.performer_space
-    float: left
-    background: none
-    width: 16.597%
-    height: 100%
-    border-right: 1px dotted white
-    -webkit-filter: brightness(0.9)
+    .performer_space
+        float: left
+        background: none
+        width: 16.597%
+        height: 100%
+        border-right: 1px dotted white
+        -webkit-filter: brightness(0.9)
 
-.performer_space:hover
-    -webkit-filter: brightness(1.0)
+    .performer_space:hover
+        -webkit-filter: brightness(1.0)
 
-.performer_name
-    padding-top: 10px
-    margin-left: 20px
-    margin-bottom: 10px
-    font-family: "Roboto"
-    color: white
-    font-weight: 100
-    font-size: 2em
+    .performer_details
+        margin-left: 20px
+        margin-bottom: 10px
+        font-family: "Roboto"
+        color: white
+        font-weight: 100
 
-.performer_controlling
-    margin-left: 20px
-    margin-bottom: 10px
-    font-family: "Roboto"
-    font-style: italic
-    color: white
-    font-weight: 1em
-    font-weight: italic
+    .performer_name
+        padding-top: 10px
+        @extend .performer_details
+        font-size: 2em
+
+    .performer_controlling
+        @extend .performer_details
+        font-weight: italic
 
 
-.performer_event
-    margin-left: 20px
-    margin-bottom: 10px
-    font-family: "Roboto"
-    font-weight: 300
-    color: white
+    .performer_event
+        @extend .performer_details
+        font-weight: 300
+        color: white
