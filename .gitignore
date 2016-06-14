@@ -2,3 +2,5 @@
 js/node_modules
 presentation/js/node_modules
 assets/samples/
+.sass-cache/
+*.css.map

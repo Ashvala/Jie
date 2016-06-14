@@ -1,0 +1,61 @@
+@import "partials/LightTheme"
+@import "partials/fonts"
+@import "partials/topbar"
+@import "partials/helpSection"
+@import "partials/observer_window"
+@import "partials/parsedElements"
+@import "partials/sequencers"
+@import "partials/inputfields"
+@import "partials/notifications"
+@import "partials/samples"
+
+*
+    margin: 0
+    padding: 0
+
+=user-select($option)
+    -webkit-touch-callout: $option
+    -webkit-user-select: $option
+    -khtml-user-select: $option
+    -moz-user-select: $option
+    -ms-user-select: $option
+    user-select: $option
+
+.instruments_container
+    position: fixed
+    bottom: -35%
+    height: 70%
+    width: 100%
+    margin-top: 20px
+    margin-left: 20px
+    color: black
+    display: none
+
+.top_bar
+    +user-select(none)
+
+.content
+    width: 100%
+
+.screen
+    overflow-y: hidden
+
+svg
+    width: 100%
+    height: 100%
+
+.floating_keyboard
+    display: none
+    position: fixed
+    top: 40px
+    left: 30px
+    width: 70%
+    height: 38.1%
+    font-family: "Roboto"
+    background: #eee
+    z-index: 10001
+
+body
+    background: $defaultBackground
+    color: $defaultTextColor
+    +user-select(none)
