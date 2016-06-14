@@ -735,6 +735,9 @@ and (max-device-width : 667px) {
     }
     .parsed_elements_container{
         display: none;
+        position: absolute;
+        top: 100%;
+        width: 100%;
     }
     .looper_creator .section-title{
         display: none;
@@ -752,5 +755,17 @@ and (max-device-width : 667px) {
     }
     .title{
         padding-left: 20px;
+    }
+    .screen{
+        overflow-y: scroll;
+    }
+    .options_button{
+        width: 16.5%;
+    }
+    .name{
+        margin-left: 0px;
+    }
+    .options{
+        margin-left: 0px;
     }
 }

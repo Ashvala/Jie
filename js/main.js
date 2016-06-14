@@ -10,9 +10,6 @@
     var play_sequence_object = function(obj_inp, vel, dur) {
         arr_ind = i
         str = "beat" + arr_ind;
-
-
-
         for (note in obj_inp[str]) {
             note_num = parseInt(obj_inp[str][note]);
             midi_byte_note_on = [(143 + controlling_item), note_num, vel]
@@ -196,14 +193,6 @@
             socket.emit('event', ev_dets)
         });
 
-        var content_arr = [
-            "This is the mix section for your group. You have control over the reverb and output levels!<br/>" + "Use the power wisely and make your group sound better",
-            "This is a mode synth!<br/><br/> It uses a mode filter as both the excitation and the resonator. <br/><br/> Usage: Use the bottom bar to manipulate filter values... When you click the drawer icon on the bottom right, change instrument number to 1 and set your duration to your desire.",
-            "This is an LFO chained into an oscillator <br/><br/> Usage: Use the bottom bar to manipulate LFO values... When you click the drawer icon on the bottom right, change instrument number to 2 and set your duration to your desire.",
-            "This is a waveguide clarinet<br/><br/> Usage: Use the bottom bar to manipulate LFO values... When you click the drawer icon on the bottom right, change instrument number to 2 and set your duration to your desire.",
-            "This is an FM Synth <br/><br/> Usage: Use the bottom bar to manipulate LFO values... When you click the drawer icon on the bottom right, change instrument number to 2 and set your duration to your desire.",
-            "You have the percussion section!"
-        ]
         $(".item").click(function() {
             var clicked_div = $(this);
             if ($(this).attr("data-disabled") == "false" && controlling_bool == false) {
@@ -211,7 +200,6 @@
                 sectionNumber = parseInt($(this).attr("data-section-number"))
                 temp_sec_val = split_orcs[sectionNumber]
                 controlling_item = sectionNumber
-                $(".content_instr_details").html(content_arr[sectionNumber])
                 $(this).children(".sector").css("fill", color_arr_orig[ins_num])
                 $(this).css("color", "white")
                 $(this).css("stroke", "white")
@@ -236,7 +224,6 @@
                     parseOrc(temp_sec_val, "default");
                 }
             }
-            $(".instruments_container").fadeOut("slow");
         });
         $(document).on("click", ".sample", function() {
             if ($(this).attr('data-triggered') == "false") {

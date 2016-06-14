@@ -45,9 +45,9 @@ socket.on("connect", function() {
     generate_ChannelMessage("instr-1-level", 344);
     generate_ChannelMessage("instr-4-level", 100);
     generate_ChannelMessage("instr-3-level", 100);
-    generate_ChannelMessage("kick-send", 400);
-    generate_ChannelMessage("snare-send", 600);
-    generate_ChannelMessage("hat-send", 400);
+    generate_ChannelMessage("kick-send", 80);
+    generate_ChannelMessage("snare-send", 100);
+    generate_ChannelMessage("hat-send", 120);
     generate_ChannelMessage("vibrato-depth", 1000);
     generate_ChannelMessage("instr-2-level", 10);
     generate_ChannelMessage("lfo-rate", 250);
