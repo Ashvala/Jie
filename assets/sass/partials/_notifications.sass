@@ -1,5 +1,5 @@
 .notification_area
-    background: rgba(43, 43, 43, 0.92)
+    background: $notificationBackground
     border: 1px dotted #666
     position: fixed
     top: 35px
@@ -9,12 +9,12 @@
     display: none
     border-radius: 10px
     z-index: 10002
+    color: $contrastTextColor
 
     .notification_title
         font-family: "Lato"
         margin-top: 10px
         font-size: 1.2em
-        color: white
         margin-left: 10px
         margin-bottom: 10px
 
@@ -23,4 +23,3 @@
         font-family: "Lato"
         margin-left: 10px
         line-height: 1.2em
-        color: white
