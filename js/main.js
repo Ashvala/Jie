@@ -88,7 +88,7 @@
         /*** Generate! **/
         generator("drums");
         /*** Work on WebMidi things here: */
-        $(".help_section").delay(2000).fadeOut("slow");
+//        $(".help_section").delay(2000).fadeOut("slow");
         WebMidi.enable(onSuccess, onFailure);
 
         function onSuccess() {
